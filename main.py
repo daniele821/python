@@ -1,5 +1,6 @@
 #!/bin/env python3
 
 from lib.threexplusone import *
+from lib.equations import find_operators
 
-plot_range(0, 20000)
+find_operators()

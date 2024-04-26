@@ -6,6 +6,7 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5]):
     for i in operators:
         for j in operators:
             for k in operators:
+                print('------------------------')
                 expr = str(nums[0]) + i + str(nums[1])
                 expr += j + str(nums[2]) + k + str(nums[3])
                 for a in range(ops):
