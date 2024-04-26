@@ -3,7 +3,14 @@
 import numexpr
 
 
-def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_orders=True):
+def _solve_eq_(expr_str):
+    try:
+        return numexpr.evaluate(expr_str)
+    except Exception:
+        return None
+
+
+def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_orders=True, solution=None):
     """
         - operators: specify all valid operators to fill in the gaps
         - nums: numbers making up the left side of the equation
@@ -31,10 +38,7 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_or
             expr.append(operators[iter[i-1]])
             expr.append(str(nums[i]))
         expr_str = ''.join(expr)
-        try:
-            res = numexpr.evaluate(expr_str)
-        except Exception:
-            res = None
+        res = _solve_eq_(expr_str)
         print(expr_str, '=', res)
 
         # for each nth expression, build all possible () positioning
@@ -44,8 +48,5 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_or
                     expr2 = expr[:b*2+1]+[')']+expr[b*2+1:]
                     expr2 = expr2[:a*2]+['(']+expr2[a*2:]
                     expr2_str = ''.join(expr2)
-                    try:
-                        res = numexpr.evaluate(expr2_str)
-                    except Exception:
-                        res = None
+                    res = _solve_eq_(expr2_str)
                     print(expr2_str, '=', res)
