@@ -3,7 +3,12 @@
 import numexpr
 
 
-def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 2]):
+def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5]):
+    """
+        - operators must be a list of strings of a single char
+        - nums must be a list of numbers of a single digit
+    """
+
     optypes = len(operators)
     ops = len(nums)
     gaps = ops - 1
@@ -30,6 +35,7 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 2]):
                 expr2 = expr[:b*2+1]+')'+expr[b*2+1:]
                 expr2 = expr2[:a*2]+'('+expr2[a*2:]
                 try:
-                    print(expr2, '=', numexpr.evaluate(expr2))
+                    res = numexpr.evaluate(expr2)
                 except Exception:
-                    print(expr2, '=', 'Nil')
+                    res = None
+                print(expr2, '=', res)
