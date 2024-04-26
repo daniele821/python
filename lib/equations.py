@@ -15,6 +15,7 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_or
         - operators: specify all valid operators to fill in the gaps
         - nums: numbers making up the left side of the equation
         - iterate_orders : enable iterating all possible positions of a pair of brackets
+        - solution: if not None, show only expression with result equal to it
     """
 
     optypes = len(operators)
@@ -31,7 +32,7 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_or
             iter[i] = (num // ops**i) % optypes
 
         # build up the nth expression as a string
-        if iterate_orders:
+        if iterate_orders and solution is None:
             print('----------------------------')
         expr = [str(nums[0])]
         for i in range(1, ops):
@@ -39,7 +40,8 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_or
             expr.append(str(nums[i]))
         expr_str = ''.join(expr)
         res = _solve_eq_(expr_str)
-        print(expr_str, '=', res)
+        if solution is None or solution == res:
+            print(expr_str, '=', res)
 
         # for each nth expression, build all possible () positioning
         if iterate_orders:
@@ -49,4 +51,5 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_or
                     expr2 = expr2[:a*2]+['(']+expr2[a*2:]
                     expr2_str = ''.join(expr2)
                     res = _solve_eq_(expr2_str)
-                    print(expr2_str, '=', res)
+                    if solution is None or solution == res:
+                        print(expr2_str, '=', res)
