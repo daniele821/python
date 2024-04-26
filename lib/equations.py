@@ -3,7 +3,7 @@
 import numexpr
 
 
-def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5]):
+def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 2]):
     optypes = len(operators)
     ops = len(nums)
     gaps = ops - 1
@@ -25,8 +25,8 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5]):
             expr += str(nums[i])
 
         # for each nth expression, build all possible () positioning
-        for a in range(optypes):
-            for b in range(a, optypes):
+        for a in range(ops):
+            for b in range(a, ops):
                 expr2 = expr[:b*2+1]+')'+expr[b*2+1:]
                 expr2 = expr2[:a*2]+'('+expr2[a*2:]
                 try:
