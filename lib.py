@@ -12,19 +12,19 @@ def solve(x):
     return res
 
 
-def plot_value(num):
+def plot_value(num, line=''):
     import matplotlib.pyplot as plt
     y = solve(num)
     x = range(len(y))
-    plt.plot(x, y)
+    plt.plot(x, y, line)
     plt.show()
 
 
-def plot_range(start, end, map=lambda x: len(x)):
+def plot_range(start, end, map=lambda x: len(x), line=''):
     if end < start:
         return
     import matplotlib.pyplot as plt
     x = range(start, end+1)
     y = [map(solve(x)) for x in range(start, end+1)]
-    plt.plot(x, y)
+    plt.plot(x, y, line)
     plt.show()
