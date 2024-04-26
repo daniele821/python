@@ -5,12 +5,9 @@ import numexpr
 
 def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_orders=True):
     """
-        - operators must be a list of strings
-            - specify all valid operators to fill in the gaps
-        - nums must be a list of numbers
-            - numbers making up the left side of the equation
-        - iterate_orders must be a boolean
-            - enable iterating all possible positions of a pair of brackets
+        - operators: specify all valid operators to fill in the gaps
+        - nums: numbers making up the left side of the equation
+        - iterate_orders : enable iterating all possible positions of a pair of brackets
     """
 
     optypes = len(operators)
