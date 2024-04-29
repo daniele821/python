@@ -15,7 +15,8 @@ def _solve_eq_(expr_str, solution, output, accumulator):
         res = numexpr.evaluate(expr_str)
     except Exception:
         res = None
-    if solution is not None and res is None:
+    if solution is None:
+        _output_(expr_str, res, accumulator, output)
         return
     if type(solution) is tuple:
         match len(solution):
@@ -23,14 +24,17 @@ def _solve_eq_(expr_str, solution, output, accumulator):
                 if res == solution[0]:
                     _output_(expr_str, res, accumulator, output)
             case 2:
+                if res is None:
+                    return
                 if res >= solution[0] and res <= solution[1]:
                     _output_(expr_str, res, accumulator, output)
             case _:
                 if res in solution:
                     _output_(expr_str, res, accumulator, output)
         return
-    if solution is None or solution == res:
+    if solution == res:
         _output_(expr_str, res, accumulator, output)
+        return
 
 
 def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_orders=True, solution=None, output=True):
@@ -43,7 +47,6 @@ def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_or
                     - tuple: - of size 1 -> show only equations which result is exactly that value
                              - of size 2 -> show only equations which result in between those values
                              - of size 3 -> show only equations which result is one of those values
-                             - (-inf,inf) -> show all equations which have a result
         - output: if True print to stdout, otherwise return a list of all results
     """
 
