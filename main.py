@@ -5,6 +5,6 @@ from lib.equations import *
 
 import numpy as np
 
-res = find_operators(output=False, skipNone=True)
+res = find_operators(output=False, skipNone=True, solution=(1, 10, 10))
 res = np.array([x[1] for x in res], dtype=np.float128)
-print(np.max(res), np.min(res))
+print(np.unique(np.sort(res)))

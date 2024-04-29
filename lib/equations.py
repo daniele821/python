@@ -3,18 +3,34 @@
 import numexpr
 
 
+def _output_(expr_str, res, accumulator, output):
+    if output:
+        print(expr_str, '=', res)
+    else:
+        accumulator.append([expr_str, str(res)])
+
+
 def _solve_eq_(expr_str, solution, output, accumulator, skipNone):
     try:
         res = numexpr.evaluate(expr_str)
     except Exception:
         res = None
-        if skipNone:
-            return
+    if skipNone and res is None:
+        return
+    if type(solution) is tuple:
+        match len(solution):
+            case 1:
+                if res == solution[0]:
+                    _output_(expr_str, res, accumulator, output)
+            case 2:
+                if res >= solution[0] and res <= solution[1]:
+                    _output_(expr_str, res, accumulator, output)
+            case _:
+                if res in solution:
+                    _output_(expr_str, res, accumulator, output)
+        return
     if solution is None or solution == res:
-        if output:
-            print(expr_str, '=', res)
-        else:
-            accumulator.append([expr_str, str(res)])
+        _output_(expr_str, res, accumulator, output)
 
 
 def find_operators(operators=['+', '-', '*', '/'], nums=[8, 1, 1, 5], iterate_orders=True, solution=None, output=True, skipNone=False):
