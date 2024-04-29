@@ -5,6 +5,8 @@ from lib.equations import *
 
 import numpy as np
 
-res = find_operators(output=False, skipNone=True, solution=(1, 10, 10))
+res = find_operators(output=False, solution=(-np.inf, np.inf))
 res = np.array([x[1] for x in res], dtype=np.float128)
 print(np.unique(np.sort(res)))
+
+print(-float('-inf'))
