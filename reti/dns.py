@@ -11,7 +11,6 @@ def create_dns_message(domain_name: str) -> bytes:
     ANcount = bytes([0x00, 0x00])
     NScount = bytes([0x00, 0x00])
     ARcount = bytes([0x00, 0x00])
-    flags = bytes([0x01, 0x20])
     res = identifier + flags + QDcount + ANcount + NScount + ARcount
     domains = domain_name.split('.')
     for domain in domains:
@@ -35,4 +34,4 @@ def send_dns_message(dns_message: bytes):
     socket.close()
 
 
-send_dns_message(create_dns_message('google.com'))
+send_dns_message(create_dns_message('wikipedia.org'))
