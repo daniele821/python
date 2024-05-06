@@ -30,7 +30,7 @@ def send_dns_message(dns_message: bytes):
     socket = sk.socket(sk.AF_INET, sk.SOCK_DGRAM)
     print(dns_message.hex())
     socket.sendto(dns_message, resolver_addr)
-    recv = socket.recv(2048)
+    recv, _ = socket.recvfrom(2048)
     print(recv.hex())
     socket.close()
 
