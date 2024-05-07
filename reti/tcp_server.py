@@ -4,7 +4,7 @@ import lib.ipaddr as ipaddr
 import socket as sk
 
 ip = ipaddr.get_ip()
-port = 51_000
+port = 50_000
 addr = (ip, port)
 
 socket = sk.socket(sk.AF_INET, sk.SOCK_STREAM)
