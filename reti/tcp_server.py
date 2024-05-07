@@ -17,5 +17,4 @@ try:
         stream, raddr = socket.accept()
 except KeyboardInterrupt:
     print('closing server')
-finally:
     socket.close()
