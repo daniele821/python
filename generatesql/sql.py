@@ -31,9 +31,9 @@ for line in fileinput.input():
     password = randomword(8)
     CF = cf(surname, name, gender, date, birthplace)
     if CF in check1:
-        exit(1)
+        raise Exception('there is a duplicate codice fiscale')
     if email in check2:
-        exit(1)
+        raise Exception('there is a duplicate email')
     check1.add(CF)
     check2.add(email)
-    print('( \''+name+'\', \'' + surname+'\', \'' + CF + '\', \'' + email+'\', \'' + password + '\')')
+    print('( \''+name+'\', \'' + surname+'\', \'' + CF + '\', \'' + email+'\', \'' + password + '\'),')

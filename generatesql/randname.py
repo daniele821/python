@@ -1,8 +1,13 @@
 #!/bin/python3
 
 import random
+import sys
 
-LINES = 2000
+LINES = 100
+try:
+    LINES = int(sys.argv[1])
+except Exception:
+    pass
 
 with open('names/namesF') as f:
     fname = [x.strip() for x in f.read().splitlines()]
