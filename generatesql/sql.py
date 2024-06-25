@@ -16,6 +16,8 @@ def cf(a, b, c, d, e):
     return codicefiscale.encode(a, b, c, d, e)
 
 
+check1 = set()
+check2 = set()
 for line in fileinput.input():
     words = line.split()
     name = words[0]
@@ -28,4 +30,10 @@ for line in fileinput.input():
         ['gmail.com', 'outlook.com'][rand(0, 1)]
     password = randomword(8)
     CF = cf(surname, name, gender, date, birthplace)
-    print('( \''+name+'\', \'' + surname+'\', \'' + CF+'\', \'' + email+'\', \'' + password +'\')'  )
+    if CF in check1:
+        exit(1)
+    if email in check2:
+        exit(1)
+    check1.add(CF)
+    check2.add(email)
+    print('( \''+name+'\', \'' + surname+'\', \'' + CF + '\', \'' + email+'\', \'' + password + '\')')
