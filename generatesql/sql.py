@@ -28,4 +28,4 @@ for line in fileinput.input():
         ['gmail.com', 'outlook.com'][rand(0, 1)]
     password = randomword(8)
     CF = cf(surname, name, gender, date, birthplace)
-    print(name, surname, CF, email, password)
+    print('( \''+name+'\', \'' + surname+'\', \'' + CF+'\', \'' + email+'\', \'' + password +'\')'  )
