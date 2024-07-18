@@ -1,5 +1,5 @@
 #!/bin/python3
 
-import numpy as np
+from lib import utils
 
-print(np.load('matrix/A1.npy'))
+print(utils.load_mat("A1"))

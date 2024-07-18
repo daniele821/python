@@ -1,10 +1,9 @@
 #!/bin/python3
 
-from scipy.io import loadmat
+import numpy as np
 
 
-def load_matlab(file, matrix):
-    dati = loadmat(file)
-    x = dati[matrix]
-    x = x.astype(float)
-    return x
+def load_mat(file):
+    return np.load(
+        "/personal/repos/daniele821/various_python/metodi_numerici/matrix/"
+        + file + '.npy')
