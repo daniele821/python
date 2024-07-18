@@ -1,5 +1,5 @@
 #!/bin/python3
 
-from lib import utils
+from lib import utils, stats, checks, solve_triangular
 
-print(utils.load_mat("A1"))
+A, b = utils.load_all()
