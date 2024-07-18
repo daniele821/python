@@ -10,6 +10,6 @@ def load_mat(file):
 
 
 def load_all():
-    A = [load_mat("A1"), load_mat("A2"), load_mat("A3"), load_mat("A4")]
-    b = [load_mat("b1"), load_mat("b2"), load_mat("b3"), load_mat("b4")]
+    A = [load_mat("A" + str(x+1)) for x in range(4)]
+    b = [load_mat("b" + str(x+1)) for x in range(4)]
     return A, b
