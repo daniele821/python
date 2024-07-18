@@ -13,9 +13,7 @@ def is_positive_definite(A):
 
 def is_diagonally_dominant(A):
     diag = np.abs(np.diag(A))
-    rest = np.abs(A.copy())
-    np.fill_diagonal(rest, 0)
-    sums = np.sum(rest, axis=1)
+    sums = np.sum(np.abs(A) - diag, axis=1)
     return (diag > sums).all()
 
 
@@ -27,3 +25,4 @@ if __name__ == "__main__":
     assert is_symmetrical(A@A.T)
     assert is_positive_definite(A@A.T)
     assert is_diagonally_dominant(A1)
+    print('methods were successfully tested!')
