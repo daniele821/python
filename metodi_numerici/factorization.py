@@ -32,13 +32,14 @@ def householder(A, b):
 
 if __name__ == '__main__':
     A, b = utils.load_all()
+    # checks
+    assert checks.is_symmetrical(A[2]) and checks.is_positive_definite(A[2])
+    assert checks.is_symmetrical(A[3]) and checks.is_positive_definite(A[3])
     # gauss
     assert ((gauss(A[0], b[0])) - np.ones_like(b[0]) < 1e-10).all()
     assert ((gauss(A[2], b[2])) - np.ones_like(b[2]) < 1e-10).all()
     assert ((gauss(A[3], b[3])) - np.ones_like(b[3]) < 1e-10).all()
     # cholesky
-    assert checks.is_symmetrical(A[2]) and checks.is_positive_definite(A[2])
-    assert checks.is_symmetrical(A[3]) and checks.is_positive_definite(A[3])
     assert ((cholesky(A[2], b[2])) - np.ones_like(b[2]) < 1e-10).all()
     assert ((cholesky(A[3], b[3])) - np.ones_like(b[3]) < 1e-10).all()
     # householder

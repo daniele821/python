@@ -13,8 +13,8 @@ def is_positive_definite(A):
 
 def is_diagonally_dominant(A):
     diag = np.abs(np.diag(A))
-    sums = np.sum(np.abs(A) - diag, axis=1)
-    return (diag > sums).all()
+    sums = np.sum(np.abs(A), axis=1) - diag
+    return (diag >= sums).all()
 
 
 if __name__ == "__main__":
