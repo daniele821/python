@@ -23,7 +23,8 @@ def Usolve(U, b):
         return x, flag
 
     # Test singolarita'
-    if np.all(np.diag(U)) is not True:
+    if np.all(np.diag(U)) != True:
+        print(np.diag(U))
         print('el. diag. nullo - matrice triangolare superiore')
         x = []
         flag = 1
@@ -58,7 +59,7 @@ def Lsolve(L, b):
         return x, flag
 
     # Test singolarita'
-    if np.all(np.diag(L)) is not True:
+    if np.all(np.diag(L)) != True:
         print('el. diag. nullo - matrice triangolare inferiore')
         x = []
         flag = 1
