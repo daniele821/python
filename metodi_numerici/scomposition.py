@@ -61,7 +61,7 @@ if __name__ == '__main__':
     assert checks.is_symmetrical(A[2]) and checks.is_positive_definite(A[2])
     assert checks.is_symmetrical(A[3]) and checks.is_positive_definite(A[3])
     # jacobi
-    _, _ = jacobi(A[2], b[2], np.zeros_like(b[2]), 1e-16, np.inf)
+    _, _ = jacobi(A[2], b[2], np.zeros_like(b[2]), 1e-15, np.inf)
     # gauss-seidel
-    _, _ = gauss_seidel(A[2], b[2], np.zeros_like(b[2]), 1e-16, np.inf)
-    _, _ = gauss_seidel(A[3], b[3], np.ones_like(b[3]), 1e-16, 100)
+    _, _ = gauss_seidel(A[2], b[2], np.zeros_like(b[2]), 1e-15, np.inf)
+    _, _ = gauss_seidel(A[3], b[3], np.ones_like(b[3]), 1e-15, np.inf)
