@@ -57,33 +57,7 @@ def gauss_seidel(A, b, x0, toll, itmax):
 
 
 def gauss_seidel_acc(A, b, x0, toll, itmax, omega):
-    D = np.diag(np.diag(A))
-    E = np.tril(A, -1)
-    F = np.triu(A, 1)
-    M = D + E
-    invM = np.linalg.inv(M)
-    N = -F
-    Momega = D + omega * E
-    Nomega = (1 - omega) * D - omega * F
-    T = np.linalg.inv(Momega) @ Nomega
-    it = 1
-    error = np.inf
-
-    # check for convergence
-    print("gauss_seidel acc spectral radius: ", np.max(np.linalg.eigvals(T)))
-    if (np.max(np.linalg.eigvals(T)) >= 1):
-        raise ValueError("Gauss-seidel cannot converge")
-
-    # iterate toward the solution
-    while it < itmax and error > toll:
-        temp = b-np.dot(F, x0)
-        xtilde, flag = solve_triangular.Lsolve(M, temp)
-        x = (1-omega)*x0+omega*xtilde
-        error = np.linalg.norm(x-x0) / np.linalg.norm(x)
-        x0 = x.copy()
-        it += 1
-
-    return x, it
+    raise Exception("Todo")
 
 
 if __name__ == '__main__':
