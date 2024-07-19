@@ -16,6 +16,7 @@ def jacobi(A, b, x0, toll, itmax):
     it = 1
 
     # check for convergence
+    print("jacobi spectral radius: ", np.max(np.linalg.eigvals(T)))
     if np.max(np.linalg.eigvals(T)) >= 1:
         raise ValueError("Jacobbi cannot converge")
 
@@ -41,6 +42,7 @@ def gauss_seidel(A, b, x0, toll, itmax):
     error = np.inf
 
     # check for convergence
+    print("gauss_seidel spectral radius: ", np.max(np.linalg.eigvals(T)))
     if (np.max(np.linalg.eigvals(T)) >= 1):
         raise ValueError("Gauss-seidel cannot converge")
 
