@@ -63,7 +63,9 @@ def gauss_seidel_acc(A, b, x0, toll, itmax, omega):
     M = D + E
     invM = np.linalg.inv(M)
     N = -F
-    T = invM @ N
+    Momega = D + omega * E
+    Nomega = (1 - omega) * D - omega * F
+    T = np.linalg.inv(Momega) @ Nomega
     it = 1
     error = np.inf
 
@@ -74,7 +76,9 @@ def gauss_seidel_acc(A, b, x0, toll, itmax, omega):
 
     # iterate toward the solution
     while it < itmax and error > toll:
-        x, _ = solve_triangular.Lsolve(M, N@x0+b)
+        temp = b-np.dot(F, x0)
+        xtilde, flag = solve_triangular.Lsolve(M, temp)
+        x = (1-omega)*x0+omega*xtilde
         error = np.linalg.norm(x-x0) / np.linalg.norm(x)
         x0 = x.copy()
         it += 1
