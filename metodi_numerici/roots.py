@@ -5,6 +5,9 @@ import math
 import matplotlib.pyplot as plt
 
 
+PAUSE = 1
+
+
 def sign(x):
     return math.copysign(1, x)
 
@@ -36,7 +39,7 @@ def bisection(func, a, b, tolx):
     return x, it, vecx
 
 
-def animate(func, vecx, pause):
+def animate(func, vecx):
     a = min(vecx)
     b = max(vecx)
     for i in range(len(vecx) - 1):
@@ -53,5 +56,5 @@ def animate(func, vecx, pause):
         plt.plot(x, y, 'g')
         plt.scatter(x, y)
         plt.scatter(vecx[:i], np.zeros((i)))
-        plt.pause(pause)
+        plt.pause(PAUSE)
     plt.show()
