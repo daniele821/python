@@ -1,3 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/various-python/bin/activate"
+source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/venv/various-python/bin/activate"
+
+# source this file to activate python venv
