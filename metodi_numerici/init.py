@@ -3,6 +3,8 @@
 from lib import utils, stats, checks, solve_triangular
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('module://matplotlib-backend-sixel')
 
 
 def spectral_radius(T):
