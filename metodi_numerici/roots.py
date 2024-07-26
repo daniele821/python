@@ -23,7 +23,7 @@ def bisection(func, a, b, tolx):
         fx = func(x)
         it += 1
 
-        if fx <= np.spacing(1):
+        if abs(fx) <= np.spacing(1):
             break
 
         if sign(fa) * sign(fx) > 0:
