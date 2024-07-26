@@ -2,6 +2,7 @@
 
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 
 
 def sign(x):
@@ -14,13 +15,16 @@ def bisection(func, a, b, tolx):
     if sign(fa) * sign(fb) >= 0:
         raise ValueError('cannot apply bisection')
     it = 0
+    vecx = []
 
-    while math.abs(b - a) > tolx:
+    while abs(b - a) > tolx:
         x = a + (b - a) / 2
+        vecx.append(x)
         fx = func(x)
+        it += 1
 
         if fx <= np.spacing(1):
-            return x
+            break
 
         if sign(fa) * sign(fx) > 0:
             fa = fx
@@ -29,6 +33,23 @@ def bisection(func, a, b, tolx):
             fb = fx
             b = x
 
-        it += 1
+    return x, it, vecx
 
-    return x, it
+
+# def animate(func, vecx, pause):
+#     a = min(vecx) - 1
+#     b = max(vecx) + 1
+#     fa = func(a)
+#     fb = func(b)
+#     plt.xlim(a, b)
+#     plt.xlim(fa, fb)
+#     X = np.linspace(a, b, 200)
+#     Y = func(X)
+#     plt.plot(X, Y)
+#     for i in range(len(vecx) - 1):
+#         plt.xlim(a, b)
+#         plt.xlim(fa, fb)
+#         X = np.linspace(a, b, 200)
+#         Y = func(X)
+#         plt.plot(X, Y)
+#         plt.pause(pause)
