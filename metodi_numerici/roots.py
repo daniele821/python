@@ -36,20 +36,22 @@ def bisection(func, a, b, tolx):
     return x, it, vecx
 
 
-# def animate(func, vecx, pause):
-#     a = min(vecx) - 1
-#     b = max(vecx) + 1
-#     fa = func(a)
-#     fb = func(b)
-#     plt.xlim(a, b)
-#     plt.xlim(fa, fb)
-#     X = np.linspace(a, b, 200)
-#     Y = func(X)
-#     plt.plot(X, Y)
-#     for i in range(len(vecx) - 1):
-#         plt.xlim(a, b)
-#         plt.xlim(fa, fb)
-#         X = np.linspace(a, b, 200)
-#         Y = func(X)
-#         plt.plot(X, Y)
-#         plt.pause(pause)
+def animate(func, vecx, pause):
+    a = min(vecx)
+    b = max(vecx)
+    for i in range(len(vecx) - 1):
+        plt.clf()
+        X = np.linspace(a, b, 100)
+        Y = func(X)
+        plt.grid(True)
+        plt.plot(X, Y, 'r')
+        X = np.linspace(a, b, 100)
+        Y = np.zeros_like(X)
+        plt.plot(X, Y, 'k')
+        x = [vecx[i], vecx[i+1]]
+        y = [0, func(vecx[i+1])]
+        plt.plot(x, y, 'g')
+        plt.scatter(x, y)
+        plt.scatter(vecx[:i], np.zeros((i)))
+        plt.pause(pause)
+    plt.show()
