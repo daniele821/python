@@ -49,7 +49,8 @@ def falsi(func, a, b, tolx, tolf, itmax):
     vecx = []
 
     while abs(b - a) > tolx and abs(fx) >= tolf and it < itmax:
-        x = a - fa * (b - a) / (fb - fa)
+        m = (fb - fa) / (b - a)
+        x = a - fa / m
         vecx.append(x)
         fx = func(x)
         it += 1
