@@ -71,17 +71,20 @@ def animate(func, vecx, a, b):
     # extremes of the graph
     fa = func(a)
     fb = func(b)
-    fx = np.linspace(a, b, 100)
-    fy = func(fx)
-
-    # not linear function for which we are calculating roots
+    fx1 = np.linspace(a, b, 100)
+    fy1 = func(fx1)
+    fx2 = np.copy(fx1)
+    fy2 = np.zeros_like(fx2)
 
     for x in vecx:
         plt.clf()
         plt.grid(True)
 
         # draw function in study
-        plt.plot(fx, fy, 'r')
+        plt.plot(fx1, fy1, 'r')
+
+        # draw x axis line
+        plt.plot(fx2, fy2, 'k')
 
         # draw line
         y = func(x)
