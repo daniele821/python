@@ -9,8 +9,8 @@ def func(x): return x**4 - (13.5 * x**3) + (66 * x**2) - (138.5*x) + 105.5
 
 error = 1e-2
 itmax = 1000
-bisopts = ['vert', 'points']
-falopts = ['vert', 'points', 'falsi']
+bisopts = ['vert']
+falopts = ['vert', 'falsi']
 
 
 _, _, bis1 = roots.bisection(func, 1.5, 2.5, error)

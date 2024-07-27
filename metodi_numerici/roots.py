@@ -67,7 +67,7 @@ def falsi(func, a, b, tolx, tolf, itmax):
     return x, it, vecx
 
 
-def animate(func, vecx, a, b, opts=['vert', 'points', 'falsi', 'corde']):
+def animate(func, vecx, a, b, opts=['vert', 'falsi', 'corde']):
     # extremes of the graph
     A = a
     B = b
@@ -97,10 +97,8 @@ def animate(func, vecx, a, b, opts=['vert', 'points', 'falsi', 'corde']):
             plt.plot([B, B], [FB, FA], 'k--.')
             for xk in vecx[:i]:
                 plt.plot([xk, xk], [FB, FA], 'k--.')
-
-        # draw iterative solutions
-        if 'points' in opts:
-            plt.scatter(vecx[:i], np.zeros((i)), c='b')
+            plt.plot([a, a], [FB, FA], 'y-')
+            plt.plot([b, b], [FB, FA], 'y-')
 
         # falsi lines
         if 'falsi' in opts:
