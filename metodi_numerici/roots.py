@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 
 
 PAUSE = 1
-DRAWALL = True
 
 
 def sign(x):
@@ -68,7 +67,7 @@ def falsi(func, a, b, tolx, tolf, itmax):
     return x, it, vecx
 
 
-def animate(func, vecx, a, b):
+def animate(func, vecx, a, b, opts=['vert', 'points', 'falsi', 'corde']):
     # extremes of the graph
     A = a
     B = b
@@ -93,21 +92,26 @@ def animate(func, vecx, a, b):
         plt.plot(fx2, fy2, 'k')
 
         # draw y axis of iterative solutions
-        plt.plot([A, A], [FB, FA], 'k--.')
-        plt.plot([B, B], [FB, FA], 'k--.')
-        for xk in vecx[:i]:
-            plt.plot([xk, xk], [FB, FA], 'k--.')
+        if 'vert' in opts:
+            plt.plot([A, A], [FB, FA], 'k--.')
+            plt.plot([B, B], [FB, FA], 'k--.')
+            for xk in vecx[:i]:
+                plt.plot([xk, xk], [FB, FA], 'k--.')
 
-        # draw previous lines
-        if DRAWALL:
+        # draw iterative solutions
+        if 'points' in opts:
+            plt.scatter(vecx[:i], np.zeros((i)), c='b')
+
+        # falsi lines
+        if 'falsi' in opts:
             for elem in all:
                 plt.plot(elem[0], elem[1], 'b')
-        all.append([[a, b], [fa, fb]])
+            plt.plot([a, b], [fa, fb], 'b')
 
-        # draw line
+        # calculations
+        all.append([[a, b], [fa, fb]])
         x = vecx[i]
         y = func(x)
-        plt.plot([a, b], [fa, fb], 'b')
         if sign(y) * sign(fa) > 0:
             fa = y
             a = x
@@ -115,5 +119,6 @@ def animate(func, vecx, a, b):
             fb = y
             b = x
 
+        # make animation
         plt.pause(PAUSE)
     plt.show()
