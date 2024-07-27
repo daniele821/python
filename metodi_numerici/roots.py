@@ -69,14 +69,18 @@ def falsi(func, a, b, tolx, tolf, itmax):
 
 def animate(func, vecx, a, b):
     # extremes of the graph
-    fa = func(a)
-    fb = func(b)
+    A = a
+    B = b
+    FA = func(a)
+    FB = func(b)
+    fa = FA
+    fb = FB
     fx1 = np.linspace(a, b, 100)
     fy1 = func(fx1)
     fx2 = np.copy(fx1)
     fy2 = np.zeros_like(fx2)
 
-    for x in vecx:
+    for i in range(len(vecx)):
         plt.clf()
         plt.grid(True)
 
@@ -86,7 +90,14 @@ def animate(func, vecx, a, b):
         # draw x axis line
         plt.plot(fx2, fy2, 'k')
 
+        # draw y axis of iterative solutions
+        plt.plot([A, A], [FB, FA], 'k--.')
+        plt.plot([B, B], [FB, FA], 'k--.')
+        for xk in vecx[:i]:
+            plt.plot([xk, xk], [FB, FA], 'k--.')
+
         # draw line
+        x = vecx[i]
         y = func(x)
         plt.plot([a, b], [fa, fb], 'b')
         if sign(y) * sign(fa) > 0:
