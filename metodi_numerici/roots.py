@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 
 PAUSE = 1
+DRAWALL = True
 
 
 def sign(x):
@@ -79,6 +80,7 @@ def animate(func, vecx, a, b):
     fy1 = func(fx1)
     fx2 = np.copy(fx1)
     fy2 = np.zeros_like(fx2)
+    all = []
 
     for i in range(len(vecx)):
         plt.clf()
@@ -96,10 +98,16 @@ def animate(func, vecx, a, b):
         for xk in vecx[:i]:
             plt.plot([xk, xk], [FB, FA], 'k--.')
 
+        # draw previous lines
+        if DRAWALL:
+            for elem in all:
+                plt.plot(elem[0], elem[1], 'b')
+
         # draw line
         x = vecx[i]
         y = func(x)
         plt.plot([a, b], [fa, fb], 'b')
+        all.append([[a, b], [fa, fb]])
         if sign(y) * sign(fa) > 0:
             fa = y
             a = x
