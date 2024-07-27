@@ -102,12 +102,12 @@ def animate(func, vecx, a, b):
         if DRAWALL:
             for elem in all:
                 plt.plot(elem[0], elem[1], 'b')
+        all.append([[a, b], [fa, fb]])
 
         # draw line
         x = vecx[i]
         y = func(x)
         plt.plot([a, b], [fa, fb], 'b')
-        all.append([[a, b], [fa, fb]])
         if sign(y) * sign(fa) > 0:
             fa = y
             a = x
