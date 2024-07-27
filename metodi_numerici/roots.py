@@ -39,26 +39,59 @@ def bisection(func, a, b, tolx):
     return x, it, vecx
 
 
-def animate(func, vecx):
-    a = min(vecx)
-    b = max(vecx)
+def falsi(func, a, b, tolx, tolf, itmax):
     fa = func(a)
     fb = func(b)
-    for i in range(len(vecx) - 1):
+    fx = np.inf
+    if sign(fa) * sign(fb) >= 0:
+        raise ValueError('cannot apply falsi')
+    it = 0
+    vecx = []
+
+    while abs(b - a) > tolx and abs(fx) >= tolf and it < itmax:
+        x = a - fa * (b - a) / (fb - fa)
+        vecx.append(x)
+        fx = func(x)
+        it += 1
+
+        if abs(fx) <= np.spacing(1):
+            break
+
+        if sign(fa) * sign(fx) > 0:
+            fa = fx
+            a = x
+        elif sign(fx) * sign(fb) > 0:
+            fb = fx
+            b = x
+
+    return x, it, vecx
+
+
+def animate(func, vecx, a, b):
+    # extremes of the graph
+    fa = func(a)
+    fb = func(b)
+    fx = np.linspace(a, b, 100)
+    fy = func(fx)
+
+    # not linear function for which we are calculating roots
+
+    for x in vecx:
         plt.clf()
-        X = np.linspace(a, b, 100)
-        Y = func(X)
         plt.grid(True)
-        plt.plot(X, Y, 'r')
-        X = np.linspace(a, b, 100)
-        Y = np.zeros_like(X)
-        plt.plot(X, Y, 'k')
-        for xk in vecx[:i+1]:
-            plt.plot([xk, xk], [fa, fb], 'k--.')
-        x = [vecx[i], vecx[i+1]]
-        y = [0, func(vecx[i+1])]
-        plt.plot(x, y, 'g')
-        plt.scatter(x, y)
-        plt.scatter(vecx[:i], np.zeros((i)))
+
+        # draw function in study
+        plt.plot(fx, fy, 'r')
+
+        # draw line
+        y = func(x)
+        plt.plot([a, b], [fa, fb], 'b')
+        if sign(y) * sign(fa) > 0:
+            fa = y
+            a = x
+        elif sign(y) * sign(fb) > 0:
+            fb = y
+            b = x
+
         plt.pause(PAUSE)
     plt.show()
