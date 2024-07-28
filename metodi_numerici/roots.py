@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 
 
-PAUSE = 1
+PAUSE = 0.8
 
 
 def sign(x):
@@ -66,6 +66,26 @@ def falsi(func, a, b, tolx, tolf, itmax):
             b = x
 
     return x, it, vecx
+
+
+def corde(func, m, x0, tolx, tolf, itmax):
+    it = 0
+    vecx = []
+
+    while True:
+        fx0 = func(x0)
+        x1 = x0 - fx0 / m
+        fx1 = func(x1)
+
+        vecx.append(x1)
+        it += 1
+
+        if it >= itmax or abs(fx1) <= tolf or abs(x1-x0)/abs(x1) <= tolx:
+            break
+
+        x0 = x1
+
+    return x1, it, vecx
 
 
 def animate(func, vecx, a, b, opts=['vert', 'falsi', 'corde']):
