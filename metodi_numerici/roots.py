@@ -124,7 +124,7 @@ def newton(func, dfunc, x0, tolx, tolf, itmax):
     return x1, it, vecx
 
 
-def animate(func, vecx, a, b, x0=None, opts=[]):
+def animate(func, vecx, a, b, x0=None, opts=[], x1=None):
     # extremes of the graph
     A = a
     B = b
@@ -138,6 +138,7 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
     fy2 = np.zeros_like(fx2)
     falsi = []
     corde = []
+    secanti = []
 
     for i in range(len(vecx)):
         plt.clf()
@@ -180,6 +181,23 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
             else:
                 plt.plot([x, xold], [0, yold], 'b')
 
+        if 'secanti' in opts:
+            xold1 = vecx[i-2]
+            xold2 = vecx[i-1]
+            if i == 0:
+                xold1 = x0
+                xold2 = x1
+            elif i == 1:
+                xold1 = x1
+            yold1 = func(xold1)
+            yold2 = func(xold2)
+            if 'hist' in opts:
+                secanti.append([[xold1, xold2], [yold1, yold2]])
+                for elem in secanti:
+                    plt.plot(elem[0], elem[1], 'b')
+            else:
+                plt.plot([xold1, xold2], [yold1, yold2], 'b')
+
         # calculations
         falsi.append([[a, b], [fa, fb]])
         x = vecx[i]
@@ -217,11 +235,11 @@ if __name__ == '__main__':
     falopts = ['vert', 'falsi']
     coropts = ['vert', 'corde']
     newopts = ['vert', 'corde']
-    secopts = ['vert']
+    secopts = ['vert', 'secanti']
 
-    def anim(name, vecx, a, b, x0, opts):
+    def anim(name, vecx, a, b, x0, opts, x1=None):
         print(f"animation {name}")
-        animate(func, vecx, a, b, x0, opts)
+        animate(func, vecx, a, b, x0, opts, x1)
 
     _, _, bis1 = bisection(func, 1.5, 2.5, error)
     _, _, bis2 = bisection(func, 2.5, 3.5, error)
@@ -259,7 +277,7 @@ if __name__ == '__main__':
     anim('newton 2', new2, 2.5, 3.5, 2.5, newopts)
     anim('newton 3', new3, 3.5, 4.5, 3.5, newopts)
     anim('newton 4', new4, 4.5, 5.2, 4.7, newopts)
-    anim('secanti 1', sec1, 1.5, 2.5, 1.5, secopts)
-    anim('secanti 2', sec2, 2.5, 3.5, 2.5, secopts)
-    anim('secanti 3', sec3, 3.5, 4.5, 3.5, secopts)
-    anim('secanti 4', sec4, 4.5, 5.2, 4.7, secopts)
+    anim('secanti 1', sec1, 1.5, 2.5, 1.5, secopts, 2.3)
+    anim('secanti 2', sec2, 2.5, 3.5, 2.5, secopts, 3.5)
+    anim('secanti 3', sec3, 3.5, 4.5, 3.5, secopts, 4.5)
+    anim('secanti 4', sec4, 4.5, 5.2, 4.7, secopts, 5.2)
