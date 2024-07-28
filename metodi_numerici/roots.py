@@ -88,7 +88,7 @@ def corde(func, m, x0, tolx, tolf, itmax):
     return x1, it, vecx
 
 
-def animate(func, vecx, a, b, opts=['vert', 'falsi', 'corde']):
+def animate(func, vecx, a, b, x0, opts=['vert', 'falsi', 'corde']):
     # extremes of the graph
     A = a
     B = b
@@ -100,7 +100,8 @@ def animate(func, vecx, a, b, opts=['vert', 'falsi', 'corde']):
     fy1 = func(fx1)
     fx2 = np.copy(fx1)
     fy2 = np.zeros_like(fx2)
-    all = []
+    falsi = []
+    corde = []
 
     for i in range(len(vecx)):
         plt.clf()
@@ -123,12 +124,25 @@ def animate(func, vecx, a, b, opts=['vert', 'falsi', 'corde']):
 
         # falsi lines
         if 'falsi' in opts:
-            for elem in all:
+            for elem in falsi:
                 plt.plot(elem[0], elem[1], 'b')
             plt.plot([a, b], [fa, fb], 'b')
 
+        # corde lines
+        if 'corde' in opts:
+            x = vecx[i]
+            y = func(x)
+            xold = vecx[i-1]
+            yold = func(xold)
+            if i == 0:
+                xold = x0
+                yold = func(x0)
+            corde.append([[x, xold], [0, yold]])
+            for elem in corde:
+                plt.plot(elem[0], elem[1], 'b')
+
         # calculations
-        all.append([[a, b], [fa, fb]])
+        falsi.append([[a, b], [fa, fb]])
         x = vecx[i]
         y = func(x)
         if sign(y) * sign(fa) > 0:
@@ -137,6 +151,9 @@ def animate(func, vecx, a, b, opts=['vert', 'falsi', 'corde']):
         elif sign(y) * sign(fb) > 0:
             fb = y
             b = x
+
+        # add legends
+        plt.legend([f"{i+1} / {len(vecx)}"])
 
         # make animation
         plt.pause(PAUSE)
