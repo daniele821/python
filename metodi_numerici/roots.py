@@ -124,7 +124,7 @@ def newton(func, dfunc, x0, tolx, tolf, itmax):
     return x1, it, vecx
 
 
-def animate(func, vecx, a, b, x0=None, opts=['vert', 'falsi', 'corde']):
+def animate(func, vecx, a, b, x0=None, opts=[]):
     # extremes of the graph
     A = a
     B = b
@@ -169,10 +169,9 @@ def animate(func, vecx, a, b, x0=None, opts=['vert', 'falsi', 'corde']):
             x = vecx[i]
             y = func(x)
             xold = vecx[i-1]
-            yold = func(xold)
             if i == 0:
                 xold = x0
-                yold = func(x0)
+            yold = func(x0)
             corde.append([[x, xold], [0, yold]])
             for elem in corde:
                 plt.plot(elem[0], elem[1], 'b')
@@ -207,7 +206,7 @@ if __name__ == '__main__':
     falopts = ['vert', 'falsi']
     coropts = ['vert', 'corde']
     newopts = ['vert', 'corde']
-    secopts = ['vert', 'corde']
+    secopts = ['vert']
 
     def anim(name, vecx, a, b, x0, opts):
         print(f"animation {name}")
