@@ -171,7 +171,7 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
             xold = vecx[i-1]
             if i == 0:
                 xold = x0
-            yold = func(x0)
+            yold = func(xold)
             corde.append([[x, xold], [0, yold]])
             for elem in corde:
                 plt.plot(elem[0], elem[1], 'b')
