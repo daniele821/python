@@ -88,7 +88,7 @@ def corde(func, m, x0, tolx, tolf, itmax):
     return x1, it, vecx
 
 
-def animate(func, vecx, a, b, x0, opts=['vert', 'falsi', 'corde']):
+def animate(func, vecx, a, b, x0=None, opts=['vert', 'falsi', 'corde']):
     # extremes of the graph
     A = a
     B = b
