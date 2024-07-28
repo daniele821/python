@@ -180,7 +180,6 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
             else:
                 plt.plot([x, xold], [0, yold], 'b')
 
-
         # calculations
         falsi.append([[a, b], [fa, fb]])
         x = vecx[i]
