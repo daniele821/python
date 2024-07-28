@@ -192,6 +192,12 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
 
         # make animation
         plt.pause(PAUSE)
+
+    # draw vertical line of solution
+    if 'vert' in opts:
+        plt.scatter([vecx[-1]], [0], c='g')
+        plt.plot([vecx[-1], vecx[-1]], [FB, FA], 'g-')
+
     plt.show()
 
 
