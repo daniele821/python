@@ -85,6 +85,25 @@ def corde(func, m, x0, tolx, tolf, itmax):
     return x1, it, vecx
 
 
+def secanti(func, x0, x1, tolx, tolf, itmax):
+    it = 0
+    vecx = []
+
+    while True:
+        m = (func(x0) - func(x1)) / (x0 - x1)
+        x2 = x0 - func(x0) / m
+        vecx.append(x2)
+        it += 1
+
+        if it >= itmax or abs(func(x1)) <= tolf or abs(x1-x0)/abs(x1) <= tolx:
+            break
+
+        x0 = x1
+        x1 = x2
+
+    return x2, it, vecx
+
+
 def newton(func, dfunc, x0, tolx, tolf, itmax):
     it = 0
     vecx = []
@@ -188,6 +207,7 @@ if __name__ == '__main__':
     falopts = ['vert', 'falsi']
     coropts = ['vert', 'corde']
     newopts = ['vert', 'corde']
+    secopts = ['vert', 'corde']
 
     def anim(name, vecx, a, b, x0, opts):
         print(f"animation {name}")
@@ -209,6 +229,10 @@ if __name__ == '__main__':
     _, _, new2 = newton(func, dfunc, 2.5, error, error, itmax)
     _, _, new3 = newton(func, dfunc, 3.5, error, error, itmax)
     _, _, new4 = newton(func, dfunc, 4.7, error, error, itmax)
+    _, _, sec1 = secanti(func, 1.5, 2.5, error, error, itmax)
+    _, _, sec2 = secanti(func, 2.5, 3.5, error, error, itmax)
+    _, _, sec3 = secanti(func, 3.5, 4.5, error, error, itmax)
+    _, _, sec4 = secanti(func, 4.5, 5.2, error, error, itmax)
     anim('bisection 1', bis1, 1.5, 2.5, None, bisopts)
     anim('bisection 2', bis2, 2.5, 3.5, None, bisopts)
     anim('bisection 3', bis3, 3.5, 4.5, None, bisopts)
@@ -225,3 +249,7 @@ if __name__ == '__main__':
     anim('newton 2', new2, 2.5, 3.5, 2.5, newopts)
     anim('newton 3', new3, 3.5, 4.5, 3.5, newopts)
     anim('newton 4', new4, 4.5, 5.2, 4.7, newopts)
+    anim('secanti 1', sec1, 1.5, 2.5, 1.5, secopts)
+    anim('secanti 2', sec2, 2.5, 3.5, 2.5, secopts)
+    anim('secanti 3', sec3, 3.5, 4.5, 3.5, secopts)
+    anim('secanti 4', sec4, 4.5, 5.2, 4.7, secopts)
