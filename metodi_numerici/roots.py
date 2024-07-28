@@ -239,7 +239,7 @@ if __name__ == '__main__':
     _, _, new2 = newton(func, dfunc, 2.5, error, error, itmax)
     _, _, new3 = newton(func, dfunc, 3.5, error, error, itmax)
     _, _, new4 = newton(func, dfunc, 4.7, error, error, itmax)
-    _, _, sec1 = secanti(func, 1.5, 2.5, error, error, itmax)
+    _, _, sec1 = secanti(func, 1.5, 2.3, error, error, itmax)
     _, _, sec2 = secanti(func, 2.5, 3.5, error, error, itmax)
     _, _, sec3 = secanti(func, 3.5, 4.5, error, error, itmax)
     _, _, sec4 = secanti(func, 4.5, 5.2, error, error, itmax)
