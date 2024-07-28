@@ -179,7 +179,7 @@ def animate(func, vecx, a, b, x0=None, opts=['vert', 'falsi', 'corde']):
 
 if __name__ == '__main__':
     def func(x): return x**4 - (13.5 * x**3) + (66 * x**2) - (138.5*x) + 105.5
-    def dfunc(x): return (4 * x**3) - (41.5 * x**2) + (132 * x) - 138.5
+    def dfunc(x): return (4 * x**3) - (40.5 * x**2) + (132 * x) - 138.5
     def corm(func, a, b): return (func(b) - func(a)) / (b - a)
 
     error = 1e-3
@@ -187,13 +187,11 @@ if __name__ == '__main__':
     bisopts = ['vert']
     falopts = ['vert', 'falsi']
     coropts = ['vert', 'corde']
+    newopts = ['vert', 'corde']
 
     def anim(name, vecx, a, b, x0, opts):
         print(f"animation {name}")
-        try:
-            animate(func, vecx, a, b, x0, opts)
-        except KeyboardInterrupt:
-            print("skipping animation...")
+        animate(func, vecx, a, b, x0, opts)
 
     _, _, bis1 = bisection(func, 1.5, 2.5, error)
     _, _, bis2 = bisection(func, 2.5, 3.5, error)
@@ -210,7 +208,7 @@ if __name__ == '__main__':
     _, _, new1 = newton(func, dfunc, 1.5, error, error, itmax)
     _, _, new2 = newton(func, dfunc, 2.5, error, error, itmax)
     _, _, new3 = newton(func, dfunc, 3.5, error, error, itmax)
-    _, _, new4 = newton(func, dfunc, 4.5, error, error, itmax)
+    _, _, new4 = newton(func, dfunc, 4.7, error, error, itmax)
     anim('bisection 1', bis1, 1.5, 2.5, None, bisopts)
     anim('bisection 2', bis2, 2.5, 3.5, None, bisopts)
     anim('bisection 3', bis3, 3.5, 4.5, None, bisopts)
@@ -223,7 +221,7 @@ if __name__ == '__main__':
     anim('corde 2', cor2, 2.5, 3.5, 2.5, coropts)
     anim('corde 3', cor3, 3.5, 4.5, 3.5, coropts)
     anim('corde 4', cor4, 4.5, 5.2, 4.5, coropts)
-    anim('newton 1', new1, 1.5, 2.5, 2.5, coropts)
-    anim('newton 2', new2, 2.5, 3.5, 3.5, coropts)
-    anim('newton 3', new3, 3.5, 4.5, 4.5, coropts)
-    anim('newton 4', new4, 4.5, 5.2, 5.2, coropts)
+    anim('newton 1', new1, 1.5, 2.5, 1.5, newopts)
+    anim('newton 2', new2, 2.5, 3.5, 2.5, newopts)
+    anim('newton 3', new3, 3.5, 4.5, 3.5, newopts)
+    anim('newton 4', new4, 4.5, 5.2, 4.7, newopts)
