@@ -160,8 +160,9 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
 
         # falsi lines
         if 'falsi' in opts:
-            for elem in falsi:
-                plt.plot(elem[0], elem[1], 'b')
+            if 'hist' in opts:
+                for elem in falsi:
+                    plt.plot(elem[0], elem[1], 'b')
             plt.plot([a, b], [fa, fb], 'b')
 
         # corde lines
@@ -172,9 +173,13 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
             if i == 0:
                 xold = x0
             yold = func(xold)
-            corde.append([[x, xold], [0, yold]])
-            for elem in corde:
-                plt.plot(elem[0], elem[1], 'b')
+            if 'hist' in opts:
+                corde.append([[x, xold], [0, yold]])
+                for elem in corde:
+                    plt.plot(elem[0], elem[1], 'b')
+            else:
+                plt.plot([x, xold], [0, yold], 'b')
+
 
         # calculations
         falsi.append([[a, b], [fa, fb]])
@@ -191,7 +196,8 @@ def animate(func, vecx, a, b, x0=None, opts=[]):
         plt.legend([f"{i+1} / {len(vecx)}"])
 
         # make animation
-        plt.pause(PAUSE)
+        if i < len(vecx) - 1:
+            plt.pause(PAUSE)
 
     # draw vertical line of solution
     if 'vert' in opts:
