@@ -90,6 +90,9 @@ def newton(func, dfunc, x0, tolx, tolf, itmax):
     vecx = []
 
     while True:
+        if abs(dfunc(x0)) <= np.spacing(1):
+            raise ValueError('Newton method failed: derivate is zero')
+
         x1 = x0 - func(x0) / dfunc(x0)
         vecx.append(x1)
         it += 1
@@ -220,7 +223,7 @@ if __name__ == '__main__':
     anim('corde 2', cor2, 2.5, 3.5, 2.5, coropts)
     anim('corde 3', cor3, 3.5, 4.5, 3.5, coropts)
     anim('corde 4', cor4, 4.5, 5.2, 4.5, coropts)
-    anim('newton 1', new1, 1.5, 2.5, 2.0, coropts)
-    anim('newton 2', new2, 2.5, 3.5, 3.0, coropts)
-    anim('newton 3', new3, 3.5, 4.5, 4.0, coropts)
-    anim('newton 4', new4, 4.5, 5.2, 4.85, coropts)
+    anim('newton 1', new1, 1.5, 2.5, 2.5, coropts)
+    anim('newton 2', new2, 2.5, 3.5, 3.5, coropts)
+    anim('newton 3', new3, 3.5, 4.5, 4.5, coropts)
+    anim('newton 4', new4, 4.5, 5.2, 5.2, coropts)
