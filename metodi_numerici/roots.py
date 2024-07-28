@@ -73,14 +73,28 @@ def corde(func, m, x0, tolx, tolf, itmax):
     vecx = []
 
     while True:
-        fx0 = func(x0)
-        x1 = x0 - fx0 / m
-        fx1 = func(x1)
-
+        x1 = x0 - func(x0) / m
         vecx.append(x1)
         it += 1
 
-        if it >= itmax or abs(fx1) <= tolf or abs(x1-x0)/abs(x1) <= tolx:
+        if it >= itmax or abs(func(x1)) <= tolf or abs(x1-x0)/abs(x1) <= tolx:
+            break
+
+        x0 = x1
+
+    return x1, it, vecx
+
+
+def newton(func, dfunc, x0, tolx, tolf, itmax):
+    it = 0
+    vecx = []
+
+    while True:
+        x1 = x0 - func(x0) / dfunc(x0)
+        vecx.append(x1)
+        it += 1
+
+        if it >= itmax or abs(func(x1)) <= tolf or abs(x1-x0)/abs(x1) <= tolx:
             break
 
         x0 = x1
@@ -162,6 +176,7 @@ def animate(func, vecx, a, b, x0=None, opts=['vert', 'falsi', 'corde']):
 
 if __name__ == '__main__':
     def func(x): return x**4 - (13.5 * x**3) + (66 * x**2) - (138.5*x) + 105.5
+    def dfunc(x): return (4 * x**3) - (41.5 * x**2) + (132 * x) - 138.5
     def corm(func, a, b): return (func(b) - func(a)) / (b - a)
 
     error = 1e-3
@@ -189,6 +204,10 @@ if __name__ == '__main__':
     _, _, cor2 = corde(func, corm(func, 2.5, 3.5), 2.5, error, error, itmax)
     _, _, cor3 = corde(func, corm(func, 3.5, 4.5), 3.5, error, error, itmax)
     _, _, cor4 = corde(func, corm(func, 4.5, 5.2), 4.5, error, error, itmax)
+    _, _, new1 = newton(func, dfunc, 1.5, error, error, itmax)
+    _, _, new2 = newton(func, dfunc, 2.5, error, error, itmax)
+    _, _, new3 = newton(func, dfunc, 3.5, error, error, itmax)
+    _, _, new4 = newton(func, dfunc, 4.5, error, error, itmax)
     anim('bisection 1', bis1, 1.5, 2.5, None, bisopts)
     anim('bisection 2', bis2, 2.5, 3.5, None, bisopts)
     anim('bisection 3', bis3, 3.5, 4.5, None, bisopts)
@@ -197,7 +216,11 @@ if __name__ == '__main__':
     anim('falsi 2', fal2, 2.5, 3.5, None, falopts)
     anim('falsi 3', fal3, 3.5, 4.5, None, falopts)
     anim('falsi 4', fal4, 4.5, 5.2, None, falopts)
-    anim('corde 1', cor1, 1.5, 2.5, 1.5, coropts)
+    anim('corde 1', cor1, 1.5, 2.5, 2.5, coropts)
     anim('corde 2', cor2, 2.5, 3.5, 2.5, coropts)
     anim('corde 3', cor3, 3.5, 4.5, 3.5, coropts)
     anim('corde 4', cor4, 4.5, 5.2, 4.5, coropts)
+    anim('newton 1', new1, 1.5, 2.5, 2.0, coropts)
+    anim('newton 2', new2, 2.5, 3.5, 3.0, coropts)
+    anim('newton 3', new3, 3.5, 4.5, 4.0, coropts)
+    anim('newton 4', new4, 4.5, 5.2, 4.85, coropts)
