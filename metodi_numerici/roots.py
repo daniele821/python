@@ -232,10 +232,10 @@ if __name__ == '__main__':
     error = 1e-3
     itmax = 20
     bisopts = ['vert']
-    falopts = ['vert', 'falsi']
-    coropts = ['vert', 'corde']
-    newopts = ['vert', 'corde']
-    secopts = ['vert', 'secanti']
+    falopts = ['vert', 'falsi', 'hist']
+    coropts = ['vert', 'corde', 'hist']
+    newopts = ['vert', 'corde', 'hist']
+    secopts = ['vert', 'secanti', 'hist']
 
     def anim(name, vecx, a, b, x0, opts, x1=None):
         print(f"animation {name}")
