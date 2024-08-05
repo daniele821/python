@@ -2,3 +2,4 @@ matplotlib
 matplotlib-backend-sixel
 numpy
 scipy
+PyQt6
