@@ -33,15 +33,46 @@ def bell(n):
     return acc
 
 
+def __print_line__(list):
+    for elem in list:
+        if elem == 0:
+            print()
+            return
+        print(elem, end="\t")
+    print()
+
+
+def triangle_bell(size):
+    old = [1] + [0] * (size)
+    new = old.copy()
+    new[1] = 2
+    __print_line__(old)
+    __print_line__(new)
+    for i in range(3, size+1):
+        old[0] = new[i-2]
+        for j in range(1, i):
+            old[j] = new[j-1] + old[j-1]
+        __print_line__(old)
+        new = old.copy()
+
+    print()
+
+
 def stirling(n, k):
     if n == k or k <= 1:
         return 1
     return stirling(n-1, k-1) + k * stirling(n-1, k)
 
 
-for i in range(1, 14):
-    for k in range(i-1):
-        print(end="\t")
-    for j in range(i, 14):
-        print(stirling(j, i), end="\t")
+def triangle_stirtling(size):
+    for i in range(1, size):
+        for k in range(i-1):
+            print(end="\t")
+        for j in range(i, size):
+            print(stirling(j, i), end="\t")
+        print()
     print()
+
+
+triangle_bell(12)
+triangle_stirtling(12)
