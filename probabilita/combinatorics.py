@@ -40,6 +40,7 @@ def stirling(n, k):
 
 
 for i in range(1, 14):
+    print(i, end="\t->\t")
     for j in range(i, 14):
         print(stirling(j, j-i+1), end="\t")
     print()
