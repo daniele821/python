@@ -33,5 +33,13 @@ def bell(n):
     return acc
 
 
-for i in range(10):
-    print(bell(i))
+def stirling(n, k):
+    if n == k or k <= 1:
+        return 1
+    return stirling(n-1, k-1) + k * stirling(n-1, k)
+
+
+for i in range(1, 14):
+    for j in range(i, 14):
+        print(stirling(j, j-i+1), end="\t")
+    print()
