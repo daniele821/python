@@ -7,4 +7,14 @@ for i in range(1, 101):
 # square sum
 for i in range(1, 5):
     for j in range(1, 5):
-        print(i**2+j**2)
+        pass
+        # print(i**2+j**2)
+
+# dadi
+for a in range(1, 7):
+    for b in range(1, 7):
+        for c in range(1, 7):
+            sorted = [a, b, c]
+            sorted.sort(reverse=True)
+            if sorted[0] >= 5 and sorted[1] >= 4 and sorted[2] >= 3:
+                print(sorted, a, b, c)
