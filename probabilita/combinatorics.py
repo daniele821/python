@@ -1,8 +1,12 @@
 import sys
 
 args = sys.argv[1:]
-# n = args[0]
-# k = args[1]
+try:
+    n = args[0]
+    k = args[1]
+except Exception:
+    n = 10
+    k = 10
 
 
 def disposition(n, k):
@@ -18,9 +22,3 @@ def factorial(n):
 
 def binomial_coefficient(n, k):
     return disposition(n, k) // factorial(k)
-
-
-for i in range(6):
-    for j in range(i, 6):
-        print(binomial_coefficient(j, i), end="\t")
-    print()
