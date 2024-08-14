@@ -22,3 +22,16 @@ def factorial(n):
 
 def binomial_coefficient(n, k):
     return disposition(n, k) // factorial(k)
+
+
+def bell(n):
+    if n <= 1:
+        return 1
+    acc = 0
+    for k in range(1, n+1):
+        acc += binomial_coefficient(n-1, k-1) * bell(n - k)
+    return acc
+
+
+for i in range(10):
+    print(bell(i))
