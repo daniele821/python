@@ -1,8 +1,9 @@
 # counting
 count = 0
-for i in range(1, 101):
-    if i % 2 == 0 or i % 3 == 0 or i % 5 == 0:
+for i in range(701):
+    if i % 2 == 0 or i % 5 == 0 or i % 7 == 0:
         count += 1
+print(count)
 
 # square sum
 for i in range(1, 5):
@@ -17,4 +18,5 @@ for a in range(1, 7):
             sorted = [a, b, c]
             sorted.sort(reverse=True)
             if sorted[0] >= 5 and sorted[1] >= 4 and sorted[2] >= 3:
-                print(sorted, a, b, c)
+                pass
+                # print(sorted, a, b, c)
