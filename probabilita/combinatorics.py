@@ -24,6 +24,12 @@ def binomial_coefficient(n, k):
     return disposition(n, k) // factorial(k)
 
 
+def binomial_coefficient2(n, k):
+    if n == k or k == 0:
+        return 1
+    return binomial_coefficient2(n-1, k-1) + binomial_coefficient2(n-1, k)
+
+
 def bell(n):
     if n <= 1:
         return 1
