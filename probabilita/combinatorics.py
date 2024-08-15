@@ -9,6 +9,17 @@ except Exception:
     k = 10
 
 
+def fibonacci(n):
+    old = 1
+    new = 1
+    tmp = 69
+    for i in range(n):
+        tmp = new
+        new = old + new
+        old = tmp
+    return new
+
+
 def disposition(n, k):
     res = 1
     for i in range(n-k+1, n+1):
@@ -50,12 +61,12 @@ def scombussolamento(n):
     return sum
 
 
-def bell(n):
+def bell1(n):
     if n <= 1:
         return 1
     acc = 0
     for k in range(1, n+1):
-        acc += binomial_coefficient(n-1, k-1) * bell(n - k)
+        acc += binomial_coefficient(n-1, k-1) * bell1(n - k)
     return acc
 
 
@@ -71,6 +82,10 @@ def bell2(n):
     if n <= 1:
         return 1
     return new[len(new) - 1]
+
+
+def bell(n):
+    return bell2(n)
 
 
 def __print_line__(list):
@@ -97,14 +112,18 @@ def triangle_bell(size):
     print()
 
 
-def stirling(n, k):
+def stirling1(n, k):
     if n == k or k <= 1:
         return 1
-    return stirling(n-1, k-1) + k * stirling(n-1, k)
+    return stirling1(n-1, k-1) + k * stirling1(n-1, k)
 
 
 def stirling2(n, k):
     return kfull(n, k) // factorial(k)
+
+
+def stirling(n, k):
+    return stirling2(n, k)
 
 
 def triangle_stirtling(size):
@@ -115,14 +134,3 @@ def triangle_stirtling(size):
             print(stirling(j, i), end="\t")
         print()
     print()
-
-
-def fibonacci(n):
-    old = 1
-    new = 1
-    tmp = 69
-    for i in range(n):
-        tmp = new
-        new = old + new
-        old = tmp
-    return new
