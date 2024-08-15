@@ -102,3 +102,13 @@ def fibonacci(n):
         new = old + new
         old = tmp
     return new
+
+
+def kfull(n, k):
+    sum = 0
+    for j in range(k+1):
+        sign = 1 - ((j % 2) * 2)
+        tmp1 = binomial_coefficient(k, j)
+        tmp2 = (k - j) ** n
+        sum += sign * tmp1 * tmp2
+    return sum
