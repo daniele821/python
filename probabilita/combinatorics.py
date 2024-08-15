@@ -33,6 +33,20 @@ def bell(n):
     return acc
 
 
+def bell2(n):
+    old = [1] + [0] * (max(1, n - 1))
+    new = old.copy()
+    new[1] = 2
+    for i in range(3, n+1):
+        old[0] = new[i-2]
+        for j in range(1, i):
+            old[j] = new[j-1] + old[j-1]
+        new = old.copy()
+    if n <= 1:
+        return 1
+    return new[len(new) - 1]
+
+
 def __print_line__(list):
     for elem in list:
         if elem == 0:
@@ -54,7 +68,6 @@ def triangle_bell(size):
             old[j] = new[j-1] + old[j-1]
         __print_line__(old)
         new = old.copy()
-
     print()
 
 
