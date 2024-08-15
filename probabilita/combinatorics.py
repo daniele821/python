@@ -112,3 +112,13 @@ def kfull(n, k):
         tmp2 = (k - j) ** n
         sum += sign * tmp1 * tmp2
     return sum
+
+
+def scombussolamento(n):
+    sum = 0
+    for j in range(n + 1):
+        sign = 1 - ((j % 2) * 2)
+        tmp1 = binomial_coefficient(n, j)
+        tmp2 = factorial(n - j)
+        sum += sign * tmp1 * tmp2
+    return sum
