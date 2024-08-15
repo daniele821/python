@@ -30,6 +30,26 @@ def binomial_coefficient2(n, k):
     return binomial_coefficient2(n-1, k-1) + binomial_coefficient2(n-1, k)
 
 
+def kfull(n, k):
+    sum = 0
+    for j in range(k+1):
+        sign = 1 - ((j % 2) * 2)
+        tmp1 = binomial_coefficient(k, j)
+        tmp2 = (k - j) ** n
+        sum += sign * tmp1 * tmp2
+    return sum
+
+
+def scombussolamento(n):
+    sum = 0
+    for j in range(n + 1):
+        sign = 1 - ((j % 2) * 2)
+        tmp1 = binomial_coefficient(n, j)
+        tmp2 = factorial(n - j)
+        sum += sign * tmp1 * tmp2
+    return sum
+
+
 def bell(n):
     if n <= 1:
         return 1
@@ -84,7 +104,7 @@ def stirling(n, k):
 
 
 def stirling2(n, k):
-    return kfull(n, k) / factorial(k)
+    return kfull(n, k) // factorial(k)
 
 
 def triangle_stirtling(size):
@@ -106,23 +126,3 @@ def fibonacci(n):
         new = old + new
         old = tmp
     return new
-
-
-def kfull(n, k):
-    sum = 0
-    for j in range(k+1):
-        sign = 1 - ((j % 2) * 2)
-        tmp1 = binomial_coefficient(k, j)
-        tmp2 = (k - j) ** n
-        sum += sign * tmp1 * tmp2
-    return sum
-
-
-def scombussolamento(n):
-    sum = 0
-    for j in range(n + 1):
-        sign = 1 - ((j % 2) * 2)
-        tmp1 = binomial_coefficient(n, j)
-        tmp2 = factorial(n - j)
-        sum += sign * tmp1 * tmp2
-    return sum
