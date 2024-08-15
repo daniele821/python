@@ -74,5 +74,12 @@ def triangle_stirtling(size):
     print()
 
 
-triangle_bell(12)
-triangle_stirtling(12)
+def fibonacci(n):
+    old = 1
+    new = 1
+    tmp = 69
+    for i in range(n):
+        tmp = new
+        new = old + new
+        old = tmp
+    return new
