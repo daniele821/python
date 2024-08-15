@@ -83,6 +83,10 @@ def stirling(n, k):
     return stirling(n-1, k-1) + k * stirling(n-1, k)
 
 
+def stirling2(n, k):
+    return kfull(n, k) / factorial(k)
+
+
 def triangle_stirtling(size):
     for i in range(1, size):
         for k in range(i-1):
