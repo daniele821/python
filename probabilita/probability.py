@@ -27,3 +27,8 @@ print(density_ipergeometric(3, 4, 3, 1))
 bullets = lambda_density_binomial(3, '0.2')
 bullsum = bullets(0) + bullets(1)
 print(bullsum, bullsum.__float__())
+
+# balls extraction problem
+balls = lambda_density_ipergeometric(3, 2, 8)
+basum = balls(0) + balls(1)
+print(basum, basum.__float__())
