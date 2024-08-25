@@ -19,7 +19,7 @@ def lambda_density_binomial(n, p):
 
     def tmp(k):
         assert_type(k, [int])
-        return bc(n, k) * (p**k) * ((1-p)**(n-k))
+        return Fraction(bc(n, k) * (p**k) * ((1-p)**(n-k)))
     return tmp
 
 
