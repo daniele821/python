@@ -16,14 +16,22 @@ def lambda_density_binomial(n, p):
     assert_type(p, [int, str, Fraction])
     if isinstance(p, str):
         p = Fraction(p)
-    return lambda k: bc(n, k) * (p**k) * ((1-p)**(n-k))
+
+    def tmp(k):
+        assert_type(k, [int])
+        return bc(n, k) * (p**k) * ((1-p)**(n-k))
+    return tmp
 
 
 def lambda_density_ipergeometric(n, b, r):
     assert_type(n, [int])
     assert_type(b, [int])
     assert_type(r, [int])
-    return lambda k: Fraction(bc(b, k) * bc(r, n - k)) / Fraction(bc(r + b, n))
+
+    def tmp(k):
+        assert_type(k, [int])
+        return Fraction(bc(b, k) * bc(r, n - k)) / Fraction(bc(r + b, n))
+    return tmp
 
 
 def density_binomial(n, p, k):
