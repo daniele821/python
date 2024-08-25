@@ -2,13 +2,27 @@ from combinatorics import binomial_coefficient as bc
 from fractions import Fraction
 
 
+def assert_type(variable, allowed_types):
+    for types in allowed_types:
+        if isinstance(variable, types):
+            return
+    msg = "EXPECTED TYPE = {a}, ACTUAL TYPE = {b}"
+    msg = msg.format(a=allowed_types, b=str(type(variable)))
+    raise TypeError(msg)
+
+
 def lambda_density_binomial(n, p):
+    assert_type(n, [int])
+    assert_type(p, [int, str, Fraction])
     if isinstance(p, str):
         p = Fraction(p)
     return lambda k: bc(n, k) * (p**k) * ((1-p)**(n-k))
 
 
 def lambda_density_ipergeometric(n, b, r):
+    assert_type(n, [int])
+    assert_type(b, [int])
+    assert_type(r, [int])
     return lambda k: Fraction(bc(b, k) * bc(r, n - k)) / Fraction(bc(r + b, n))
 
 
