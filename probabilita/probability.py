@@ -20,15 +20,16 @@ def density_ipergeometric(n, b, r, k):
     return lambda_density_ipergeometric(n, b, r)(k)
 
 
-print(density_binomial(100, '0.85', 85).__float__())
-print(density_ipergeometric(3, 4, 3, 1))
+if __name__ == "__main__":
+    print(density_binomial(100, '0.85', 85).__float__())
+    print(density_ipergeometric(3, 4, 3, 1))
 
-# bullet problem
-bullets = lambda_density_binomial(3, '0.2')
-bullsum = bullets(0) + bullets(1)
-print(bullsum, bullsum.__float__())
+    # bullet problem
+    bullets = lambda_density_binomial(3, '0.2')
+    bullsum = bullets(0) + bullets(1)
+    print(bullsum, bullsum.__float__())
 
-# balls extraction problem
-balls = lambda_density_ipergeometric(3, 2, 8)
-basum = balls(0) + balls(1)
-print(basum, basum.__float__())
+    # balls extraction problem
+    balls = lambda_density_ipergeometric(3, 2, 8)
+    basum = balls(0) + balls(1)
+    print(basum, basum.__float__())
