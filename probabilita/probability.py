@@ -34,12 +34,42 @@ def lambda_density_ipergeometric(n, b, r):
     return tmp
 
 
+def lambda_density_geometric_modified(p):
+    assert_type(p, [int, str, Fraction])
+    if isinstance(p, str):
+        p = Fraction(p)
+
+    def tmp(k):
+        assert_type(k, [int])
+        return Fraction((1-p)**(k-1) * p)
+    return tmp
+
+
+def lambda_density_geometric(p):
+    assert_type(p, [int, str, Fraction])
+    if isinstance(p, str):
+        p = Fraction(p)
+
+    def tmp(k):
+        assert_type(k, [int])
+        return Fraction((1-p)**(k) * p)
+    return tmp
+
+
 def density_binomial(n, p, k):
     return lambda_density_binomial(n, p)(k)
 
 
 def density_ipergeometric(n, b, r, k):
     return lambda_density_ipergeometric(n, b, r)(k)
+
+
+def density_geometric_modified(p, k):
+    return lambda_density_geometric_modified(p)(k)
+
+
+def density_geometric(p, k):
+    return lambda_density_geometric(p)(k)
 
 
 if __name__ == "__main__":
@@ -55,3 +85,7 @@ if __name__ == "__main__":
     balls = lambda_density_ipergeometric(3, 2, 8)
     basum = balls(0) + balls(1)
     print(basum, basum.__float__())
+
+    gemod = lambda_density_geometric_modified("0.6")
+    for i in range(4):
+        print(gemod(i))
