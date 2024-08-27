@@ -6,7 +6,7 @@ def assert_type(variable, allowed_types):
     for types in allowed_types:
         if isinstance(variable, types):
             return
-    msg = "EXPECTED TYPE = {a}, ACTUAL TYPE = {b}"
+    msg = "EXPECTED TYPES = {a}, ACTUAL TYPE = {b}"
     msg = msg.format(a=allowed_types, b=str(type(variable)))
     raise TypeError(msg)
 
@@ -19,6 +19,8 @@ def lambda_density_binomial(n, p):
 
     def tmp(k):
         assert_type(k, [int])
+        if k < 0:
+            return 0
         return Fraction(bc(n, k) * (p**k) * ((1-p)**(n-k)))
     return tmp
 
@@ -30,6 +32,10 @@ def lambda_density_ipergeometric(n, b, r):
 
     def tmp(k):
         assert_type(k, [int])
+        minval = max(0, n - r)
+        maxval = min(n, b)
+        if minval > maxval or k < minval or k > maxval:
+            return 0
         return Fraction(bc(b, k) * bc(r, n - k)) / Fraction(bc(r + b, n))
     return tmp
 
@@ -41,6 +47,8 @@ def lambda_density_geometric_modified(p):
 
     def tmp(k):
         assert_type(k, [int])
+        if k < 1:
+            return 0
         return Fraction((1-p)**(k-1) * p)
     return tmp
 
@@ -52,6 +60,8 @@ def lambda_density_geometric(p):
 
     def tmp(k):
         assert_type(k, [int])
+        if k < 0:
+            return 0
         return Fraction((1-p)**(k) * p)
     return tmp
 
