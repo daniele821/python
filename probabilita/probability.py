@@ -117,5 +117,5 @@ if __name__ == "__main__":
         print(gemod(i))
 
     ill = lambda_density_poisson(5)
-    illkid = 1 - ill(0) - ill(1) - ill(2) - ill(3) - ill(4)
+    illkid = 1 - ill(0) - ill(1) - ill(2) - ill(3) - ill(4) - ill(5)
     print(illkid)
