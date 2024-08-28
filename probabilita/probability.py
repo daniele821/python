@@ -119,3 +119,9 @@ if __name__ == "__main__":
     ill = lambda_density_poisson(5)
     illkid = 1 - ill(0) - ill(1) - ill(2) - ill(3) - ill(4) - ill(5)
     print(illkid)
+
+    fig = lambda_density_ipergeometric(4, 30, 50)
+    figmin = fig(3) + fig(4)
+    fignone = fig(0)
+    print(figmin, figmin.__float__())
+    print(fignone, fignone.__float__())
