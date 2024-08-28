@@ -1,4 +1,5 @@
-from combinatorics import binomial_coefficient as bc
+from combinatorics import binomial_coefficient as bc, factorial as fact
+import math
 from fractions import Fraction
 
 
@@ -66,6 +67,17 @@ def lambda_density_geometric(p):
     return tmp
 
 
+def lambda_density_poisson(λ):
+    assert_type(λ, [float, int])
+
+    def tmp(k):
+        assert_type(k, [int])
+        if k < 0:
+            return 0
+        return (math.e ** (-λ)) * ((λ**k) / fact(k))
+    return tmp
+
+
 def density_binomial(n, p, k):
     return lambda_density_binomial(n, p)(k)
 
@@ -80,6 +92,10 @@ def density_geometric_modified(p, k):
 
 def density_geometric(p, k):
     return lambda_density_geometric(p)(k)
+
+
+def density_poisson(λ, k):
+    return lambda_density_poisson(λ)(k)
 
 
 if __name__ == "__main__":
@@ -99,3 +115,7 @@ if __name__ == "__main__":
     gemod = lambda_density_geometric_modified("0.6")
     for i in range(4):
         print(gemod(i))
+
+    ill = lambda_density_poisson(5)
+    illkid = 1 - ill(0) - ill(1) - ill(2) - ill(3) - ill(4)
+    print(illkid)
