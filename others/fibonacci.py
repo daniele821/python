@@ -60,20 +60,21 @@ def fib2(n, k):
 
 
 def fib3(n, k):
-    if (n, k) in FIB:
-        return FIB[(n, k)]
-    tmp = None
+    if k not in FIB:
+        FIB[k] = {}
+    if n in FIB[k]:
+        return FIB[k][n]
     if n >= 0 and n < k:
-        tmp = 2**n
+        FIB[k][n] = 2**n
+        return FIB[k][n]
     if n >= k:
         acc = 0
         for i in range(1, k+1):
-            acc += fib2(n - i, k)
-        tmp = acc
-    FIB[(n, k)] = tmp
-    return tmp
+            acc += fib3(n - i, k)
+        FIB[k][n] = acc
+        return acc
 
 
-for i in range(100):
+for i in range(200):
     print(i, end="\t")
     print(fib3(i, 5))
