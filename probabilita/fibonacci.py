@@ -7,6 +7,7 @@
 # fibk(n) = { fibk(n-1) + ... + fibk(n-k)       if n >= k
 #           { 2^n                               if 0 <= n < k
 
+from fractions import Fraction
 
 FIBONACCI3 = {}
 FIBONACCI4 = {}
@@ -79,6 +80,36 @@ def fib3(n, k):
         return acc
 
 
-for i in range(200):
-    print(i, end="\t")
-    print(fib3(i, 5))
+# solves the following problem:
+#  what is the probabilty of getting a sequence of 'seq_len' successes
+#  for the 1st time after 'throws' amount of throws
+# EXAMPLE:
+#  - throws = 10
+#  - seq_len = 4
+#    what is the probability of the following: _ _ _ _ _ N S S S S
+#    where:
+#    - S means a success
+#    - N means an insuccess
+#    - _ means either N or S
+# to calculate that, we use the formula for the uniforme probability:
+#   | # successful results | / | # all the possible results |
+# to calculate all possible results, it's the sequences of 2, 'throws' long:
+#   2^'throws'
+# to calculate the successfull results, we have:
+#   - a single final sequence of 'throws' S
+#   - the value before MUST be N
+#   - all the possible combination of lenght 'throws' - 'seq_len' - 1
+#     which have no sequence of 1 longer or equal to 'seq_len'.
+#     That can be calculate using fibk(n) defined before!
+
+def prob(throws, seq_len):
+    if throws < seq_len:
+        return 0
+    all_results = 2**throws
+    pos_results = 1
+    if throws > seq_len:
+        pos_results = fib(throws - seq_len - 1, seq_len)
+    return Fraction("{}/{}".format(pos_results, all_results))
+
+
+print(prob(3, 4))
