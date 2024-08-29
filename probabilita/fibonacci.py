@@ -44,7 +44,7 @@ def fibonacci4(n):
 
 
 # binary sequences where there are no sequences of 1 of len k
-def fib(n, k):
+def fib1(n, k):
     sub = "1" * k
     count = 0
     for i in range(2**n):
@@ -64,7 +64,7 @@ def fib2(n, k):
         return acc
 
 
-def fib3(n, k):
+def fib(n, k):
     if k not in FIB:
         FIB[k] = {}
     if n in FIB[k]:
@@ -75,7 +75,7 @@ def fib3(n, k):
     if n >= k:
         acc = 0
         for i in range(1, k+1):
-            acc += fib3(n - i, k)
+            acc += fib(n - i, k)
         FIB[k][n] = acc
         return acc
 
@@ -112,4 +112,8 @@ def prob(throws, seq_len):
     return Fraction("{}/{}".format(pos_results, all_results))
 
 
-print(prob(3, 4))
+sum = 0
+for i in range(7, 1000):
+    density = prob(i, 7)
+    sum += density.__float__()
+    print(sum, i)
