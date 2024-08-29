@@ -1,6 +1,7 @@
 FIBONACCI = {}
 
 
+# binary sequences where there are no sequences of 1 of len 3
 def fibonacci3(n):
     if n in FIBONACCI:
         return FIBONACCI[n]
