@@ -1,7 +1,7 @@
 # count sequences of length n, without any sequence long k of ones!
 # basically the formula is:
 # fibk(n) = { fibk(n-1) + ... + fibk(n-k)       if n >= k
-#           { 2^k                               if 0 <= n < k
+#           { 2^n                               if 0 <= n < k
 
 
 FIBONACCI3 = {}
@@ -48,7 +48,17 @@ def fib(n, k):
     return count
 
 
+def fib_(n, k):
+    if n >= 0 and n < k:
+        return 2**n
+    if n >= k:
+        acc = 0
+        for i in range(1, k+1):
+            acc += fib_(n - i, k)
+        return acc
+
+
 for i in range(100):
     print(i, end="\t")
-    print(fibonacci4(i), end="\t")
+    print(fib_(i, 4), end="\t")
     print(fib(i, 4), end="\n")
