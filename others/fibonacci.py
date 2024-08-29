@@ -6,6 +6,7 @@
 
 FIBONACCI3 = {}
 FIBONACCI4 = {}
+FIB = {}
 
 
 # binary sequences where there are no sequences of 1 of len 3
@@ -48,17 +49,31 @@ def fib(n, k):
     return count
 
 
-def fib_(n, k):
+def fib2(n, k):
     if n >= 0 and n < k:
         return 2**n
     if n >= k:
         acc = 0
         for i in range(1, k+1):
-            acc += fib_(n - i, k)
+            acc += fib2(n - i, k)
         return acc
+
+
+def fib3(n, k):
+    if (n, k) in FIB:
+        return FIB[(n, k)]
+    tmp = None
+    if n >= 0 and n < k:
+        tmp = 2**n
+    if n >= k:
+        acc = 0
+        for i in range(1, k+1):
+            acc += fib2(n - i, k)
+        tmp = acc
+    FIB[(n, k)] = tmp
+    return tmp
 
 
 for i in range(100):
     print(i, end="\t")
-    print(fib_(i, 4), end="\t")
-    print(fib(i, 4), end="\n")
+    print(fib3(i, 5))
