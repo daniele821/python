@@ -7,6 +7,7 @@
 # fibk(n) = { fibk(n-1) + ... + fibk(n-k)       if n >= k
 #           { 2^n                               if 0 <= n < k
 
+import sys
 from fractions import Fraction
 
 FIBONACCI3 = {}
@@ -112,8 +113,16 @@ def prob(throws, seq_len):
     return Fraction("{}/{}".format(pos_results, all_results))
 
 
-sum = 0
-for i in range(7, 1000):
-    density = prob(i, 7)
-    sum += density.__float__()
-    print(sum, i)
+# formula: E[X] = 2^k - 2
+# - X is the aleatory variable which represents the quantity of coin throws
+#   needed to get the first sequence of lenght k of consecutive 1
+# - E[X] is the expected value of the X aleatory variable
+# the following code makes a calculation based "proof" of the formula:
+if __name__ == "__main__":
+    K = 10
+    sys.set_int_max_str_digits(1_000_000)
+    sum = 0
+    for i in range(100000):
+        density = prob(i, K)
+        sum += density * i
+        print(sum.__float__(), i)
