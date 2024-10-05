@@ -52,9 +52,23 @@ def solve_file_v1(file):
     print(linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs))
 
 
+# NOTE: in this implementation, vars MUST be string of length one
 def parse_linear(vars, invert, linear):
     coeff = [0] * len(vars)
-    # return vector of linear function coefficients
+    indexes = []
+    for var in vars:
+        index = linear.find(var)
+        if index != -1:
+            indexes.append(index)
+    indexes.sort()
+    for step, curr in enumerate(indexes):
+        prev = 0 if step == 0 else indexes[step-1] + 1
+        var = linear[curr]
+        var_index = vars.index(var)
+        value = linear[prev:curr]
+        if value.strip() in ("", "+", "-"):
+            value += "1"
+        coeff[var_index] = float(value)
     return coeff
 
 
