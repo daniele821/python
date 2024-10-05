@@ -1,4 +1,4 @@
-vars x y
+vars-pos x y
 
 max 3x 5y
 
