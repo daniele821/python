@@ -3,6 +3,17 @@
 from scipy.optimize import linprog
 
 
+def output_solution(linsol, vars=None):
+    if not linsol['success']:
+        print('ERROR: no solution was found')
+    else:
+        print("message: " + linsol['message'])
+        if vars:
+            print("x: ")
+        else:
+            print("x: " + str(linsol['x']))
+
+
 def solve_file_v1(file):
     with open(file, "r") as fp:
         lines = fp.read().splitlines()
@@ -49,7 +60,9 @@ def solve_file_v1(file):
         eq_lhs = None
         eq_rhs = None
 
-    print(linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs))
+    linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs)
+    output_solution(linsol)
+    return linsol
 
 
 # NOTE: in this implementation, vars MUST be string of length one
@@ -110,8 +123,10 @@ def solve_file_v2(file):
         eq_lhs = None
         eq_rhs = None
 
-    print(linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs))
+    linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs)
+    output_solution(linsol, vars)
+    return linsol
 
 
-# solve_file_v1('./input_v1.txt')
+solve_file_v1('./input_v1.txt')
 solve_file_v2('./input_v2.txt')
