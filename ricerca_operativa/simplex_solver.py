@@ -5,22 +5,15 @@ import numpy as np
 
 
 def output_solution(linsol, obj, vars=None):
-    msg = linsol.message
-    success = linsol.success
-    x = linsol.x
-    try:
-        optimal_value = np.sum(np.array(obj) * np.array(x))
-    except Exception:
-        return
-    if not success:
+    if not linsol.success:
         print('ERROR: no solution was found')
     else:
-        print("message: " + msg)
-        print("result: " + str(x))
+        print("message: " + linsol.message)
+        print("result: " + str(linsol.x))
         if vars:
             for index, var in enumerate(vars):
-                print(str(var) + " -> " + str(x[index]))
-        print("optimal value: " + str(optimal_value))
+                print(str(var) + " -> " + str(linsol.x[index]))
+        print("optimal: " + str(np.sum(np.array(obj) * np.array(linsol.x))))
         print()
 
 
