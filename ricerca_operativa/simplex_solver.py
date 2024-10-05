@@ -53,8 +53,9 @@ def solve_file_v1(file):
 
 
 def parse_linear(vars, invert, linear):
+    coeff = [0] * len(vars)
     # return vector of linear function coefficients
-    pass
+    return coeff
 
 
 def solve_file_v2(file):
@@ -80,6 +81,8 @@ def solve_file_v2(file):
         linear = "".join(line[:index].split())
         lhs = parse_linear(vars, line[index] == ">", linear)
         rhs = float(line[index+2:])
+        if line[index] == ">":
+            rhs *= -1
         if line[index] == "=":
             eq_lhs.append(lhs)
             eq_rhs.append(rhs)
@@ -92,7 +95,7 @@ def solve_file_v2(file):
     if not eq_lhs or not eq_rhs:
         eq_lhs = None
         eq_rhs = None
-    print(eq_lhs, eq_rhs, dis_lhs, dis_rhs)
+    print(obj, eq_lhs, eq_rhs, dis_lhs, dis_rhs, sep="\n")
 
 
 # solve_file_v1('./input_v1.txt')
