@@ -94,7 +94,6 @@ def solve_file_v2(file):
     with open(file, "r") as fp:
         lines = fp.read().splitlines()
     lines = [e for e in lines if e.strip() and not e.startswith("//")]
-    print(lines)
     vars = lines[0].split()[1:]
     obj = lines[1].split()
     invert = obj[0] == "max"
