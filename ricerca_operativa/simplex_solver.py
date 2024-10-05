@@ -1,17 +1,25 @@
 #!/bin/env python3
 
 from scipy.optimize import linprog
+import numpy as np
 
 
-def output_solution(linsol, vars=None):
-    if not linsol['success']:
+def output_solution(linsol, obj, vars=None):
+    msg = linsol.message
+    success = linsol.success
+    x = linsol.x
+    optimal_value = np.sum(np.array(obj) * np.array(x))
+    if not success:
         print('ERROR: no solution was found')
     else:
-        print("message: " + linsol['message'])
+        print("message: " + msg)
         if vars:
-            print("x: ")
+            for index, var in enumerate(vars):
+                print(str(var) + " -> " + str(x[index]))
         else:
-            print("x: " + str(linsol['x']))
+            print("result: " + str(x))
+    print("optimal value: " + str(optimal_value))
+    print()
 
 
 def solve_file_v1(file):
@@ -19,6 +27,7 @@ def solve_file_v1(file):
         lines = fp.read().splitlines()
     lines = [elem for elem in lines if elem.strip()]
     obj = lines[0].split()
+    original_obj = [float(elem) for elem in obj[1:]]
     matrix = lines[1:]
 
     # fixing obj
@@ -61,7 +70,7 @@ def solve_file_v1(file):
         eq_rhs = None
 
     linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs)
-    output_solution(linsol)
+    output_solution(linsol, original_obj)
     return linsol
 
 
@@ -91,6 +100,7 @@ def solve_file_v2(file):
     lines = [elem for elem in lines if elem.strip()]
     vars = lines[0].split()[1:]
     obj = lines[1].split()
+    invert = obj[0] == "max"
     matrix = lines[2:]
     dis_lhs = []
     dis_rhs = []
@@ -98,7 +108,7 @@ def solve_file_v2(file):
     eq_rhs = []
 
     # parsing and checking object function
-    obj = parse_linear(vars, obj[0] == "max", "".join(obj[1:]))
+    obj = parse_linear(vars, invert, "".join(obj[1:]))
 
     # parsing and checking matrix
     for line in matrix:
@@ -124,7 +134,7 @@ def solve_file_v2(file):
         eq_rhs = None
 
     linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs)
-    output_solution(linsol, vars)
+    output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     return linsol
 
 
