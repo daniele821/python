@@ -13,11 +13,10 @@ def output_solution(linsol, obj, vars=None):
         print('ERROR: no solution was found')
     else:
         print("message: " + msg)
+        print("result: " + str(x))
         if vars:
             for index, var in enumerate(vars):
                 print(str(var) + " -> " + str(x[index]))
-        else:
-            print("result: " + str(x))
     print("optimal value: " + str(optimal_value))
     print()
 
@@ -138,5 +137,4 @@ def solve_file_v2(file):
     return linsol
 
 
-solve_file_v1('./input_v1.txt')
 solve_file_v2('./input_v2.txt')
