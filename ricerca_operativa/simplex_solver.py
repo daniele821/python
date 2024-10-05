@@ -7,6 +7,7 @@ import numpy as np
 def output_solution(linsol, obj, vars=None):
     if not linsol.success:
         print('ERROR: no solution was found')
+        print(linsol.message)
     else:
         print("message: " + linsol.message)
         print("result: " + str(linsol.x))
