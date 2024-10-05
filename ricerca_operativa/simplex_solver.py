@@ -68,7 +68,7 @@ def parse_linear(vars, invert, linear):
         value = linear[prev:curr]
         if value.strip() in ("", "+", "-"):
             value += "1"
-        coeff[var_index] = float(value)
+        coeff[var_index] = -float(value) if invert else float(value)
     return coeff
 
 
@@ -109,7 +109,8 @@ def solve_file_v2(file):
     if not eq_lhs or not eq_rhs:
         eq_lhs = None
         eq_rhs = None
-    print(obj, eq_lhs, eq_rhs, dis_lhs, dis_rhs, sep="\n")
+
+    print(linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs))
 
 
 # solve_file_v1('./input_v1.txt')
