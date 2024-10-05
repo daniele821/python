@@ -93,7 +93,8 @@ def parse_linear(vars, invert, linear):
 def solve_file_v2(file):
     with open(file, "r") as fp:
         lines = fp.read().splitlines()
-    lines = [elem for elem in lines if elem.strip()]
+    lines = [e for e in lines if e.strip() and not e.startswith("//")]
+    print(lines)
     vars = lines[0].split()[1:]
     obj = lines[1].split()
     invert = obj[0] == "max"
@@ -104,9 +105,9 @@ def solve_file_v2(file):
     eq_rhs = []
 
     # parsing bounds
-    bounds = (None, None)  # no bounds by default
-    if "pos" in lines[0].split()[0]:
-        bounds = (0, None)
+    bounds = (0, None)  # no bounds by default
+    if "unbound" in lines[0].split()[0]:
+        bounds = (None, None)
 
     # parsing and checking object function
     obj = parse_linear(vars, invert, "".join(obj[1:]))

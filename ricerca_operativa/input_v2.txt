@@ -1,7 +1,20 @@
-vars-pos x y
+// NOTE: lines starting with '//', or empty lines are ignored!
+// 
+// format :
+// vars[-unbound] <variables>         
+// 
+// min | max <cost function>
+//
+// <expressions> <= | >= | == <value>
+// ...
 
-max 3x 5y
+vars x y
 
-x <= 4
-2y <= 12
-3x + 2y <= 18
+min 2x 3y
+
+1x 4y >= 4
+4x 5y >= 10
+4x 3y >= 8
+3x >= 2
+6y >= 2
+
