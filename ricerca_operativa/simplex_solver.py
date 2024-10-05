@@ -8,7 +8,10 @@ def output_solution(linsol, obj, vars=None):
     msg = linsol.message
     success = linsol.success
     x = linsol.x
-    optimal_value = np.sum(np.array(obj) * np.array(x))
+    try:
+        optimal_value = np.sum(np.array(obj) * np.array(x))
+    except Exception:
+        return
     if not success:
         print('ERROR: no solution was found')
     else:
@@ -17,8 +20,8 @@ def output_solution(linsol, obj, vars=None):
         if vars:
             for index, var in enumerate(vars):
                 print(str(var) + " -> " + str(x[index]))
-    print("optimal value: " + str(optimal_value))
-    print()
+        print("optimal value: " + str(optimal_value))
+        print()
 
 
 def solve_file_v1(file):
@@ -106,6 +109,11 @@ def solve_file_v2(file):
     eq_lhs = []
     eq_rhs = []
 
+    # parsing bounds
+    bounds = (None, None)  # no bounds by default
+    if "pos" in lines[0].split()[0]:
+        bounds = (0, None)
+
     # parsing and checking object function
     obj = parse_linear(vars, invert, "".join(obj[1:]))
 
@@ -132,7 +140,7 @@ def solve_file_v2(file):
         eq_lhs = None
         eq_rhs = None
 
-    linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs)
+    linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, bounds)
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     return linsol
 
