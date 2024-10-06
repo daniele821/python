@@ -1,5 +1,6 @@
 #!/bin/env python3
 
+import os
 from scipy.optimize import linprog
 import numpy as np
 
@@ -139,4 +140,4 @@ def solve_file_v2(file):
     return linsol
 
 
-solve_file_v2('./input_v2.txt')
+solve_file_v2(os.path.dirname(__file__) + '/input_v2.txt')
