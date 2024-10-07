@@ -226,7 +226,6 @@ def solve_file(file):
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
                       eq_rhs, vars, unbounded, invert)
-    output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars)
     return linsol
 
 
