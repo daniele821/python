@@ -3,6 +3,7 @@
 import os
 from scipy.optimize import linprog
 import numpy as np
+import itertools
 
 
 def output_solution(linsol, obj, vars):
@@ -115,24 +116,22 @@ def output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
     lhs = dis_lhs + eq_lhs
     rhs = dis_rhs + eq_rhs
     dimension = len(dis_rhs) + len(eq_rhs)
-    if len(obj) == 2:
-        for x in range(dimension):
-            for y in range(x+1, dimension):
-                A = [lhs[x], lhs[y]]
-                b = [rhs[x], rhs[y]]
-                sol = np.linalg.solve(A, b)
-                opt = np.sum(np.array(obj) * sol)
-                correct = True
-                if dis_rhs:
-                    for index, dis in enumerate(dis_lhs):
-                        if np.sum(np.array(dis) * sol) > dis_rhs[index]:
-                            correct = False
-                if eq_rhs:
-                    for index, eq in enumerate(eq_lhs):
-                        if abs(np.sum(np.array(eq) * sol) - eq_rhs[index]) > np.spacing(1):
-                            correct = False
-                if correct:
-                    print(str(sol).ljust(23, ' '), ' --> ', opt)
+    for x in itertools.combinations(range(dimension), len(obj)):
+        A = [lhs[i] for i in x]
+        b = [rhs[i] for i in x]
+        sol = np.linalg.solve(A, b)
+        opt = np.sum(np.array(obj) * sol)
+        correct = True
+        if dis_rhs:
+            for index, dis in enumerate(dis_lhs):
+                if np.sum(np.array(dis) * sol) > dis_rhs[index]:
+                    correct = False
+        if eq_rhs:
+            for index, eq in enumerate(eq_lhs):
+                if abs(np.sum(np.array(eq) * sol) - eq_rhs[index]) > np.spacing(1):
+                    correct = False
+        if correct:
+            print(str(sol).ljust(23, ' '), ' --> ', opt)
 
 
 # NOTE: in this implementation, vars MUST be string of length one
