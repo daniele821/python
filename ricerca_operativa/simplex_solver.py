@@ -3,6 +3,7 @@
 import os
 from scipy.optimize import linprog
 import numpy as np
+import itertools
 
 
 def output_solution(linsol, obj, vars):
@@ -19,9 +20,9 @@ def output_solution(linsol, obj, vars):
 
 
 def fmt_coeff(num, var, pos_sign):
-    if num == 0:
+    if abs(num) <= np.spacing(1):
         return ""
-    value = int(num) if num == int(num) else num
+    value = int(num) if abs(num - int(num)) <= np.spacing(1) else num
     if pos_sign:
         value = str(value) if value <= 0 else "+" + str(value)
     else:
@@ -107,8 +108,30 @@ def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, in
         fp.write("end;\n")
 
 
-def output_all_vertexes():
-    pass
+def output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
+    dis_lhs = dis_lhs or [[]]
+    dis_rhs = dis_rhs or []
+    eq_lhs = eq_lhs or [[]]
+    eq_rhs = eq_rhs or []
+    lhs = dis_lhs + eq_lhs
+    rhs = dis_rhs + eq_rhs
+    dimension = len(dis_rhs) + len(eq_rhs)
+    for x in itertools.combinations(range(dimension), len(obj)):
+        A = [lhs[i] for i in x]
+        b = [rhs[i] for i in x]
+        sol = np.linalg.solve(A, b)
+        opt = np.sum(np.array(obj) * sol)
+        correct = True
+        if dis_rhs:
+            for index, dis in enumerate(dis_lhs):
+                if np.sum(np.array(dis) * sol) > dis_rhs[index]:
+                    correct = False
+        if eq_rhs:
+            for index, eq in enumerate(eq_lhs):
+                if abs(np.sum(np.array(eq) * sol) - eq_rhs[index]) > np.spacing(1):
+                    correct = False
+        if correct:
+            print(str(sol).ljust(23, ' '), ' --> ', opt)
 
 
 # NOTE: in this implementation, vars MUST be string of length one
@@ -125,6 +148,28 @@ def parse_linear(vars, invert, linear):
         var = linear[curr]
         var_index = vars.index(var)
         value = linear[prev:curr]
+        if value.strip() in ("", "+", "-"):
+            value += "1"
+        coeff[var_index] += -float(value) if invert else float(value)
+    return coeff
+
+
+# NOTE: in this implementation, vars can be of any lenght
+def parse_linear_v2(vars, invert, linear):
+    coeff = [0] * len(vars)
+    indexes = []
+    indlen = {0: 0}
+    for var in vars:
+        index = linear.find(var)
+        if index != -1:
+            indexes.append(index)
+            indlen[index] = len(var)
+    indexes.sort()
+    for step, curr in enumerate(indexes):
+        prev = 0 if step == 0 else indexes[step-1]
+        var = linear[curr:curr+indlen[curr]]
+        var_index = vars.index(var)
+        value = linear[prev+(indlen[prev]):curr]
         if value.strip() in ("", "+", "-"):
             value += "1"
         coeff[var_index] += -float(value) if invert else float(value)
@@ -151,7 +196,7 @@ def solve_file(file):
         bounds = (None, None)
 
     # parsing and checking object function
-    obj = parse_linear(vars, invert, "".join(obj[1:]))
+    obj = parse_linear_v2(vars, invert, "".join(obj[1:]))
 
     # parsing and checking matrix
     for line in matrix:
@@ -159,7 +204,7 @@ def solve_file(file):
         if line[index-1] in "<>":
             index -= 1
         linear = "".join(line[:index].split())
-        lhs = parse_linear(vars, line[index] == ">", linear)
+        lhs = parse_linear_v2(vars, line[index] == ">", linear)
         rhs = float(line[index+2:])
         if line[index] == ">":
             rhs *= -1
@@ -181,7 +226,6 @@ def solve_file(file):
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
                       eq_rhs, vars, unbounded, invert)
-    output_all_vertexes()
     return linsol
 
 
