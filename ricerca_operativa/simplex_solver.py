@@ -18,11 +18,11 @@ def output_solution(linsol, obj, vars):
         print()
 
 
-def fmt_coeff(num, var, first_elem):
+def fmt_coeff(num, var, pos_sign):
     if num == 0:
         return ""
     value = int(num) if num == int(num) else num
-    if not first_elem:
+    if pos_sign:
         value = str(value) if value <= 0 else "+" + str(value)
     else:
         value = str(value)
@@ -32,11 +32,19 @@ def fmt_coeff(num, var, first_elem):
 def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
     print('min', end=" ")
     for i, var in enumerate(vars):
-        print(fmt_coeff(obj[i], var, i == 0), end="")
+        print(fmt_coeff(obj[i], var, i != 0), end="")
     print()
-    for i, dis in enumerate(dis_lhs):
-        pass
-    print("")
+    if dis_lhs:
+        for i, dis in enumerate(dis_lhs):
+            for j, var in enumerate(vars):
+                print(fmt_coeff(dis[j], var, j != 0), end='')
+            print("<= " + fmt_coeff(dis_rhs[i], "", False))
+    if eq_lhs:
+        for i, eq in enumerate(eq_lhs):
+            for j, var in enumerate(vars):
+                print(fmt_coeff(eq[j], var, j != 0), end='')
+            print("== " + fmt_coeff(eq_rhs[i], "", False))
+    print()
 
 
 # NOTE: in this implementation, vars MUST be string of length one
