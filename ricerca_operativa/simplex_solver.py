@@ -19,9 +19,9 @@ def output_solution(linsol, obj, vars):
 
 
 def fmt_coeff(num, var, pos_sign):
-    if num == 0:
+    if abs(num) <= np.spacing(1):
         return ""
-    value = int(num) if num == int(num) else num
+    value = int(num) if abs(num - int(num)) <= np.spacing(1) else num
     if pos_sign:
         value = str(value) if value <= 0 else "+" + str(value)
     else:
@@ -122,8 +122,17 @@ def output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
                 b = [rhs[x], rhs[y]]
                 sol = np.linalg.solve(A, b)
                 opt = np.sum(np.array(obj) * sol)
-                print(sol, ' --> ', opt)
-                # checks
+                correct = True
+                if dis_rhs:
+                    for index, dis in enumerate(dis_lhs):
+                        if np.sum(np.array(dis) * sol) > dis_rhs[index]:
+                            correct = False
+                if eq_rhs:
+                    for index, eq in enumerate(eq_lhs):
+                        if abs(np.sum(np.array(eq) * sol) - eq_rhs[index]) > np.spacing(1):
+                            correct = False
+                if correct:
+                    print(str(sol).ljust(23, ' '), ' --> ', opt)
 
 
 # NOTE: in this implementation, vars MUST be string of length one
