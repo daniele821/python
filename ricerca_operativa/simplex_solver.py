@@ -40,13 +40,19 @@ def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert):
     print()
     if dis_lhs:
         for i, dis in enumerate(dis_lhs):
+            nonzero = 0
             for j, var in enumerate(vars):
-                print(fmt_coeff(dis[j], var, j != 0), end='')
+                print(fmt_coeff(dis[j], var, nonzero != 0), end='')
+                if dis[j] != 0:
+                    nonzero += 1
             print("<= " + fmt_coeff(dis_rhs[i], "", False))
     if eq_lhs:
         for i, eq in enumerate(eq_lhs):
+            nonzero = 0
             for j, var in enumerate(vars):
-                print(fmt_coeff(eq[j], var, j != 0), end='')
+                print(fmt_coeff(eq[j], var, nonzero != 0), end='')
+                if eq[j] != 0:
+                    nonzero += 1
             print("== " + fmt_coeff(eq_rhs[i], "", False))
     print()
 
@@ -99,6 +105,10 @@ def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, in
                 fp.write(";\n")
             fp.write("\n")
         fp.write("end;\n")
+
+
+def output_all_vertexes():
+    pass
 
 
 # NOTE: in this implementation, vars MUST be string of length one
@@ -171,6 +181,7 @@ def solve_file(file):
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
                       eq_rhs, vars, unbounded, invert)
+    output_all_vertexes()
     return linsol
 
 
