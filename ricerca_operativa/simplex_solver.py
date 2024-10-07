@@ -148,7 +148,24 @@ def parse_linear(vars, invert, linear):
 
 # NOTE: in this implementation, vars can be of any lenght
 def parse_linear_v2(vars, invert, linear):
-    pass
+    coeff = [0] * len(vars)
+    indexes = []
+    indlen = {0: 0}
+    for var in vars:
+        index = linear.find(var)
+        if index != -1:
+            indexes.append(index)
+            indlen[index] = len(var)
+    indexes.sort()
+    for step, curr in enumerate(indexes):
+        prev = 0 if step == 0 else indexes[step-1]
+        var = linear[curr:curr+indlen[curr]]
+        var_index = vars.index(var)
+        value = linear[prev+(indlen[prev]):curr]
+        if value.strip() in ("", "+", "-"):
+            value += "1"
+        coeff[var_index] += -float(value) if invert else float(value)
+    return coeff
 
 
 def solve_file(file):
@@ -171,7 +188,7 @@ def solve_file(file):
         bounds = (None, None)
 
     # parsing and checking object function
-    obj = parse_linear(vars, invert, "".join(obj[1:]))
+    obj = parse_linear_v2(vars, invert, "".join(obj[1:]))
 
     # parsing and checking matrix
     for line in matrix:
@@ -179,7 +196,7 @@ def solve_file(file):
         if line[index-1] in "<>":
             index -= 1
         linear = "".join(line[:index].split())
-        lhs = parse_linear(vars, line[index] == ">", linear)
+        lhs = parse_linear_v2(vars, line[index] == ">", linear)
         rhs = float(line[index+2:])
         if line[index] == ">":
             rhs *= -1
