@@ -29,8 +29,12 @@ def fmt_coeff(num, var, pos_sign):
     return str(value) + var + " "
 
 
-def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
-    print('min', end=" ")
+def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert):
+    if invert:
+        print('max', end=" ")
+        obj = [-i for i in obj]
+    else:
+        print('min', end=" ")
     for i, var in enumerate(vars):
         print(fmt_coeff(obj[i], var, i != 0), end="")
     print()
@@ -163,7 +167,7 @@ def solve_file(file):
         eq_rhs = None
 
     linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, bounds)
-    output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars)
+    output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert)
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
                       eq_rhs, vars, unbounded, invert)
