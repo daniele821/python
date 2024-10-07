@@ -55,7 +55,7 @@ def parse_linear(vars, invert, linear):
         value = linear[prev:curr]
         if value.strip() in ("", "+", "-"):
             value += "1"
-        coeff[var_index] = -float(value) if invert else float(value)
+        coeff[var_index] += -float(value) if invert else float(value)
     return coeff
 
 
