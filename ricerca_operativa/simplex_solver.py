@@ -47,6 +47,52 @@ def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
     print()
 
 
+def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded):
+    with open(os.path.dirname(__file__) + '/solver.txt', "w") as fp:
+        for var in vars:
+            fp.write("var " + var)
+            if not unbounded:
+                fp.write(" >= 0")
+            fp.write(";\n")
+        fp.write("\n")
+        fp.write("minimize optimal :")
+        for i, var in enumerate(vars):
+            if obj[i] != 0:
+                val = str(obj[i]) if obj[i] < 0 else "+" + str(obj[i])
+                fp.write(" " + val + "*" + var)
+        fp.write(";\n\n")
+        cond = 1
+        if dis_lhs:
+            for i, dis in enumerate(dis_lhs):
+                fp.write("subject to c" + str(cond) + ":")
+                cond += 1
+                for j, var in enumerate(vars):
+                    if dis[j] != 0:
+                        val = str(dis[j]) if dis[j] < 0 else "+" + str(dis[j])
+                        fp.write(" " + val + "*" + var)
+                fp.write(" <= ")
+                val = str(
+                    dis_rhs[i]) if dis_rhs[i] < 0 else "+" + str(dis_rhs[i])
+                fp.write(val)
+                fp.write(";\n")
+            fp.write("\n")
+        if eq_lhs:
+            for i, eq in enumerate(eq_lhs):
+                fp.write("subject to c" + str(cond) + ":")
+                cond += 1
+                for j, var in enumerate(vars):
+                    if eq[j] != 0:
+                        val = str(eq[j]) if eq[j] < 0 else "+" + str(eq[j])
+                        fp.write(" " + val + "*" + var)
+                fp.write(" <= ")
+                val = str(
+                    eq_rhs[i]) if eq_rhs[i] < 0 else "+" + str(eq_rhs[i])
+                fp.write(val)
+                fp.write(";\n")
+            fp.write("\n")
+        fp.write("end;\n")
+
+
 # NOTE: in this implementation, vars MUST be string of length one
 def parse_linear(vars, invert, linear):
     coeff = [0] * len(vars)
@@ -73,6 +119,7 @@ def solve_file(file):
     lines = [e for e in lines if e.strip() and not e.startswith("//")]
     vars = lines[0].split()[1:]
     obj = lines[1].split()
+    unbounded = "unbound" in lines[0].split()[0]
     invert = obj[0] == "max"
     matrix = lines[2:]
     dis_lhs = []
@@ -81,8 +128,8 @@ def solve_file(file):
     eq_rhs = []
 
     # parsing bounds
-    bounds = (0, None)  # no bounds by default
-    if "unbound" in lines[0].split()[0]:
+    bounds = (0, None)
+    if unbounded:
         bounds = (None, None)
 
     # parsing and checking object function
@@ -114,6 +161,7 @@ def solve_file(file):
     linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, bounds)
     output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars)
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
+    convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded)
     return linsol
 
 

@@ -1,0 +1,12 @@
+var x >= 0;
+var y >= 0;
+
+minimize optimal : +2.0*x +3.0*y;
+
+subject to c1: -1.0*x -4.0*y <= -4.0;
+subject to c2: -4.0*x -5.0*y <= -10.0;
+subject to c3: -4.0*x -3.0*y <= -8.0;
+subject to c4: -3.0*x <= -2.0;
+subject to c5: -6.0*y <= -2.0;
+
+end;
