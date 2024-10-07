@@ -18,6 +18,27 @@ def output_solution(linsol, obj, vars):
         print()
 
 
+def fmt_coeff(num, var, first_elem):
+    if num == 0:
+        return ""
+    value = int(num) if num == int(num) else num
+    if not first_elem:
+        value = str(value) if value <= 0 else "+" + str(value)
+    else:
+        value = str(value)
+    return str(value) + var + " "
+
+
+def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
+    print('min', end=" ")
+    for i, var in enumerate(vars):
+        print(fmt_coeff(obj[i], var, i == 0), end="")
+    print()
+    for i, dis in enumerate(dis_lhs):
+        pass
+    print("")
+
+
 # NOTE: in this implementation, vars MUST be string of length one
 def parse_linear(vars, invert, linear):
     coeff = [0] * len(vars)
@@ -83,6 +104,7 @@ def solve_file(file):
         eq_rhs = None
 
     linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, bounds)
+    output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars)
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     return linsol
 
