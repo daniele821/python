@@ -10,7 +10,7 @@
 
 vars a b c d e f
 
-max 11a 8b 2c 7d 5e 4f
+min 11a 8b 2c 7d 5e 4f
 
 a b c <= 800
 d e f <= 300

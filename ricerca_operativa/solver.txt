@@ -5,7 +5,7 @@ var d >= 0;
 var e >= 0;
 var f >= 0;
 
-maximize optimal : +11.0*a +8.0*b +2.0*c +7.0*d +5.0*e +4.0*f;
+minimize optimal : +11.0*a +8.0*b +2.0*c +7.0*d +5.0*e +4.0*f;
 
 subject to c1: +1.0*a +1.0*b +1.0*c <= +800.0;
 subject to c2: +1.0*d +1.0*e +1.0*f <= +300.0;
