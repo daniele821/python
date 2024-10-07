@@ -107,8 +107,21 @@ def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, in
         fp.write("end;\n")
 
 
-def output_all_vertexes():
-    pass
+def output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
+    dis_lhs = dis_lhs or [[]]
+    dis_rhs = dis_rhs or []
+    eq_lhs = eq_lhs or [[]]
+    eq_rhs = eq_rhs or []
+    lhs = dis_lhs + eq_lhs
+    rhs = dis_rhs + eq_rhs
+    dimension = len(dis_rhs) + len(eq_rhs)
+    if len(obj) == 2:
+        for x in range(dimension):
+            for y in range(x+1, dimension):
+                A = [lhs[x], lhs[y]]
+                b = [rhs[x], rhs[y]]
+                print(np.linalg.solve(A, b))
+                # checks
 
 
 # NOTE: in this implementation, vars MUST be string of length one
@@ -181,7 +194,7 @@ def solve_file(file):
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
                       eq_rhs, vars, unbounded, invert)
-    output_all_vertexes()
+    output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars)
     return linsol
 
 

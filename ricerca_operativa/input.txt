@@ -8,12 +8,13 @@
 // <expressions> <= | >= | == <value>
 // ...
 
-vars a b c d e f
+vars x y
 
-max 11a 8b 2c 7d 5e 4f
+min 2x 3y
 
-a b c <= 800
-d e f <= 300
-a d >= 400 
-b e >= 500
-c f >= 200
+1x 4y >= 4
+4x 5y >= 10
+4x 3y >= 8
+3x >= 2
+6y >= 2
+
