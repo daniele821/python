@@ -47,7 +47,7 @@ def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
     print()
 
 
-def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded):
+def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, invert):
     with open(os.path.dirname(__file__) + '/solver.txt', "w") as fp:
         for var in vars:
             fp.write("var " + var)
@@ -55,7 +55,11 @@ def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded):
                 fp.write(" >= 0")
             fp.write(";\n")
         fp.write("\n")
-        fp.write("minimize optimal :")
+        if invert:
+            fp.write("maximize optimal :")
+            obj = [-i for i in obj]
+        else:
+            fp.write("minimize optimal :")
         for i, var in enumerate(vars):
             if obj[i] != 0:
                 val = str(obj[i]) if obj[i] < 0 else "+" + str(obj[i])
@@ -161,7 +165,8 @@ def solve_file(file):
     linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, bounds)
     output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars)
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
-    convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded)
+    convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
+                      eq_rhs, vars, unbounded, invert)
     return linsol
 
 
