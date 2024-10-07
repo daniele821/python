@@ -120,7 +120,9 @@ def output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
             for y in range(x+1, dimension):
                 A = [lhs[x], lhs[y]]
                 b = [rhs[x], rhs[y]]
-                print(np.linalg.solve(A, b))
+                sol = np.linalg.solve(A, b)
+                opt = np.sum(np.array(obj) * sol)
+                print(sol, ' --> ', opt)
                 # checks
 
 
