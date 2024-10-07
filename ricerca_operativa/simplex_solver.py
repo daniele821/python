@@ -146,6 +146,11 @@ def parse_linear(vars, invert, linear):
     return coeff
 
 
+# NOTE: in this implementation, vars can be of any lenght
+def parse_linear_v2(vars, invert, linear):
+    pass
+
+
 def solve_file(file):
     with open(file, "r") as fp:
         lines = fp.read().splitlines()
