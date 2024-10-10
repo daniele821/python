@@ -59,3 +59,12 @@ def str_to_ip(ipstr):
             raise ValueError('invalid ip address string')
         ip.append(ip_val)
     return ip
+
+
+def host_ip(ip, netmask):
+    return [
+        ip[0] & netmask[0],
+        ip[1] & netmask[1],
+        ip[2] & netmask[2],
+        ip[3] & netmask[3]
+    ]
