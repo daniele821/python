@@ -15,11 +15,17 @@ if __name__ == "__main__":
 
     ip = lib.str_to_ip(ipstr)
     netmask = lib.netmask_to_ip(int(netmaskstr))
-    host_id = lib.host_ip(ip, netmask)
+    host_ip = lib.bit_operation(ip, netmask, lambda x, y: x & y)
+    broadcast = lib.bit_operation(ip, netmask, lambda x, y: x | (~y & 0xff))
 
     print("ip address | " + lib.ip_to_str(ip) +
           " | " + lib.binary_ip_to_str(ip))
     print("netmask    | " + lib.ip_to_str(netmask) +
           " | " + lib.binary_ip_to_str(netmask))
-    print("host id    | " + lib.ip_to_str(host_id) +
-          " | " + lib.binary_ip_to_str(host_id))
+    print("network id | " + lib.ip_to_str(host_ip) +
+          " | " + lib.binary_ip_to_str(host_ip))
+    print()
+    print("network id | " + lib.ip_to_str(host_ip) +
+          " | " + lib.binary_ip_to_str(host_ip))
+    print("broadcast  | " + lib.ip_to_str(broadcast) +
+          " | " + lib.binary_ip_to_str(broadcast))

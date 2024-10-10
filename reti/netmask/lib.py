@@ -61,10 +61,8 @@ def str_to_ip(ipstr):
     return ip
 
 
-def host_ip(ip, netmask):
-    return [
-        ip[0] & netmask[0],
-        ip[1] & netmask[1],
-        ip[2] & netmask[2],
-        ip[3] & netmask[3]
-    ]
+def bit_operation(ip1, ip2, operation):
+    res = []
+    for i in range(4):
+        res.append(operation(ip1[i], ip2[i]))
+    return res
