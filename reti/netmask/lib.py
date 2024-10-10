@@ -1,5 +1,6 @@
 #!/bin/python3
 
+
 def netmask_to_ip(netmask_abbr):
     if netmask_abbr < 0 or netmask_abbr > 32:
         raise ValueError('invalid netmask')
@@ -23,9 +24,9 @@ def netmask_to_ip(netmask_abbr):
     return netmask
 
 
-def netmask_to_str(netmask):
+def ip_to_str(ip):
     netmask_str = ""
     for i in range(3):
-        netmask_str += str(netmask[i])
+        netmask_str += str(ip[i])
         netmask_str += "."
-    return netmask_str + str(netmask[3])
+    return netmask_str + str(ip[3])
