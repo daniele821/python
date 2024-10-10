@@ -10,4 +10,4 @@ if __name__ == "__main__":
 
         print(str(netmask_abbr).ljust(5, " "), end="")
 
-        print(lib.netmask_to_str(netmask))
+        print(lib.ip_to_str(netmask))
