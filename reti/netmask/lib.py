@@ -3,7 +3,7 @@
 
 def netmask_to_ip(netmask_abbr):
     if netmask_abbr < 0 or netmask_abbr > 32:
-        raise ValueError('invalid netmask')
+        raise ValueError('invalid abbreviated netmask')
     netmask = [0, 0, 0, 0]
 
     full_bytes = netmask_abbr // 8
@@ -46,3 +46,16 @@ def binary_ip_to_str(ip):
         netmask_str += "."
     netmask_str += int_to_binary(ip[3])
     return netmask_str
+
+
+def str_to_ip(ipstr):
+    ip_vals = ipstr.split('.')
+    if len(ip_vals) != 4:
+        raise ValueError('invalid ip address string')
+    ip = []
+    for ip_val in ip_vals:
+        ip_val = int(ip_val)
+        if ip_val < 0 or ip_val > 255:
+            raise ValueError('invalid ip address string')
+        ip.append(ip_val)
+    return ip
