@@ -29,4 +29,20 @@ def ip_to_str(ip):
     for i in range(3):
         netmask_str += str(ip[i])
         netmask_str += "."
-    return netmask_str + str(ip[3])
+    netmask_str += str(ip[3])
+    return netmask_str.ljust(15, ' ')
+
+
+def binary_ip_to_str(ip):
+    def int_to_binary(value):
+        acc = ''
+        for i in reversed(range(8)):
+            mask = 1 << i
+            acc += str((value & mask) // mask)
+        return acc
+    netmask_str = ""
+    for i in range(3):
+        netmask_str += int_to_binary(ip[i])
+        netmask_str += "."
+    netmask_str += int_to_binary(ip[3])
+    return netmask_str
