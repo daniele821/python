@@ -39,7 +39,15 @@ def fmt_coeff(num, var, pos_sign):
     return str(value) + var + " "
 
 
-def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert):
+def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert, unbounded, integer):
+    prop = ""
+    if not unbounded:
+        prop += '- vars MUST be positive\n'
+    if integer:
+        prop += '- vars MUST be integers\n'
+    if prop:
+        print('propreties:')
+        print(prop)
     if invert:
         print('max', end=" ")
         obj = [-i for i in obj]
@@ -232,7 +240,8 @@ def solve_file(file):
 
     linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs,
                      eq_rhs, bounds, integrality=integer)
-    output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert)
+    output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs,
+                  vars, invert, unbounded, integer)
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
                       eq_rhs, vars, unbounded, invert, integer)
