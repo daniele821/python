@@ -97,7 +97,6 @@ def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, in
                     dis_rhs[i]) if dis_rhs[i] < 0 else "+" + str(dis_rhs[i])
                 fp.write(val)
                 fp.write(";\n")
-            fp.write("\n")
         if eq_lhs:
             for i, eq in enumerate(eq_lhs):
                 fp.write("subject to c" + str(cond) + ":")
@@ -106,13 +105,12 @@ def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, in
                     if eq[j] != 0:
                         val = str(eq[j]) if eq[j] < 0 else "+" + str(eq[j])
                         fp.write(" " + val + "*" + var)
-                fp.write(" <= ")
+                fp.write(" == ")
                 val = str(
                     eq_rhs[i]) if eq_rhs[i] < 0 else "+" + str(eq_rhs[i])
                 fp.write(val)
                 fp.write(";\n")
-            fp.write("\n")
-        fp.write("end;\n")
+        fp.write("\nend;\n")
 
 
 def output_all_vertexes(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars):
