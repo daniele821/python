@@ -29,8 +29,8 @@ def parse_file(input):
     properties = set()
     vars = []
     obj = []
-    matrixes_lhs = [[], [], []]
-    matrixes_rhs = [[], [], []]
+    mat_lhs = []
+    mat_rhs = []
 
     status = 0
     for line in lines:
@@ -47,15 +47,21 @@ def parse_file(input):
         if status == 2:
             if not obj:
                 obj = parse_linear(vars, "".join(line.split()[1:]))
+                if line.split()[0] == "max":
+                    obj = [-i for i in obj]
             else:
                 status += 1
         if status == 3:
             sign_index = line.rfind("=")
-            match line[sign_index-1]:
-                case "<": pos = 0
-                case ">": pos = 1
-                case "=": pos = 2
-            matrixes_lhs[pos].append(parse_linear(vars, line[:sign_index-1]))
-            matrixes_rhs[pos].append(float(line[sign_index+1:]))
+            buffer_lhs = parse_linear(vars, line[:sign_index-1])
+            buffer_rhs = float(line[sign_index+1:])
+            negbuf_lhs = [-i for i in buffer_lhs]
+            negbuf_rhs = -buffer_rhs
+            if line[sign_index-1] != ">":
+                mat_lhs.append(buffer_lhs)
+                mat_rhs.append(buffer_rhs)
+            if line[sign_index-1] != "<":
+                mat_lhs.append(negbuf_lhs)
+                mat_rhs.append(negbuf_rhs)
 
-    return (properties, vars, obj, matrixes_lhs, matrixes_rhs)
+    return (properties, vars, obj, mat_lhs, mat_rhs)
