@@ -3,7 +3,7 @@
 // NOTE: lines starting with '//', or empty lines are ignored!
 // 
 // format :
-// vars[-unbound] <variables>         
+// vars[unbound][int] <variables>         
 // 
 // min | max <cost function>
 //

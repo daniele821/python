@@ -1,5 +1,6 @@
 #!/bin/env python3
 
+import sys
 import os
 from scipy.optimize import linprog
 import numpy as np
@@ -58,7 +59,10 @@ def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert):
     print()
 
 
-def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, invert):
+def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, invert, integer):
+    if integer == 1:
+        sys.stderr.write(
+            "WARNING: cannot place integer condition to online solver\n")
     with open(os.path.dirname(__file__) + '/solver.txt', "w") as fp:
         for var in vars:
             fp.write("var " + var)
@@ -183,6 +187,7 @@ def solve_file(file):
     vars = lines[0].split()[1:]
     obj = lines[1].split()
     unbounded = "unbound" in lines[0].split()[0]
+    integer = "int" in lines[0].split()[0]
     invert = obj[0] == "max"
     matrix = lines[2:]
     dis_lhs = []
@@ -190,10 +195,9 @@ def solve_file(file):
     eq_lhs = []
     eq_rhs = []
 
-    # parsing bounds
-    bounds = (0, None)
-    if unbounded:
-        bounds = (None, None)
+    # parsing stuff
+    bounds = (0, None) if not unbounded else (None, None)
+    integer = 1 if integer else 0
 
     # parsing and checking object function
     obj = parse_linear_v2(vars, invert, "".join(obj[1:]))
@@ -221,11 +225,12 @@ def solve_file(file):
         eq_lhs = None
         eq_rhs = None
 
-    linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, bounds)
+    linsol = linprog(obj, dis_lhs, dis_rhs, eq_lhs,
+                     eq_rhs, bounds, integrality=integer)
     output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert)
     output_solution(linsol, [-i for i in obj] if invert else obj, vars)
     convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs,
-                      eq_rhs, vars, unbounded, invert)
+                      eq_rhs, vars, unbounded, invert, integer)
     return linsol
 
 

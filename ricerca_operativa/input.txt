@@ -1,4 +1,4 @@
-vars c d
+vars-int c d
 
 max c 2d
 
