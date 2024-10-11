@@ -8,7 +8,7 @@ integer
 
 // write the name of the variables
 // syntax: var <var_name1> <var_name2> ...
-var a b c
+vars a b c
 
 // write the cost function
 // syntax: min | max <cost_function>
@@ -16,8 +16,9 @@ min 23a 34b -12c
 
 // write the constraints
 // syntax <function> <= | >= | == <function_coefficient>
-a <= 12
--b 2c >= 0
--2a 7.5b == 12
+a <= 1
+a <= 1
+-b 2c >= 3
+-2a 7.5b == 6
 
 
