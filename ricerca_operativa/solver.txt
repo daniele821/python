@@ -1,16 +1,9 @@
-var a >= 0;
-var b >= 0;
 var c >= 0;
 var d >= 0;
-var e >= 0;
-var f >= 0;
 
-minimize optimal : +11.0*a +8.0*b +2.0*c +7.0*d +5.0*e +4.0*f;
+maximize optimal : +1.0*c +2.0*d;
 
-subject to c1: +1.0*a +1.0*b +1.0*c <= +800.0;
-subject to c2: +1.0*d +1.0*e +1.0*f <= +300.0;
-subject to c3: -1.0*a -1.0*d <= -400.0;
-subject to c4: -1.0*b -1.0*e <= -500.0;
-subject to c5: -1.0*c -1.0*f <= -200.0;
+subject to c1: +8.0*c +14.0*d <= +56.0;
+subject to c2: -2.0*c +1.0*d <= -2.0;
 
 end;

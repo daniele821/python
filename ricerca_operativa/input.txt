@@ -1,19 +1,6 @@
-// NOTE: lines starting with '//', or empty lines are ignored!
-// 
-// format :
-// vars[-unbound] <variables>         
-// 
-// min | max <cost function>
-//
-// <expressions> <= | >= | == <value>
-// ...
+vars c d
 
-vars a b c d e f
+max c 2d
 
-min 11a 8b 2c 7d 5e 4f
-
-a b c <= 800
-d e f <= 300
-a d >= 400 
-b e >= 500
-c f >= 200
+8c 14d <= 56
+-2c d <= -2

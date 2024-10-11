@@ -1,0 +1,11 @@
+// how to write input.txt
+//
+// NOTE: lines starting with '//', or empty lines are ignored!
+// 
+// format :
+// vars[-unbound] <variables>         
+// 
+// min | max <cost function>
+//
+// <expressions> <= | >= | == <value>
+// ...
