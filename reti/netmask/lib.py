@@ -1,5 +1,7 @@
 #!/bin/python3
 
+import subprocess
+
 
 def netmask_to_ip(netmask_abbr):
     if netmask_abbr < 0 or netmask_abbr > 32:
@@ -70,3 +72,10 @@ def bit_operation(ip1, ip2, operation):
 
 def neg(ip):
     return bit_operation(ip, ip, lambda x, _: ~x & 0xff)
+
+
+def current_ip():
+    ifname = subprocess.getoutput(
+        "route | grep '^default' | grep -o '[^ ]*$'")
+    return subprocess.getoutput(
+        "nmcli dev show " + ifname + " | grep -i 'ip4.address'").split()[1]

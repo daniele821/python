@@ -1,8 +1,8 @@
 #!/bin/python3
 
 import sys
-from lib import bit_operation, neg, ip_to_str, str_to_ip, binary_ip_to_str, netmask_to_ip
-import subprocess
+from lib import bit_operation, neg, ip_to_str, str_to_ip, binary_ip_to_str
+from lib import netmask_to_ip, current_ip
 
 # input: ip [/netmask]
 # output: ip, netmask, net id, host id range
@@ -10,12 +10,12 @@ import subprocess
 if __name__ == "__main__":
     input = ''.join(''.join(sys.argv[1:]).split())
     if not input:
-        ifname = subprocess.getoutput(
-            "route | grep '^default' | grep -o '[^ ]*$'")
-        input = subprocess.getoutput(
-            "nmcli dev show " + ifname + " | grep -i 'ip4.address'").split()[1]
+        input = current_ip()
     sep_index = input.find('/')
     ipstr = input[:sep_index] if sep_index != -1 else input
+    if not ipstr.strip():
+        ipstr = current_ip()
+        ipstr = ipstr[:ipstr.find('/')]
     netmaskstr = input[sep_index+1:] if sep_index != -1 else ''
     netmaskstr = netmaskstr if netmaskstr else '32'
 
