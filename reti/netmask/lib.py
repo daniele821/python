@@ -66,3 +66,7 @@ def bit_operation(ip1, ip2, operation):
     for i in range(4):
         res.append(operation(ip1[i], ip2[i]))
     return res
+
+
+def neg(ip):
+    return bit_operation(ip, ip, lambda x, _: ~x & 0xff)
