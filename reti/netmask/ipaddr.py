@@ -24,6 +24,11 @@ if __name__ == "__main__":
     broadcast = bit_operation(ip, neg(netmask), lambda x, y: x | y)
     last_ip = bit_operation(broadcast, neg([0, 0, 0, 1]), lambda x, y: x & y)
 
+    match int(netmaskstr):
+        case 31 | 32:
+            first_ip = ip
+            last_ip = ip
+
     ipfmt = ip_to_str(ip)
     netmaskfmt = ip_to_str(netmask)
     hostipfmt = ip_to_str(host_ip)
@@ -37,6 +42,20 @@ if __name__ == "__main__":
     lastipfmtb = binary_ip_to_str(last_ip)
     broadcastfmtb = binary_ip_to_str(broadcast)
 
+    match int(netmaskstr):
+        case 31:
+            firstipfmt = "               "
+            firstipfmtb = "                                   "
+            lastipfmt = "               "
+            lastipfmtb = "                                   "
+        case 32:
+            firstipfmt = "               "
+            firstipfmtb = "                                   "
+            lastipfmt = "               "
+            lastipfmtb = "                                   "
+            broadcastfmt = "               "
+            broadcastfmtb = "                                   "
+
     print("IP and netmask passed are: " + ipfmt.strip() + "/" + netmaskstr)
     print()
     print("------------------------------------------------------------------")
@@ -44,8 +63,8 @@ if __name__ == "__main__":
     print("netmask    | " + netmaskfmt + " | " + netmaskfmtb)
     print("-----------+-----------------+------------------------------------")
     print("network id | " + hostipfmt + " | " + hostipfmtb)
-    print("broadcast  | " + broadcastfmt + " | " + broadcastfmtb)
     print("-----------+-----------------+------------------------------------")
     print("first id   | " + firstipfmt + " | " + firstipfmtb)
     print("last id    | " + lastipfmt + " | " + lastipfmtb)
+    print("broadcast  | " + broadcastfmt + " | " + broadcastfmtb)
     print("------------------------------------------------------------------")
