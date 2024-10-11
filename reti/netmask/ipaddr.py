@@ -17,6 +17,9 @@ if __name__ == "__main__":
     netmaskstr = input[sep_index+1:] if sep_index != -1 else ''
     netmaskstr = netmaskstr if netmaskstr else '32'
 
+    valid_addresses = 2**(32-int(netmaskstr)) - 2
+    valid_addresses = valid_addresses if int(netmaskstr) != 32 else 0
+
     ip = str_to_ip(ipstr)
     netmask = netmask_to_ip(int(netmaskstr))
     host_ip = bit_operation(ip, netmask, lambda x, y: x & y)
@@ -56,7 +59,8 @@ if __name__ == "__main__":
             broadcastfmt = "               "
             broadcastfmtb = "                                   "
 
-    print("IP and netmask passed are: " + ipfmt.strip() + "/" + netmaskstr)
+    print("IP and netmask passed are: " + ipfmt.strip(), end="")
+    print("/" + netmaskstr + "   valid addresses = " + str(valid_addresses))
     print()
     print("------------------------------------------------------------------")
     print("ip address | " + ipfmt + " | " + ipfmtb)
