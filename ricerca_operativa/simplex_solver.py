@@ -7,6 +7,10 @@ import numpy as np
 import itertools
 
 
+def warn(msg):
+    sys.stderr.write("\x1b[33;1mWARNING: " + msg + "\x1b[0m\n")
+
+
 def output_solution(linsol, obj, vars):
     if not linsol.success:
         print('ERROR: no solution was found')
@@ -61,8 +65,7 @@ def output_matrix(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, invert):
 
 def convert_to_solver(obj, dis_lhs, dis_rhs, eq_lhs, eq_rhs, vars, unbounded, invert, integer):
     if integer == 1:
-        sys.stderr.write(
-            "WARNING: cannot place integer condition to online solver\n")
+        warn("cannot place integer condition to online solver\n")
     with open(os.path.dirname(__file__) + '/solver.txt', "w") as fp:
         for var in vars:
             fp.write("var " + var)
