@@ -1,6 +1,7 @@
 #!/bin/env python3
 
 from scipy.optimize import linprog
+import numpy as np
 
 
 def parse_linear(vars, linear):
@@ -51,6 +52,7 @@ def parse_problem(input):
                 obj = parse_linear(vars, "".join(line.split()[1:]))
                 if line.split()[0] == "max":
                     obj = [-i for i in obj]
+                prop.add(line.split()[0])
             else:
                 status += 1
         if status == 3:
@@ -78,7 +80,17 @@ def solve(obj, mat_lhs, mat_rhs, prop):
 def solve_file(file):
     with open(file, "r") as fp:
         obj, mat_lhs, mat_rhs, prop = parse_problem(fp.read())
-        return solve(obj, mat_lhs, mat_rhs, prop)
+        res = solve(obj, mat_lhs, mat_rhs, prop)
+        if not res.success:
+            print('no solution was found: ' + res.message)
+        else:
+            x = [int(i) if i == int(i) else float(i) for i in res.x]
+            opt = np.sum(np.array(obj) * np.array(res.x))
+            opt = -opt if "max" in prop else opt
+            print("messagge: " + res.message)
+            print("result: " + str(x))
+            print("optimal: " + str(opt))
+        return res
 
 
-print(solve_file('input.txt'))
+solve_file('input.txt')
