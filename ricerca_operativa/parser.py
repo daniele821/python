@@ -58,4 +58,4 @@ def parse_file(input):
             matrixes_lhs[pos].append(parse_linear(vars, line[:sign_index-1]))
             matrixes_rhs[pos].append(float(line[sign_index+1:]))
 
-    return properties, vars, obj, matrixes_lhs, matrixes_rhs
+    return (properties, vars, obj, matrixes_lhs, matrixes_rhs)
