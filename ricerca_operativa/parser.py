@@ -77,19 +77,23 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     return linprog(obj, mat_lhs, mat_rhs, bounds=bound, integrality=integer)
 
 
+def output_solution(sol, prop, obj):
+    if not sol.success:
+        print('no solution was found: ' + sol.message)
+    else:
+        x = [int(i) if i == int(i) else float(i) for i in sol.x]
+        opt = np.sum(np.array(obj) * np.array(sol.x))
+        opt = -opt if "max" in prop else opt
+        print("messagge: " + sol.message)
+        print("result: " + str(x))
+        print("optimal: " + str(opt))
+
+
 def solve_file(file):
     with open(file, "r") as fp:
         obj, mat_lhs, mat_rhs, prop = parse_problem(fp.read())
         res = solve(obj, mat_lhs, mat_rhs, prop)
-        if not res.success:
-            print('no solution was found: ' + res.message)
-        else:
-            x = [int(i) if i == int(i) else float(i) for i in res.x]
-            opt = np.sum(np.array(obj) * np.array(res.x))
-            opt = -opt if "max" in prop else opt
-            print("messagge: " + res.message)
-            print("result: " + str(x))
-            print("optimal: " + str(opt))
+        output_solution(res, prop, obj)
         return res
 
 
