@@ -11,10 +11,14 @@ def warn(msg):
     sys.stderr.write("\x1b[33;1mWARNING: " + msg + "\x1b[0m\n")
 
 
+def err(msg):
+    sys.stderr.write("\x1b[31;1mERROR: " + msg + "\x1b[0m\n")
+
+
 def output_solution(linsol, obj, vars):
     if not linsol.success:
-        print('ERROR: no solution was found')
-        print(linsol.message)
+        err('no solution was found: ' + linsol.message)
+        exit(1)
     else:
         print("message: " + linsol.message)
         print("result: " + str(linsol.x))
