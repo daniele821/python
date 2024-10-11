@@ -1,5 +1,7 @@
 #!/bin/env python3
 
+from scipy.optimize import linprog
+
 
 def parse_linear(vars, linear):
     coeff = [0] * len(vars)
@@ -22,7 +24,7 @@ def parse_linear(vars, linear):
     return coeff
 
 
-def solve(input):
+def parse_problem(input):
     lines = input.splitlines()
     lines = [e.strip() for e in lines if e.strip() and not e.startswith("//")]
 
@@ -64,4 +66,19 @@ def solve(input):
                 mat_lhs.append(negbuf_lhs)
                 mat_rhs.append(negbuf_rhs)
 
-    return (obj, mat_lhs, mat_rhs, prop)
+    return obj, mat_lhs, mat_rhs, prop
+
+
+def solve(obj, mat_lhs, mat_rhs, prop):
+    bound = (None, None) if "unbounded" in prop else (0, None)
+    integer = 1 if "integer" in prop else 0
+    return linprog(obj, mat_lhs, mat_rhs, bounds=bound, integrality=integer)
+
+
+def solve_file(file):
+    with open(file, "r") as fp:
+        obj, mat_lhs, mat_rhs, prop = parse_problem(fp.read())
+        return solve(obj, mat_lhs, mat_rhs, prop)
+
+
+print(solve_file('input.txt'))
