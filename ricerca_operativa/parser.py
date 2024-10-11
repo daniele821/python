@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/bin/env python3
 
 from scipy.optimize import linprog
 
@@ -26,7 +26,9 @@ def parse_linear(vars, linear):
 
 def solve_file(input):
     lines = input.splitlines()
-    lines = [e for e in lines if e.strip() and not e.startswith("/")]
+    lines = [e for e in lines if e.strip() and not e.startswith("//")]
+
+    # TODO
     vars = lines[0].split()[1:]
     obj = lines[1].split()[1:]
     matrix = lines[2:]
