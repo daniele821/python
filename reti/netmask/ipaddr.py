@@ -10,8 +10,10 @@ import subprocess
 if __name__ == "__main__":
     input = ''.join(''.join(sys.argv[1:]).split())
     if not input:
+        ifname = subprocess.getoutput(
+            "route | grep '^default' | grep -o '[^ ]*$'")
         input = subprocess.getoutput(
-            "nmcli dev show wlp1s0 | grep -i 'ip4.address'").split()[1]
+            "nmcli dev show " + ifname + " | grep -i 'ip4.address'").split()[1]
     sep_index = input.find('/')
     ipstr = input[:sep_index] if sep_index != -1 else input
     netmaskstr = input[sep_index+1:] if sep_index != -1 else ''
