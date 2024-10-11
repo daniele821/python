@@ -22,11 +22,11 @@ def parse_linear(vars, linear):
     return coeff
 
 
-def parse_file(input):
+def solve(input):
     lines = input.splitlines()
     lines = [e.strip() for e in lines if e.strip() and not e.startswith("//")]
 
-    properties = set()
+    prop = set()
     vars = []
     obj = []
     mat_lhs = []
@@ -38,7 +38,7 @@ def parse_file(input):
             if line.startswith("vars"):
                 status += 1
             else:
-                properties.add(line)
+                prop.add(line)
         if status == 1:
             if not vars:
                 vars = line.split()[1:]
@@ -64,4 +64,4 @@ def parse_file(input):
                 mat_lhs.append(negbuf_lhs)
                 mat_rhs.append(negbuf_rhs)
 
-    return (properties, vars, obj, mat_lhs, mat_rhs)
+    return (obj, mat_lhs, mat_rhs, prop)
