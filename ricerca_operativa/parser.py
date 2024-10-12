@@ -3,6 +3,7 @@
 from scipy.optimize import linprog
 import numpy as np
 import copy
+import os
 
 
 def parse_linear(vars, linear):
@@ -94,7 +95,8 @@ def solve(obj, mat_lhs, mat_rhs, prop):
 
 
 def branch_bound():
-    with open('branch_bound.txt', 'r') as fp:
+    filepath = os.path.join(os.path.dirname(__file__), 'branch_bound.txt')
+    with open(filepath, 'r') as fp:
         obj, matlhs, matrhs, prop = parse_problem(fp.read())
 
     tree = []
