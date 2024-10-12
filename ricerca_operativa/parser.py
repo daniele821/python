@@ -3,6 +3,7 @@
 from scipy.optimize import linprog
 import numpy as np
 import copy
+import pprint
 
 
 def parse_linear(vars, linear):
@@ -83,10 +84,13 @@ def solve(obj, mat_lhs, mat_rhs, prop):
         opt = float(-opt if "max" in prop else opt)
         solution['x'] = x
         solution['opt'] = copy.deepcopy(opt)
-        solution['lhs'] = copy.deepcopy(mat_lhs)
-        solution['rhs'] = copy.deepcopy(mat_rhs)
-        solution['obj'] = copy.deepcopy(obj)
-        solution['prop'] = copy.deepcopy(prop)
+    else:
+        solution['x'] = None
+        solution['opt'] = None
+    solution['lhs'] = copy.deepcopy(mat_lhs)
+    solution['rhs'] = copy.deepcopy(mat_rhs)
+    solution['obj'] = copy.deepcopy(obj)
+    solution['prop'] = copy.deepcopy(prop)
     return solution
 
 
@@ -98,38 +102,51 @@ def branch_bound():
     nvars = len(obj)
 
     sol = solve(obj, matlhs, matrhs, prop)
-    tree.append([sol, set()])
+    tree.append(sol)
 
     index = 0
     while index < len(tree):
-        node, son = tree[index]
+        node = tree[index]
+        node['integer'] = False
+        node['sons'] = set()
+        node['index'] = index
 
-        if node['success'] and max([abs(i - round(i)) for i in node['x']]) > 0:
-            tree[index][1] = {len(tree), len(tree) + 1}
-
+        if node['success']:
+            int_dist = [abs(i - round(i)) for i in node['x']]
+            max_dist = max(int_dist)
+            max_index = int_dist.index(max(int_dist))
             lhs = node['lhs']
             rhs = node['rhs']
             x = node['x']
-            int_dist = [abs(i - round(i)) for i in node['x']]
-            max_index = int_dist.index(max(int_dist))
-            val = x[max_index]
-            dis1 = [0] * nvars
-            dis1[max_index] = 1
-            val1 = int(x[max_index])
-            dis2 = [0] * nvars
-            dis2[max_index] = -1
-            val2 = -(val1 + 1 if val > 0 else -1)
-            lhs1 = copy.deepcopy(lhs)
-            lhs1.append(dis1)
-            lhs2 = copy.deepcopy(lhs)
-            lhs2.append(dis2)
-            rhs1 = copy.deepcopy(rhs)
-            rhs1.append(val1)
-            rhs2 = copy.deepcopy(rhs)
-            rhs2.append(val2)
-            tree.append([solve(obj, lhs1, rhs1, prop), set()])
-            tree.append([solve(obj, lhs2, rhs2, prop), set()])
+
+            if max_dist > 0:
+                tree[index]['sons'] = {len(tree), len(tree) + 1}
+
+                val = x[max_index]
+                dis1 = [0] * nvars
+                dis1[max_index] = 1
+                val1 = int(x[max_index])
+                dis2 = [0] * nvars
+                dis2[max_index] = -1
+                val2 = -(val1 + 1 if val > 0 else -1)
+                lhs1 = copy.deepcopy(lhs)
+                lhs1.append(dis1)
+                lhs2 = copy.deepcopy(lhs)
+                lhs2.append(dis2)
+                rhs1 = copy.deepcopy(rhs)
+                rhs1.append(val1)
+                rhs2 = copy.deepcopy(rhs)
+                rhs2.append(val2)
+                tree.append(solve(obj, lhs1, rhs1, prop))
+                tree.append(solve(obj, lhs2, rhs2, prop))
+
+            else:
+                node['integer'] = True
 
         index += 1
 
     return tree
+
+
+for i in branch_bound():
+    pprint.pp(i)
