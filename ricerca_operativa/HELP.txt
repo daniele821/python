@@ -1,0 +1,22 @@
+// vim:commentstring=//\ %s
+
+// this is a comment
+
+// write the list of properties 
+// unbound
+integer
+
+// write the name of the variables
+// syntax: var <var_name1> <var_name2> ...
+vars c d
+
+// write the cost function
+// syntax: min | max <cost_function>
+max c 2d
+
+// write the constraints
+// syntax <function> <= | >= | == <function_coefficient>
+8c 14d <= 56
+2c -d >= 2
+
+
