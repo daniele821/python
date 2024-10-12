@@ -197,12 +197,19 @@ def solve_binary_tree(binary_tree, output=True):
         lambda x: x['integer'], binary_tree),
         reverse='max' in binary_tree[0]['prop'],
         key=lambda x: x['opt'])]
-    solution = [i for i in buffer if i['opt'] == buffer[0]['opt']]
-    print("optimal value: " + str(solution[0]['opt']))
-    print("solutions: ", end="")
-    for index, sol in enumerate(solution):
-        print(sol['x'], end=" ")
-    print()
+    if buffer:
+        solution = [i for i in buffer if i['opt'] == buffer[0]['opt']]
+        print("optimal value: " + str(solution[0]['opt']))
+        print("solutions: ", end="")
+        for index, sol in enumerate(solution):
+            print(sol['x'], end=" ")
+        print()
+    else:
+        solution = []
+        if len(binary_tree) > 1:
+            print("no integer solution was found!")
+        else:
+            print("no solution was found!")
     return solution
 
 
