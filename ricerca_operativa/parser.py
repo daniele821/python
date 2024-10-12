@@ -177,13 +177,33 @@ def print_binary_tree(binary_tree, index=0, level=0, open=set(), lopen=set()):
     print(tmp)
     open.add(level)
     level += 1
-    for index, son in enumerate(node['sons']):
-        if index == len(node['sons']) - 2:
+    for i, son in enumerate(node['sons']):
+        if i == len(node['sons']) - 2:
             lopen.add(level-1)
-        if index == len(node['sons']) - 1:
+        if i == len(node['sons']) - 1:
             open.remove(level - 1)
             lopen.remove(level - 1)
         print_binary_tree(binary_tree, son, level)
+    if index == 0:
+        print()
+    return binary_tree
 
 
-print_binary_tree(branch_bound())
+def solve_binary_tree(binary_tree, output=True):
+    buffer = [{
+        'opt': i['opt'],
+        'x': i['x'],
+    } for i in sorted(filter(
+        lambda x: x['integer'], binary_tree),
+        reverse='max' in binary_tree[0]['prop'],
+        key=lambda x: x['opt'])]
+    solution = [i for i in buffer if i['opt'] == buffer[0]['opt']]
+    print("optimal value: " + str(solution[0]['opt']))
+    print("solutions: ", end="")
+    for index, sol in enumerate(solution):
+        print(sol['x'], end=" ")
+    print()
+    return solution
+
+
+solve_binary_tree(print_binary_tree(branch_bound()))
