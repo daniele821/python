@@ -108,7 +108,7 @@ def branch_bound():
     while index < len(tree):
         node = tree[index]
         node['integer'] = False
-        node['sons'] = set()
+        node['sons'] = []
         node['index'] = index
 
         if node['success']:
@@ -120,7 +120,7 @@ def branch_bound():
             x = node['x']
 
             if max_dist > 0:
-                tree[index]['sons'] = {len(tree), len(tree) + 1}
+                tree[index]['sons'] = [len(tree), len(tree) + 1]
 
                 val = x[max_index]
                 dis1 = [0] * nvars
