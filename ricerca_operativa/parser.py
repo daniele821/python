@@ -74,27 +74,19 @@ def parse_problem(input):
 def solve(obj, mat_lhs, mat_rhs, prop):
     bound = (None, None) if "unbounded" in prop else (0, None)
     integer = 1 if "integer" in prop else 0
-    return linprog(obj, mat_lhs, mat_rhs, bounds=bound, integrality=integer)
+    res = linprog(obj, mat_lhs, mat_rhs, bounds=bound, integrality=integer)
+    solution = {'success': res.success, 'message': res.message}
+    if res.success:
+        x = [int(i) if i == int(i) else float(i) for i in res.x]
+        opt = np.sum(np.array(obj) * np.array(res.x))
+        opt = float(-opt if "max" in prop else opt)
+        solution['x'] = x
+        solution['opt'] = opt
+    return solution
 
 
-def output_solution(sol, prop, obj):
-    if not sol.success:
-        print('no solution was found: ' + sol.message)
-    else:
-        x = [int(i) if i == int(i) else float(i) for i in sol.x]
-        opt = np.sum(np.array(obj) * np.array(sol.x))
-        opt = -opt if "max" in prop else opt
-        print("messagge: " + sol.message)
-        print("result: " + str(x))
-        print("optimal: " + str(opt))
-
-
-def solve_file(file):
-    with open(file, "r") as fp:
-        obj, mat_lhs, mat_rhs, prop = parse_problem(fp.read())
-        res = solve(obj, mat_lhs, mat_rhs, prop)
-        output_solution(res, prop, obj)
-        return res
-
-
-solve_file('input.txt')
+with open('input.txt', 'r') as fp:
+    obj, matlhs, matrhs, prop = parse_problem(fp.read())
+    res = solve(obj, matlhs, matrhs, prop)
+    for key, value in res.items():
+        print(str(key).ljust(7, ' ') + '  -->  ' + str(value))
