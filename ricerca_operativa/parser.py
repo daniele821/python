@@ -186,4 +186,4 @@ def print_binary_tree(binary_tree, index=0, level=0, open=set(), lopen=set()):
         print_binary_tree(binary_tree, son, level)
 
 
-print_binary_tree(branch_bound(), 0)
+print_binary_tree(branch_bound())
