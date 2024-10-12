@@ -3,7 +3,6 @@
 from scipy.optimize import linprog
 import numpy as np
 import copy
-import pprint
 
 
 def parse_linear(vars, linear):
@@ -148,5 +147,43 @@ def branch_bound():
     return tree
 
 
-for i in branch_bound():
-    pprint.pp(i)
+def print_binary_tree(binary_tree, index=0, level=0, open=set(), lopen=set()):
+    solution_node = "\x1b[32;1m"
+    invalid_node = "\x1b[31;1m"
+    clear = "\x1b[m"
+    node = binary_tree[index]
+    tmp = ""
+    for i in range(level):
+        if i == level - 1:
+            if i not in lopen:
+                tmp += "└── "
+            else:
+                tmp += "├── "
+        else:
+            if i in open:
+                tmp += "│   "
+            else:
+                tmp += "    "
+    if not node['success']:
+        tmp += invalid_node
+    elif node['integer']:
+        tmp += solution_node
+    tmp += str(node['opt'])[:5].ljust(10, ' ')
+    tmp += clear
+    if node['x']:
+        tmp += "["
+        tmp += ", ".join([str(i)[:5] for i in node['x']])
+        tmp += "]"
+    print(tmp)
+    open.add(level)
+    level += 1
+    for index, son in enumerate(node['sons']):
+        if index == len(node['sons']) - 2:
+            lopen.add(level-1)
+        if index == len(node['sons']) - 1:
+            open.remove(level - 1)
+            lopen.remove(level - 1)
+        print_binary_tree(binary_tree, son, level)
+
+
+print_binary_tree(branch_bound(), 0)
