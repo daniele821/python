@@ -220,5 +220,6 @@ filepath = os.path.join(os.path.dirname(__file__), 'branch_bound.txt')
 with open(filepath, 'r') as fp:
     obj, matlhs, matrhs, prop = parse_problem(fp.read())
     sol = solve(obj, matlhs, matrhs, prop)
-    for k, v in sol.items():
-        print(k.ljust(20, ' '), v)
+    for val in ["success", "message", "x", "opt"]:
+        k = sol[val]
+        print(str(val).ljust(20, ' '), k)
