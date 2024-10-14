@@ -2,13 +2,10 @@
 
 // unbound
 
-vars x y
+vars x1 x2 x3 y1 y2 y3
 
-min 2x y
+max 330x1 620x2 150x3 -82x1 -97x2 -28x3 -120y1 -130y2 -70y3
 
-2x 3y >= 3
-x y <= 4
-2x -3y >= 0
-x <= 3
-
+16x1 29x2 10x3 <= 200
+10x1 15x2 3x3<= 100
 
