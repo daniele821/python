@@ -2,11 +2,13 @@
 
 // unbound
 
-vars c d
+vars x y
 
-max c 2d
+min 2x y
 
-8c 14d <= 56
-2c -d >= 2
+2x 3y >= 3
+x y <= 4
+2x -3y >= 0
+x <= 3
 
 
