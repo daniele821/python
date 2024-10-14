@@ -10,12 +10,11 @@ def parse_linear(vars, linear):
     coeff = [0] * len(vars)
     indexes = []
     indlen = {0: 0}
-    for var in vars:
-        index = linear.find(var)
-        if index != -1:
-            indexes.append(index)
-            indlen[index] = len(var)
-    indexes.sort()
+    for i in range(len(linear)):
+        for var in vars:
+            if linear[i:].startswith(var):
+                indexes.append(i)
+                indlen[i] = len(var)
     for step, curr in enumerate(indexes):
         prev = 0 if step == 0 else indexes[step-1]
         var = linear[curr:curr+indlen[curr]]
