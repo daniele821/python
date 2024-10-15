@@ -222,6 +222,15 @@ filepath = os.path.join(os.path.dirname(__file__), 'sudoku.txt')
 with open(filepath, 'r') as fp:
     obj, matlhs, matrhs, prop = parse_problem(fp.read())
     sol = solve(obj, matlhs, matrhs, prop)
-    for val in ["success", "message", "x", "opt"]:
-        k = sol[val]
-        print(str(val).ljust(20, ' '), k)
+    # for val in ["success", "message", "x", "opt"]:
+    #     k = sol[val]
+    #     print(str(val).ljust(20, ' '), k)
+    x = sol['x']
+    sudoku = [[0]*9]*9
+    for value in range(9):
+        for a in range(9):
+            for b in range(9):
+                index = value * 81 + a * 9 + b
+                sudoku_value = x[index]
+                print(index, sudoku_value)
+
