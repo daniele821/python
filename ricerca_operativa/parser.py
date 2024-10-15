@@ -6,6 +6,7 @@ import copy
 import os
 
 
+# parsers
 def parse_linear(vars, linear):
     coeff = [0] * len(vars)
     indexes = []
@@ -26,7 +27,10 @@ def parse_linear(vars, linear):
     return coeff
 
 
-def parse_problem(input):
+def parse_problem(file):
+    filepath = os.path.join(file)
+    with open(filepath, 'r') as fp:
+        input = fp.read()
     lines = input.splitlines()
     lines = [e.strip() for e in lines if e.strip() and not e.startswith("//")]
 
@@ -95,10 +99,9 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     return solution
 
 
+# branch and bound ilp solver algorithm
 def branch_bound():
-    filepath = os.path.join(os.path.dirname(__file__), 'branch_bound.txt')
-    with open(filepath, 'r') as fp:
-        obj, matlhs, matrhs, prop = parse_problem(fp.read())
+    obj, matlhs, matrhs, prop = parse_problem('branch_bound.txt')
 
     tree = []
     nvars = len(obj)
@@ -216,21 +219,21 @@ def solve_binary_tree(binary_tree, output=True):
     return solution
 
 
-# solve_binary_tree(print_binary_tree(branch_bound()))
+def view_branchbound():
+    solve_binary_tree(print_binary_tree(branch_bound()))
 
-filepath = os.path.join(os.path.dirname(__file__), 'sudoku.txt')
-with open(filepath, 'r') as fp:
-    obj, matlhs, matrhs, prop = parse_problem(fp.read())
-    sol = solve(obj, matlhs, matrhs, prop)
-    # for val in ["success", "message", "x", "opt"]:
-    #     k = sol[val]
-    #     print(str(val).ljust(20, ' '), k)
-    x = sol['x']
-    sudoku = [[0]*9]*9
-    for value in range(9):
-        for a in range(9):
-            for b in range(9):
-                index = value * 81 + a * 9 + b
-                sudoku_value = x[index]
-                print(index, sudoku_value)
 
+# sudoku solver
+obj, matlhs, matrhs, prop = parse_problem('sudoku.txt')
+sol = solve(obj, matlhs, matrhs, prop)
+# for val in ["success", "message", "x", "opt"]:
+#     k = sol[val]
+#     print(str(val).ljust(20, ' '), k)
+x = sol['x']
+sudoku = [[0]*9]*9
+for value in range(9):
+    for a in range(9):
+        for b in range(9):
+            index = value * 81 + a * 9 + b
+            sudoku_value = x[index]
+            print(index, sudoku_value)
