@@ -75,6 +75,8 @@ def parse_problem(input):
 def solve(obj, mat_lhs, mat_rhs, prop):
     bound = (None, None) if "unbounded" in prop else (0, None)
     integer = 1 if "integer" in prop else 0
+    bound = bound if "binary" not in prop else (0, 1)
+    integer = integer if "binary" not in prop else 1
     res = linprog(obj, mat_lhs, mat_rhs, bounds=bound, integrality=integer)
     solution = {'success': res.success, 'message': res.message}
     if res.success:

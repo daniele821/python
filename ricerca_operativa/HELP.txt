@@ -5,6 +5,7 @@
 // write the list of properties 
 // unbound
 integer
+// binary // warning: overwrites unbound, integer propreties
 
 // write the name of the variables
 // syntax: var <var_name1> <var_name2> ...
