@@ -1,4 +1,6 @@
-x<a><b><c>:
+variables x<a><b><c>:
     - a: value of cell
     - b: nth row
     - c: nth col
+
+so variables will be x111, x112, .., x119, x121, .., x199, x211, .., x999
