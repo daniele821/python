@@ -224,16 +224,34 @@ def view_branchbound():
 
 
 # sudoku solver
+def build_sudoku_matrix(sol_arr):
+    sudoku = [[0 for x in range(9)] for y in range(9)]
+    for value in range(9):
+        for a in range(9):
+            for b in range(9):
+                index = value * 81 + a * 9 + b
+                sudoku_value = x[index]
+                if sudoku_value:
+                    sudoku[a][b] = value + 1
+    return sudoku
+
+
+def print_sudoku_matrix(sudoku):
+    print("┌───────┬───────┬───────┐")
+    for i in range(9):
+        for j in range(9):
+            if j % 3 == 0:
+                print("│", end=" ")
+            val = sudoku[i][j]
+            val = val if val else " "
+            print(val, end=" ")
+        print("│")
+        if i % 3 == 2 and i != 8:
+            print("├───────┼───────┼───────┤")
+    print("└───────┴───────┴───────┘")
+
+
 obj, matlhs, matrhs, prop = parse_problem('sudoku.txt')
 sol = solve(obj, matlhs, matrhs, prop)
-# for val in ["success", "message", "x", "opt"]:
-#     k = sol[val]
-#     print(str(val).ljust(20, ' '), k)
 x = sol['x']
-sudoku = [[0]*9]*9
-for value in range(9):
-    for a in range(9):
-        for b in range(9):
-            index = value * 81 + a * 9 + b
-            sudoku_value = x[index]
-            print(index, sudoku_value)
+print_sudoku_matrix(build_sudoku_matrix(x))
