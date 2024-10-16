@@ -6,9 +6,6 @@ import copy
 import os
 
 
-DBG = False
-
-
 # parsers
 def parse_linear_v1(vars, linear):
     '''
@@ -335,7 +332,8 @@ def view_sudoku():
     sol = solve(obj, matlhs, matrhs, prop)
     x = sol['x']
     print_sudoku_matrix(build_sudoku_matrix(x))
-    if DBG:
+    if os.getenv("DBG") is not None:
+        print(x)
         for a in range(9):
             index = a * 81
             buffer = [x[index+i*9:index+(i+1)*9] for i in range(9)]
