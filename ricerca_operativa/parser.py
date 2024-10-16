@@ -101,7 +101,7 @@ def solve(obj, mat_lhs, mat_rhs, prop):
 
 # branch and bound ilp solver algorithm
 def branch_bound():
-    obj, matlhs, matrhs, prop = parse_problem('branch_bound.txt')
+    obj, matlhs, matrhs, prop = parse_problem('branch_bound/branch_bound.txt')
 
     tree = []
     nvars = len(obj)
@@ -251,7 +251,7 @@ def print_sudoku_matrix(sudoku):
     print("└───────┴───────┴───────┘")
 
 
-obj, matlhs, matrhs, prop = parse_problem('sudoku.txt')
+obj, matlhs, matrhs, prop = parse_problem('sudoku/sudoku.txt')
 sol = solve(obj, matlhs, matrhs, prop)
 x = sol['x']
 print_sudoku_matrix(build_sudoku_matrix(x))
