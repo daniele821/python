@@ -260,4 +260,4 @@ def view_sudoku():
 
 # actual execution
 view_sudoku()
-view_branchbound()
+# view_branchbound()
