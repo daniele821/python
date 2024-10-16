@@ -67,11 +67,13 @@ def parse_linear_v3(vars, linear):
     coeff = [0] * len(vars)
     indexes = []
     indlen = {0: 0}
+    nums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "+", " "]
     for i in range(len(linear)):
-        for var in vars:
-            if linear[i:].startswith(var):
-                indexes.append(i)
-                indlen[i] = len(var)
+        if linear[i] not in nums:
+            for var in vars:
+                if linear[i:].startswith(var):
+                    indexes.append(i)
+                    indlen[i] = len(var)
     for step, curr in enumerate(indexes):
         prev = 0 if step == 0 else indexes[step-1]
         var = linear[curr:curr+indlen[curr]]
@@ -84,7 +86,7 @@ def parse_linear_v3(vars, linear):
 
 
 def parse_linear(vars, linear):
-    return parse_linear_v2(vars, linear)
+    return parse_linear_v3(vars, linear)
 
 
 def parse_problem(file):
