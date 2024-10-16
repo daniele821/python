@@ -274,5 +274,4 @@ def view_sudoku():
 
 # actual execution
 view_sudoku()
-print_sudoku_grid()
 # view_branchbound()
