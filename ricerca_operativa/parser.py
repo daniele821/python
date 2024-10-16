@@ -251,6 +251,20 @@ def print_sudoku_matrix(sudoku):
     print("└───────┴───────┴───────┘")
 
 
+def print_sudoku_grid():
+    print("┌──────────┬──────────┬──────────┐")
+    for i in range(9):
+        for j in range(9):
+            if j % 3 == 0:
+                print("│", end=" ")
+            val = str(i) + str(j)
+            print(val, end=" ")
+        print("│")
+        if i % 3 == 2 and i != 8:
+            print("├──────────┼──────────┼──────────┤")
+    print("└──────────┴──────────┴──────────┘")
+
+
 def view_sudoku():
     obj, matlhs, matrhs, prop = parse_problem('sudoku/sudoku.txt')
     sol = solve(obj, matlhs, matrhs, prop)
@@ -260,4 +274,5 @@ def view_sudoku():
 
 # actual execution
 view_sudoku()
+print_sudoku_grid()
 # view_branchbound()
