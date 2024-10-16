@@ -9,7 +9,30 @@ import os
 # parsers
 def parse_linear_v1(vars, linear):
     '''
-    linear parser.
+    doesn't support
+        - variable names of lenght > 1
+        - ripetition of the same variable
+    '''
+    coeff = [0] * len(vars)
+    indexes = []
+    for var in vars:
+        index = linear.find(var)
+        if index != -1:
+            indexes.append(index)
+        indexes.sort()
+        for step, curr in enumerate(indexes):
+            prev = 0 if step == 0 else indexes[step-1] + 1
+            var = linear[curr]
+            var_index = vars.index(var)
+            value = linear[prev:curr]
+            if value.strip() in ("", "+", "-"):
+                value += "1"
+            coeff[var_index] += float(value)
+        return coeff
+
+
+def parse_linear_v2(vars, linear):
+    '''
     supports:
         - variable names of lenght > 1
     doesn't support
@@ -35,9 +58,8 @@ def parse_linear_v1(vars, linear):
     return coeff
 
 
-def parse_linear_v2(vars, linear):
+def parse_linear_v3(vars, linear):
     '''
-    linear parser.
     supports:
         - variable names of lenght > 1
         - ripetition of the same variable
@@ -62,7 +84,7 @@ def parse_linear_v2(vars, linear):
 
 
 def parse_linear(vars, linear):
-    return parse_linear_v1(vars, linear)
+    return parse_linear_v2(vars, linear)
 
 
 def parse_problem(file):
