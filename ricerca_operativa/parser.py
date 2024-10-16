@@ -230,7 +230,7 @@ def build_sudoku_matrix(sol_arr):
         for a in range(9):
             for b in range(9):
                 index = value * 81 + a * 9 + b
-                sudoku_value = x[index]
+                sudoku_value = sol_arr[index]
                 if sudoku_value:
                     sudoku[a][b] = value + 1
     return sudoku
@@ -251,7 +251,13 @@ def print_sudoku_matrix(sudoku):
     print("└───────┴───────┴───────┘")
 
 
-obj, matlhs, matrhs, prop = parse_problem('sudoku/sudoku.txt')
-sol = solve(obj, matlhs, matrhs, prop)
-x = sol['x']
-print_sudoku_matrix(build_sudoku_matrix(x))
+def view_sudoku():
+    obj, matlhs, matrhs, prop = parse_problem('sudoku/sudoku.txt')
+    sol = solve(obj, matlhs, matrhs, prop)
+    x = sol['x']
+    print_sudoku_matrix(build_sudoku_matrix(x))
+
+
+# actual execution
+view_sudoku()
+view_branchbound()
