@@ -257,7 +257,7 @@ def print_sudoku_grid():
         for j in range(9):
             if j % 3 == 0:
                 print("│", end=" ")
-            val = str(i) + str(j)
+            val = str(i + 1) + str(j + 1)
             print(val, end=" ")
         print("│")
         if i % 3 == 2 and i != 8:
