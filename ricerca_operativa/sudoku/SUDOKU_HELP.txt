@@ -16,4 +16,3 @@ constraints:
     - cols
     - boxes
     - y<d><e> relation to x<a><b><c> variables
-    - binary constraint of all x<a><b><c> variables
