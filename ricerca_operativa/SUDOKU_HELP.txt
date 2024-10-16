@@ -1,12 +1,19 @@
-variables x<a><b><c>:
-    - a: value of cell
-    - b: nth row
-    - c: nth col
+variables 
+    - x<a><b><c>: represent if a certain cell is of a certain value (binary)
+        - a: value of cell
+        - b: nth row
+        - c: nth col
+    - y<d><e>: represents the actual value of a cell (integer)
+        - d: nth row
+        - e: nth col
+            
 
-so variables will be x111, x112, .., x119, x121, .., x199, x211, .., x999
+so variables will be x111, x112, .., x119, x121, .., x199, x211, .., x999, y11, y12, .., y19, y21, .., y99
 
 constraints: 
     - uniqueness for each cell
     - rows
     - cols
     - boxes
+    - y<d><e> relation to x<a><b><c> variables
+    - binary constraint of all x<a><b><c> variables
