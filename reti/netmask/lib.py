@@ -56,7 +56,10 @@ def str_to_ip(ipstr):
         raise ValueError('invalid ip address string')
     ip = []
     for ip_val in ip_vals:
-        ip_val = int(ip_val)
+        if ip_val == "":
+            ip_val = 0
+        else:
+            ip_val = int(ip_val)
         if ip_val < 0 or ip_val > 255:
             raise ValueError('invalid ip address string')
         ip.append(ip_val)
