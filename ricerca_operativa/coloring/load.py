@@ -17,7 +17,5 @@ def load(file):
     return graph
 
 
-graph = load('graph.txt')
-
-for i in sorted(graph):
-    print(i, len(graph[i]))
+def def_load():
+    return load('graph.txt')
