@@ -198,8 +198,6 @@ def init_input_file():
             if char == "@":
                 golarr[twoD_to_oneD(a, b, size)] = 1
 
-    print(golarr)
-
     output.close()
 
 
