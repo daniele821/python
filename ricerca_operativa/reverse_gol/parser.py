@@ -173,16 +173,33 @@ def solve_file(file):
 
 
 # init input file
+def oneD_to_twoD(index, size):
+    return index / size, index % size
+
+
+def twoD_to_oneD(a, b, size):
+    return a * size + b
+
+
 def init_input_file():
     initpos = Path(INITPOS_FILE).read_text()
     output = open(INPUT_FILE, "w")
 
     lines = initpos.splitlines()
-    size = len(lines) * len(lines)
+    size = len(lines)
+    totalsize = size * size
     output.write("binary\n\nvars ")
-    for i in range(size):
+    for i in range(totalsize):
         output.write("x" + str(i) + " ")
     output.write("\n\nmin\n\n")
+    golarr = ([0] * size) * size
+    for a, line in enumerate(lines):
+        for b, char in enumerate(line):
+            if char == "@":
+                golarr[twoD_to_oneD(a, b, size)] = 1
+
+    print(golarr)
+
     output.close()
 
 
