@@ -180,7 +180,7 @@ def init_input_file():
     lines = initpos.splitlines()
     size = len(lines) * len(lines)
     output.write("binary\n\nvars ")
-    for i in range(25):
+    for i in range(size):
         output.write("x" + str(i) + " ")
     output.write("\n\nmin\n\n")
     output.close()
