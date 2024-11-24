@@ -5,9 +5,6 @@ import numpy as np
 import copy
 import os
 
-SCRIPT_PATH = os.path.realpath(__file__)
-SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
-
 
 # parsers
 def parse_linear_v1(vars, linear):
@@ -162,3 +159,66 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     solution['obj'] = copy.deepcopy(obj)
     solution['prop'] = copy.deepcopy(prop)
     return solution
+
+
+# sudoku solver
+def build_sudoku_matrix(sol_arr):
+    sudoku = [[0 for x in range(9)] for y in range(9)]
+    for value in range(9):
+        for a in range(9):
+            for b in range(9):
+                index = value * 81 + a * 9 + b
+                sudoku_value = sol_arr[index]
+                if sudoku_value:
+                    sudoku[a][b] = value + 1
+    return sudoku
+
+
+def print_sudoku_matrix(sudoku):
+    print("┌───────┬───────┬───────┐")
+    for i in range(9):
+        for j in range(9):
+            if j % 3 == 0:
+                print("│", end=" ")
+            val = sudoku[i][j]
+            val = val if val else " "
+            print(val, end=" ")
+        print("│")
+        if i % 3 == 2 and i != 8:
+            print("├───────┼───────┼───────┤")
+    print("└───────┴───────┴───────┘")
+
+
+def print_sudoku_grid():
+    print("┌──────────┬──────────┬──────────┐")
+    for i in range(9):
+        for j in range(9):
+            if j % 3 == 0:
+                print("│", end=" ")
+            val = str(i + 1) + str(j + 1)
+            print(val, end=" ")
+        print("│")
+        if i % 3 == 2 and i != 8:
+            print("├──────────┼──────────┼──────────┤")
+    print("└──────────┴──────────┴──────────┘")
+
+
+def view_sudoku():
+    obj, matlhs, matrhs, prop = parse_problem(
+        os.path.dirname(os.path.realpath(__file__)) + '/sudoku.txt')
+    sol = solve(obj, matlhs, matrhs, prop)
+    x = sol['x']
+    print_sudoku_matrix(build_sudoku_matrix(x))
+    if os.getenv("DBG") is not None:
+        print(x)
+        for a in range(9):
+            index = a * 81
+            buffer = [x[index+i*9:index+(i+1)*9] for i in range(9)]
+            for i in range(9):
+                for j in range(9):
+                    buffer[i][j] *= a + 1
+            print_sudoku_matrix(buffer)
+
+
+# actual execution
+view_sudoku()

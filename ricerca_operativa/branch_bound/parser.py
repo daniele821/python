@@ -5,9 +5,6 @@ import numpy as np
 import copy
 import os
 
-SCRIPT_PATH = os.path.realpath(__file__)
-SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
-
 
 # parsers
 def parse_linear_v1(vars, linear):
@@ -162,3 +159,131 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     solution['obj'] = copy.deepcopy(obj)
     solution['prop'] = copy.deepcopy(prop)
     return solution
+
+
+# branch and bound ilp solver algorithm
+def branch_bound():
+    obj, matlhs, matrhs, prop = parse_problem(os.path.dirname(
+        os.path.realpath(__file__)) + "/branch_bound.txt")
+    tree = []
+    nvars = len(obj)
+
+    sol = solve(obj, matlhs, matrhs, prop)
+    tree.append(sol)
+
+    index = 0
+    while index < len(tree):
+        node = tree[index]
+        node['integer'] = False
+        node['sons'] = []
+        node['index'] = index
+
+        if node['success']:
+            int_dist = [abs(i - round(i)) for i in node['x']]
+            max_dist = max(int_dist)
+            max_index = int_dist.index(max(int_dist))
+            lhs = node['lhs']
+            rhs = node['rhs']
+            x = node['x']
+
+            if max_dist > 0:
+                tree[index]['sons'] = [len(tree), len(tree) + 1]
+
+                val = x[max_index]
+                dis1 = [0] * nvars
+                dis1[max_index] = 1
+                val1 = int(x[max_index])
+                dis2 = [0] * nvars
+                dis2[max_index] = -1
+                val2 = -(val1 + 1 if val > 0 else -1)
+                lhs1 = copy.deepcopy(lhs)
+                lhs1.append(dis1)
+                lhs2 = copy.deepcopy(lhs)
+                lhs2.append(dis2)
+                rhs1 = copy.deepcopy(rhs)
+                rhs1.append(val1)
+                rhs2 = copy.deepcopy(rhs)
+                rhs2.append(val2)
+                tree.append(solve(obj, lhs1, rhs1, prop))
+                tree.append(solve(obj, lhs2, rhs2, prop))
+
+            else:
+                node['integer'] = True
+
+        index += 1
+
+    return tree
+
+
+def print_binary_tree(binary_tree, index=0, level=0, open=set(), lopen=set()):
+    solution_node = "\x1b[32;1m"
+    invalid_node = "\x1b[31;1m"
+    clear = "\x1b[m"
+    node = binary_tree[index]
+    tmp = ""
+    for i in range(level):
+        if i == level - 1:
+            if i not in lopen:
+                tmp += "└── "
+            else:
+                tmp += "├── "
+        else:
+            if i in open:
+                tmp += "│   "
+            else:
+                tmp += "    "
+    if not node['success']:
+        tmp += invalid_node
+    elif node['integer']:
+        tmp += solution_node
+    tmp += str(node['opt'])[:5].ljust(10, ' ')
+    tmp += clear
+    if node['x']:
+        tmp += "["
+        tmp += ", ".join([str(i)[:5] for i in node['x']])
+        tmp += "]"
+    print(tmp)
+    open.add(level)
+    level += 1
+    for i, son in enumerate(node['sons']):
+        if i == len(node['sons']) - 2:
+            lopen.add(level-1)
+        if i == len(node['sons']) - 1:
+            open.remove(level - 1)
+            lopen.remove(level - 1)
+        print_binary_tree(binary_tree, son, level)
+    if index == 0:
+        print()
+    return binary_tree
+
+
+def solve_binary_tree(binary_tree, output=True):
+    buffer = [{
+        'opt': i['opt'],
+        'x': i['x'],
+    } for i in sorted(filter(
+        lambda x: x['integer'], binary_tree),
+        reverse='max' in binary_tree[0]['prop'],
+        key=lambda x: x['opt'])]
+    if buffer:
+        solution = [i for i in buffer if i['opt'] == buffer[0]['opt']]
+        print("optimal value: " + str(solution[0]['opt']))
+        print("solutions: ", end="")
+        for index, sol in enumerate(solution):
+            print(sol['x'], end=" ")
+        print()
+    else:
+        solution = []
+        if len(binary_tree) > 1:
+            print("no integer solution was found!")
+        else:
+            print("no solution was found!")
+    return solution
+
+
+def view_branchbound():
+    solve_binary_tree(print_binary_tree(branch_bound()))
+
+
+# actual execution
+view_branchbound()
