@@ -217,7 +217,25 @@ def init_input_file(initpos):
             output.write(strline + " <= 3\n")
             output.write(strline + "-x" + str(index) + " >= 2\n")
     output.close()
+    return size
 
 
-init_input_file(Path(INITPOS_FILE).read_text())
-print(solve_file(INPUT_FILE))
+def fmt_solution(solution, size):
+    acc = ""
+    x = solution["x"]
+    for a in range(size):
+        for b in range(size):
+            index = twoD_to_oneD(a, b, size)
+            val = x[index]
+            if val == 0:
+                acc += POS_EMPTY
+            else:
+                acc += POS_PRESENT
+        acc += "\n"
+    return acc
+
+
+size = init_input_file(Path(INITPOS_FILE).read_text())
+solution = solve_file(INPUT_FILE)
+fmt_sol = fmt_solution(solution, size)
+print(fmt_sol)
