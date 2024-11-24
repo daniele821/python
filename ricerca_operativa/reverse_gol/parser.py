@@ -192,8 +192,7 @@ def all_neighbors(index, size):
     return res
 
 
-def init_input_file():
-    initpos = Path(INITPOS_FILE).read_text()
+def init_input_file(initpos):
     output = open(INPUT_FILE, "w")
 
     lines = initpos.splitlines()
@@ -210,8 +209,14 @@ def init_input_file():
                 golarr[twoD_to_oneD(a, b, size)] = 1
     for index, value in enumerate(golarr):
         if value:
-            print(index)
+            neigh = all_neighbors(index, size)
+            strline = ""
+            for i in neigh:
+                strline += ("x" + str(i) + " ")
+            output.write(strline + " <= 3\n")
+            output.write(strline + "-x" + str(index) + " >= 2\n")
     output.close()
 
 
-init_input_file()
+init_input_file(Path(INITPOS_FILE).read_text())
+print(solve_file(INPUT_FILE))
