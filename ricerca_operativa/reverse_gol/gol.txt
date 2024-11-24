@@ -1,17 +1,6 @@
-// vim:commentstring=//\ %s
-
 binary
 
-vars x1 x2 x3 y1 y2 y3
+vars x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 x14 x15 x16 x17 x18 x19 x20 x21 x22 x23 x24 
 
-max 330x1 620x2 150x3 -82x1 -97x2 -28x3 -120y1 -130y2 -70y3
-
-16x1 29x2 10x3 <= 200
-10x1 15x2 3x3<= 100
-y1 -0.0001x1 >= 0
-y2 -0.0001x2 >= 0
-y3 -0.0001x3 >= 0
-y1 <= 1
-y2 <= 2
-y3 <= 3
+min
 

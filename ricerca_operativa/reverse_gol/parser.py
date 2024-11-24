@@ -1,9 +1,15 @@
 #!/bin/env python3
 
-from scipy.optimize import linprog
-import numpy as np
-import copy
 import os
+import copy
+import numpy as np
+from scipy.optimize import linprog
+from pathlib import Path
+
+SCRIPT_PATH = os.path.realpath(__file__)
+SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
+INITPOS_FILE = SCRIPT_DIR + "/init_pos.in"
+INPUT_FILE = SCRIPT_DIR + "/gol.txt"
 
 
 # parsers
@@ -159,3 +165,20 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     solution['obj'] = copy.deepcopy(obj)
     solution['prop'] = copy.deepcopy(prop)
     return solution
+
+
+# init input file
+def init_input_file():
+    initpos = Path(INITPOS_FILE).read_text()
+    output = open(INPUT_FILE, "w")
+
+    lines = initpos.splitlines()
+    size = len(lines) * len(lines)
+    output.write("binary\n\nvars ")
+    for i in range(25):
+        output.write("x" + str(i) + " ")
+    output.write("\n\nmin\n\n")
+    output.close()
+
+
+init_input_file()
