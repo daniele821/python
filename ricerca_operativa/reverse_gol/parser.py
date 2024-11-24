@@ -10,6 +10,8 @@ SCRIPT_PATH = os.path.realpath(__file__)
 SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
 INITPOS_FILE = SCRIPT_DIR + "/init_pos.in"
 INPUT_FILE = SCRIPT_DIR + "/gol.txt"
+POS_PRESENT = '@'
+POS_EMPTY = '+'
 
 
 # parsers
@@ -205,7 +207,7 @@ def init_input_file(initpos):
     golarr = ([0] * size) * size
     for a, line in enumerate(lines):
         for b, char in enumerate(line):
-            if char == "@":
+            if char == POS_PRESENT:
                 golarr[twoD_to_oneD(a, b, size)] = 1
     for index, value in enumerate(golarr):
         if value:
