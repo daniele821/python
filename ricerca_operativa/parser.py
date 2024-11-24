@@ -162,3 +162,8 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     solution['obj'] = copy.deepcopy(obj)
     solution['prop'] = copy.deepcopy(prop)
     return solution
+
+
+def solve_file(file):
+    obj, mat_lhs, mat_rhs, prop = parse_problem(file)
+    return solve(obj, mat_lhs, mat_rhs, prop)

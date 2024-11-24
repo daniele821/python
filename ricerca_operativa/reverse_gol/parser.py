@@ -167,6 +167,11 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     return solution
 
 
+def solve_file(file):
+    obj, mat_lhs, mat_rhs, prop = parse_problem(file)
+    return solve(obj, mat_lhs, mat_rhs, prop)
+
+
 # init input file
 def init_input_file():
     initpos = Path(INITPOS_FILE).read_text()
