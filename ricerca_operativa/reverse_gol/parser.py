@@ -181,6 +181,17 @@ def twoD_to_oneD(a, b, size):
     return a * size + b
 
 
+def all_neighbors(index, size):
+    a, b = oneD_to_twoD(index, size)
+    res = []
+    for aa in range(a-1, a+2):
+        for bb in range(b-1, b+2):
+            i = twoD_to_oneD(aa, bb, size)
+            if i != index and aa >= 0 and aa < size and bb >= 0 and b < size:
+                res.append(i)
+    return res
+
+
 def init_input_file():
     initpos = Path(INITPOS_FILE).read_text()
     output = open(INPUT_FILE, "w")
