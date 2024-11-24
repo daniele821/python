@@ -196,7 +196,6 @@ def all_neighbors(index, size):
 
 def init_input_file(initpos):
     output = open(INPUT_FILE, "w")
-
     lines = initpos.splitlines()
     size = len(lines)
     totalsize = size * size
