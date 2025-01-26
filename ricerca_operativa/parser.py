@@ -190,8 +190,12 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     solution = {'success': res.success, 'message': res.message}
     if res.success:
         x = [int(i) if i == int(i) else float(i) for i in res.x]
+        if propInt:
+            x = [round(i) for i in x]
         opt = np.sum(np.array(obj) * np.array(res.x))
         opt = float(-opt if "max" in prop else opt)
+        if propInt:
+            opt = round(opt)
         solution['x'] = x
         solution['opt'] = copy.deepcopy(opt)
     else:
