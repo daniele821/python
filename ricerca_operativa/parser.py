@@ -15,6 +15,7 @@ def parse_linear_v1(vars, linear):
     doesn't support
         - variable names of lenght > 1
         - ripetition of the same variable
+        - space between -/+ and numeric value
     '''
     coeff = [0] * len(vars)
     indexes = []
@@ -40,6 +41,7 @@ def parse_linear_v2(vars, linear):
         - variable names of lenght > 1
     doesn't support
         - ripetition of the same variable
+        - space between -/+ and numeric value
     '''
     coeff = [0] * len(vars)
     indexes = []
@@ -66,6 +68,8 @@ def parse_linear_v3(vars, linear):
     supports:
         - variable names of lenght > 1
         - ripetition of the same variable
+    doesn't support:
+        - space between -/+ and numeric value
     '''
     coeff = [0] * len(vars)
     indexes = []
@@ -88,8 +92,36 @@ def parse_linear_v3(vars, linear):
     return coeff
 
 
+def parse_linear_v4(vars, linear):
+    '''
+    supports:
+        - variable names of lenght > 1
+        - ripetition of the same variable
+        - space between -/+ and numeric value
+    '''
+    coeff = [0] * len(vars)
+    indexes = []
+    indlen = {0: 0}
+    nums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "+", " "]
+    for i in range(len(linear)):
+        if linear[i] not in nums:
+            for var in vars:
+                if linear[i:].startswith(var):
+                    indexes.append(i)
+                    indlen[i] = len(var)
+    for step, curr in enumerate(indexes):
+        prev = 0 if step == 0 else indexes[step-1]
+        var = linear[curr:curr+indlen[curr]]
+        var_index = vars.index(var)
+        value = "".join(linear[prev+(indlen[prev]):curr].split())
+        if value.strip() in ("", "+", "-"):
+            value += "1"
+        coeff[var_index] += float(value)
+    return coeff
+
+
 def parse_linear(vars, linear):
-    return parse_linear_v3(vars, linear)
+    return parse_linear_v4(vars, linear)
 
 
 def parse_problem(file):
