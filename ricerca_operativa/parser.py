@@ -11,12 +11,12 @@ SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
 
 # parsers
 def parse_linear_v1(vars, linear):
-    '''
+    """
     doesn't support
         - variable names of lenght > 1
         - ripetition of the same variable
         - space between -/+ and numeric value
-    '''
+    """
     coeff = [0] * len(vars)
     indexes = []
     for var in vars:
@@ -25,7 +25,7 @@ def parse_linear_v1(vars, linear):
             indexes.append(index)
         indexes.sort()
         for step, curr in enumerate(indexes):
-            prev = 0 if step == 0 else indexes[step-1] + 1
+            prev = 0 if step == 0 else indexes[step - 1] + 1
             var = linear[curr]
             var_index = vars.index(var)
             value = linear[prev:curr]
@@ -36,13 +36,13 @@ def parse_linear_v1(vars, linear):
 
 
 def parse_linear_v2(vars, linear):
-    '''
+    """
     supports:
         - variable names of lenght > 1
     doesn't support
         - ripetition of the same variable
         - space between -/+ and numeric value
-    '''
+    """
     coeff = [0] * len(vars)
     indexes = []
     indlen = {0: 0}
@@ -53,10 +53,10 @@ def parse_linear_v2(vars, linear):
             indlen[index] = len(var)
     indexes.sort()
     for step, curr in enumerate(indexes):
-        prev = 0 if step == 0 else indexes[step-1]
-        var = linear[curr:curr+indlen[curr]]
+        prev = 0 if step == 0 else indexes[step - 1]
+        var = linear[curr : curr + indlen[curr]]
         var_index = vars.index(var)
-        value = linear[prev+(indlen[prev]):curr]
+        value = linear[prev + (indlen[prev]) : curr]
         if value.strip() in ("", "+", "-"):
             value += "1"
         coeff[var_index] += float(value)
@@ -64,13 +64,13 @@ def parse_linear_v2(vars, linear):
 
 
 def parse_linear_v3(vars, linear):
-    '''
+    """
     supports:
         - variable names of lenght > 1
         - ripetition of the same variable
     doesn't support:
         - space between -/+ and numeric value
-    '''
+    """
     coeff = [0] * len(vars)
     indexes = []
     indlen = {0: 0}
@@ -82,10 +82,10 @@ def parse_linear_v3(vars, linear):
                     indexes.append(i)
                     indlen[i] = len(var)
     for step, curr in enumerate(indexes):
-        prev = 0 if step == 0 else indexes[step-1]
-        var = linear[curr:curr+indlen[curr]]
+        prev = 0 if step == 0 else indexes[step - 1]
+        var = linear[curr : curr + indlen[curr]]
         var_index = vars.index(var)
-        value = linear[prev+(indlen[prev]):curr]
+        value = linear[prev + (indlen[prev]) : curr]
         if value.strip() in ("", "+", "-"):
             value += "1"
         coeff[var_index] += float(value)
@@ -93,12 +93,12 @@ def parse_linear_v3(vars, linear):
 
 
 def parse_linear_v4(vars, linear):
-    '''
+    """
     supports:
         - variable names of lenght > 1
         - ripetition of the same variable
         - space between -/+ and numeric value
-    '''
+    """
     coeff = [0] * len(vars)
     indexes = []
     indlen = {0: 0}
@@ -110,10 +110,10 @@ def parse_linear_v4(vars, linear):
                     indexes.append(i)
                     indlen[i] = len(var)
     for step, curr in enumerate(indexes):
-        prev = 0 if step == 0 else indexes[step-1]
-        var = linear[curr:curr+indlen[curr]]
+        prev = 0 if step == 0 else indexes[step - 1]
+        var = linear[curr : curr + indlen[curr]]
         var_index = vars.index(var)
-        value = "".join(linear[prev+(indlen[prev]):curr].split())
+        value = "".join(linear[prev + (indlen[prev]) : curr].split())
         if value.strip() in ("", "+", "-"):
             value += "1"
         coeff[var_index] += float(value)
@@ -126,7 +126,7 @@ def parse_linear(vars, linear):
 
 def parse_problem(file):
     filepath = os.path.join(file)
-    with open(filepath, 'r') as fp:
+    with open(filepath, "r") as fp:
         input = fp.read()
     lines = input.splitlines()
     lines = [e.strip() for e in lines if e.strip() and not e.startswith("//")]
@@ -159,14 +159,14 @@ def parse_problem(file):
                 status += 1
         if status == 3:
             sign_index = line.rfind("=")
-            buffer_lhs = parse_linear(vars, line[:sign_index-1])
-            buffer_rhs = float("".join(line[sign_index+1:].split()))
+            buffer_lhs = parse_linear(vars, line[: sign_index - 1])
+            buffer_rhs = float("".join(line[sign_index + 1 :].split()))
             negbuf_lhs = [-i for i in buffer_lhs]
             negbuf_rhs = -buffer_rhs
-            if line[sign_index-1] != ">":
+            if line[sign_index - 1] != ">":
                 mat_lhs.append(buffer_lhs)
                 mat_rhs.append(buffer_rhs)
-            if line[sign_index-1] != "<":
+            if line[sign_index - 1] != "<":
                 mat_lhs.append(negbuf_lhs)
                 mat_rhs.append(negbuf_rhs)
 
@@ -187,7 +187,7 @@ def solve(obj, mat_lhs, mat_rhs, prop):
         integer = 1
         bound = (0, 1)
     res = linprog(obj, mat_lhs, mat_rhs, bounds=bound, integrality=integer)
-    solution = {'success': res.success, 'message': res.message}
+    solution = {"success": res.success, "message": res.message}
     if res.success:
         x = [int(i) if i == int(i) else float(i) for i in res.x]
         if propInt:
@@ -196,33 +196,45 @@ def solve(obj, mat_lhs, mat_rhs, prop):
         opt = float(-opt if "max" in prop else opt)
         if propInt:
             opt = round(opt)
-        solution['x'] = x
-        solution['opt'] = copy.deepcopy(opt)
+        solution["x"] = x
+        solution["opt"] = copy.deepcopy(opt)
     else:
-        solution['x'] = None
-        solution['opt'] = None
-    solution['lhs'] = copy.deepcopy(mat_lhs)
-    solution['rhs'] = copy.deepcopy(mat_rhs)
-    solution['obj'] = copy.deepcopy(obj)
-    solution['prop'] = copy.deepcopy(prop)
+        solution["x"] = None
+        solution["opt"] = None
+    solution["lhs"] = copy.deepcopy(mat_lhs)
+    solution["rhs"] = copy.deepcopy(mat_rhs)
+    solution["obj"] = copy.deepcopy(obj)
+    solution["prop"] = copy.deepcopy(prop)
     return solution
 
 
 def solve_file(file, output=True):
     obj, mat_lhs, mat_rhs, prop, vars = parse_problem(file)
     solution = solve(obj, mat_lhs, mat_rhs, prop)
-    solution['vars'] = vars
+    solution["vars"] = vars
 
     if output:
-        if (solution['success']):
-            print("\x1b[1;32m" + solution['message'] + "\x1b[m")
-            print("\x1b[1;37m" + "SOLUTION      -> \x1b[1;34m" + str(solution['x']) + "\x1b[m")
-            opt = solution['opt']
-            for i, var in enumerate(solution['vars']):
-                print("\x1b[1;37m    " + var + ": " + "\x1b[1;34m" + str(solution["x"][i]) + "\x1b[m")
+        if solution["success"]:
+            print("\x1b[1;32m" + solution["message"] + "\x1b[m")
+            print(
+                "\x1b[1;37m"
+                + "SOLUTION      -> \x1b[1;34m"
+                + str(solution["x"])
+                + "\x1b[m"
+            )
+            opt = solution["opt"]
+            for i, var in enumerate(solution["vars"]):
+                print(
+                    "\x1b[1;37m    "
+                    + var
+                    + ": "
+                    + "\x1b[1;34m"
+                    + str(solution["x"][i])
+                    + "\x1b[m"
+                )
             print("\x1b[1;37m" + "OPTIMAL VALUE -> \x1b[1;34m" + str(opt) + "\x1b[m")
         else:
-            print("\x1b[1;31m" + solution['message'] + "\x1b[m")
+            print("\x1b[1;31m" + solution["message"] + "\x1b[m")
 
     return solution
 
