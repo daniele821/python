@@ -167,3 +167,15 @@ def solve(obj, mat_lhs, mat_rhs, prop):
 def solve_file(file):
     obj, mat_lhs, mat_rhs, prop = parse_problem(file)
     return solve(obj, mat_lhs, mat_rhs, prop)
+
+
+solution = solve_file("programmazione_lineare.txt")
+if (solution['success']):
+    print("\x1b[1;32m" + solution['message'] + "\x1b[m")
+    print("\x1b[1m" + "SOLUTION:      \x1b[36m" + str(solution['x']) + "\x1b[m")
+    opt = solution['opt']
+    if "min" in solution['prop']:
+        opt *= -1
+    print("\x1b[1m" + "OPTIMAL VALUE: \x1b[36m" + str(opt) + "\x1b[m")
+else:
+    print("\x1b[1;31m" + solution['message'] + "\x1b[m")
