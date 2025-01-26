@@ -3,10 +3,12 @@
 positive
 // integer
 
-vars x1 x2
+vars x y
 
-max 3x1 5x2
+min 2x + 3y
 
-x1 <= 4
-2x2 <= 12
-3x1 + 2x2 <= 18
+x + 4y >= 4
+- 5y -4x <= -10
+4x 3y >= 8 
+3x >= 2
+6y  >= 2

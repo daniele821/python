@@ -160,7 +160,7 @@ def parse_problem(file):
         if status == 3:
             sign_index = line.rfind("=")
             buffer_lhs = parse_linear(vars, line[:sign_index-1])
-            buffer_rhs = float(line[sign_index+1:])
+            buffer_rhs = float("".join(line[sign_index+1:].split()))
             negbuf_lhs = [-i for i in buffer_lhs]
             negbuf_rhs = -buffer_rhs
             if line[sign_index-1] != ">":
