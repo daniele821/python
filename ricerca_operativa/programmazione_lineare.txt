@@ -1,6 +1,6 @@
 // vim:commentstring=//\ %s
 
-// unbound
+// unbounded
 integer
 
 vars x1 x2
