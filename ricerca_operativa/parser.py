@@ -174,10 +174,18 @@ def parse_problem(file):
 
 
 def solve(obj, mat_lhs, mat_rhs, prop):
-    bound = (None, None) if "unbounded" in prop else (0, None)
-    integer = 1 if "integer" in prop else 0
-    bound = bound if "binary" not in prop else (0, 1)
-    integer = integer if "binary" not in prop else 1
+    bound = (None, None)
+    integer = 0
+    propPos = "positive" in prop
+    propInt = "integer" in prop
+    propBin = "binary" in prop
+    if propPos:
+        bound = (0, None)
+    if propInt:
+        integer = 1
+    if propBin:
+        integer = 1
+        bound = (0, 1)
     res = linprog(obj, mat_lhs, mat_rhs, bounds=bound, integrality=integer)
     solution = {'success': res.success, 'message': res.message}
     if res.success:

@@ -2,10 +2,10 @@
 
 // this is a comment
 
-// write the list of properties 
-// unbounded
-integer
-// binary // warning: overwrites unbounded, integer properties
+// write the list of properties
+// positive
+// integer
+// binary 
 
 // write the name of the variables
 // syntax: var <var_name1> <var_name2> ...
