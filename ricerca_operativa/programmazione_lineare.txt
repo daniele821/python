@@ -5,10 +5,7 @@ positive
 
 vars x y
 
-min 2x + 3y
+max x 2y
 
-x + 4y >= 4
-- 5y -4x <= -10
-4x 3y >= 8 
-3x >= 2
-6y  >= 2
+ 8x 14y <= 56
+-2x   y <= -2
