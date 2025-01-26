@@ -208,20 +208,23 @@ def solve(obj, mat_lhs, mat_rhs, prop):
     return solution
 
 
-def solve_file(file):
+def solve_file(file, output=True):
     obj, mat_lhs, mat_rhs, prop, vars = parse_problem(file)
     solution = solve(obj, mat_lhs, mat_rhs, prop)
     solution['vars'] = vars
+
+    if output:
+        if (solution['success']):
+            print("\x1b[1;32m" + solution['message'] + "\x1b[m")
+            print("\x1b[1;37m" + "SOLUTION      -> \x1b[1;34m" + str(solution['x']) + "\x1b[m")
+            opt = solution['opt']
+            for i, var in enumerate(solution['vars']):
+                print("\x1b[1;37m    " + var + ": " + "\x1b[1;34m" + str(solution["x"][i]) + "\x1b[m")
+            print("\x1b[1;37m" + "OPTIMAL VALUE -> \x1b[1;34m" + str(opt) + "\x1b[m")
+        else:
+            print("\x1b[1;31m" + solution['message'] + "\x1b[m")
+
     return solution
 
 
-solution = solve_file("programmazione_lineare.txt")
-if (solution['success']):
-    print("\x1b[1;32m" + solution['message'] + "\x1b[m")
-    print("\x1b[1;37m" + "SOLUTION      -> \x1b[1;34m" + str(solution['x']) + "\x1b[m")
-    opt = solution['opt']
-    for i, var in enumerate(solution['vars']):
-        print("\x1b[1;37m    "+ var + ": "+ "\x1b[1;34m" + str(solution["x"][i]) + "\x1b[m")
-    print("\x1b[1;37m" + "OPTIMAL VALUE -> \x1b[1;34m" + str(opt) + "\x1b[m")
-else:
-    print("\x1b[1;31m" + solution['message'] + "\x1b[m")
+solve_file("programmazione_lineare.txt")
