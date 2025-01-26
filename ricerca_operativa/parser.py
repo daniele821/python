@@ -218,8 +218,6 @@ if (solution['success']):
     print("\x1b[1;32m" + solution['message'] + "\x1b[m")
     print("\x1b[1;37m" + "SOLUTION:      \x1b[1;34m" + str(solution['x']) + "\x1b[m")
     opt = solution['opt']
-    if "min" in solution['prop']:
-        opt *= -1
     print("\x1b[1;37m" + "OPTIMAL VALUE: \x1b[1;34m" + str(opt) + "\x1b[m")
 else:
     print("\x1b[1;31m" + solution['message'] + "\x1b[m")
