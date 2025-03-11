@@ -37,11 +37,11 @@ def rsa_key(p, q):
 
 
 def encrypt(m, e, n):
-    return m**e % n
+    return pow(m, e, n)
 
 
 def decrypt(c, e, n):
-    return c**d % n
+    return pow(c, e, n)
 
 
 if __name__ == "__main__":
