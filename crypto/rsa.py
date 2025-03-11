@@ -28,6 +28,11 @@ def rsa_key(p, q):
     phi = (p - 1) * (q - 1)
     e = random_coprime(phi)
     d = modInverse(e, phi)
+    print(f"n = p * q           : {n} = {p} * {q}")
+    print(f"phi = (p-1) * (q-1) : {phi} = ({p-1}) * ({q-1})")
+    print(f"e tc gcd(phi,e) = 1 : {e} tc gcd({phi},{e}) = 1")
+    print(f"d tc e*d mod n = 1  : {d} tc {e}*{d} mod {n} = 1")
+    print()
     return e, n, d
 
 
@@ -47,7 +52,6 @@ if __name__ == "__main__":
     if text >= p * q:
         raise ValueError("m too big!")
     e, n, d = rsa_key(p, q)
-    print((e, n), d)
     c = encrypt(text, e, n)
     m = decrypt(c, e, n)
     print("ENCRYPT, THEN DECRYPT", text, c, m)
