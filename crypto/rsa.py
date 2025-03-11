@@ -35,13 +35,12 @@ def rsa_key(p, q):
     print()
     return e, n, d
 
-
 def encrypt(m, e, n):
-    return pow(m, e, n)
+    return  m**e % n
 
 
 def decrypt(c, e, n):
-    return pow(c, e, n)
+    return c**d % n
 
 
 if __name__ == "__main__":
