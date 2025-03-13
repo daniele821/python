@@ -91,10 +91,19 @@ def rand_public_key(phi):
         if euclide_gcd_it(phi, e) == 1:
             return e
 
+
+@performance_timer(2)
+def private_key():
+    pass
+
+
 if __name__ == "__main__":
-    p = rand_prime_number(25)
+    LEN=50
+    if os.getenv("LEN"):
+        LEN=int(os.getenv("LEN"))
+    p = rand_prime_number(LEN)
     print(f"p: {p}")
-    q = rand_prime_number(25)
+    q = rand_prime_number(LEN)
     print(f"q: {q}")
     n = p * q
     print(f"n: {n}")
@@ -102,3 +111,5 @@ if __name__ == "__main__":
     print(f"φ: {phi}")
     e = rand_public_key(phi)
     print(f"e: {e}")
+    d = private_key()
+    print(f"d: {d}")
