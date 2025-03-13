@@ -53,7 +53,7 @@ def rand_ndigit_number(number_length_in_digits):
 
 
 @performance_timer(1)
-def test_prime(number, rounds=10):
+def test_prime(number, rounds=3):
     if number < 2:
         return False
     for i in range(rounds):
@@ -64,7 +64,7 @@ def test_prime(number, rounds=10):
     return True
 
 
-def test_prime_faster(n, k=5):
+def test_prime_faster(n, k=3):
     """Probabilistic primality test using Miller-Rabin."""
     if n < 2:
         return False
