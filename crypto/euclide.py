@@ -27,6 +27,16 @@ def euclide_extended_rec(a, b):
     return (d, y, x - a // b * y)
 
 
+def euclide_extended_it(a, b):
+    x0, x1, y0, y1 = 1, 0, 0, 1
+    while b != 0:
+        q = a // b
+        a, b = b, a % b
+        x0, x1 = x1, x0 - q * x1
+        y0, y1 = y1, y0 - q * y1
+    return (a, x0, y0)
+
+
 # def euclide_extended_it(a, b):
 #     while b != 0:
 #         tmp = b
@@ -40,4 +50,4 @@ if __name__ == "__main__":
     a = int(args[0])
     b = int(args[1])
     print(euclide_gcd_it(a, b))
-    print(euclide_extended_rec(a, b))
+    print(euclide_extended_it(a, b))
