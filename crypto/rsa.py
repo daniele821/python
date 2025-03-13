@@ -68,6 +68,8 @@ def test_prime(number, rounds=10):
 def rand_prime_number(number_length_in_digits):
     while True:
         number = rand_ndigit_number(number_length_in_digits)
+        if number % 2 == 0:
+            number += 1
         if test_prime(number):
             return number
 
