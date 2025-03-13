@@ -6,7 +6,9 @@ import time
 
 sys.set_int_max_str_digits(10**9)
 
-DEBUG_LEVEL = 1000
+DEBUG_LEVEL = 1
+DEBUG_UTIL = 1
+DEBUG_FUNC = 2
 
 
 def performance_timer(dbgLvl=1000):
@@ -25,7 +27,7 @@ def performance_timer(dbgLvl=1000):
     return decorator
 
 
-@performance_timer()
+@performance_timer(DEBUG_UTIL)
 def exp(a, b, c):
     res = a
     for i in reversed(range(b.bit_length() - 1)):
@@ -36,12 +38,12 @@ def exp(a, b, c):
     return res
 
 
-@performance_timer()
+@performance_timer(DEBUG_UTIL)
 def rand_ndigit_number(n):
     return random.randint(10 ** (n - 1), 10**n - 1)
 
 
-@performance_timer()
+@performance_timer(DEBUG_UTIL)
 def test_prime(n, rounds=10):
     pass
 
