@@ -93,8 +93,8 @@ def rand_public_key(phi):
 
 
 @performance_timer(2)
-def private_key():
-    pass
+def private_key(e, phi):
+    return (euclide_extended_it(e, phi)[1] + phi) % phi
 
 
 if __name__ == "__main__":
@@ -111,5 +111,5 @@ if __name__ == "__main__":
     print(f"φ: {phi}")
     e = rand_public_key(phi)
     print(f"e: {e}")
-    d = private_key()
+    d = private_key(e, phi)
     print(f"d: {d}")
