@@ -41,7 +41,7 @@ def exp(base, exponent, mod):
 
 @performance_timer(1)
 def rand_ndigit_number(number_length_in_digits):
-    return random.randint(2 ** (number_length_in_digits - 1), 2**number_length_in_digits - 1)
+    return random.randint(10 ** (number_length_in_digits - 1), 10**number_length_in_digits - 1)
 
 
 @performance_timer(1)
@@ -65,5 +65,9 @@ def rand_prime_number(number_length_in_digits):
 
 
 if __name__ == "__main__":
-    print("CALCULATING...")
-    print(rand_prime_number(4))
+    p = rand_prime_number(50)
+    print(f'p: {p}')
+    q = rand_prime_number(50)
+    print(f'q: {q}')
+    n = p * q
+    phi = (p-1) * (q-1)
