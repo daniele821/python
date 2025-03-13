@@ -23,6 +23,23 @@ if os.getenv("BASE"):
     BASE = int(os.getenv("BASE"))
 
 
+def to_base(n):
+    if BASE > 36:
+        raise ValueError("base too big!")
+    if n == 0:
+        return "0"
+    digits = []
+    while n > 0:
+        digit = n % BASE
+        if digit >= 10:
+            digit = digit + ord("a") - 10
+        else:
+            digit += ord('0')
+        digits.append(str(chr(digit)))
+        n //= BASE
+    return "".join(digits[::-1])
+
+
 def performance_timer(dbgLvl=1000):
     def decorator(func):
         def wrapper(*args, **kwargs):
@@ -95,9 +112,9 @@ def test_prime_faster(n, k=3):
 
 
 @performance_timer(2)
-def rand_prime_number(number_length_in_digits,base=10):
+def rand_prime_number(number_length_in_digits, base=10):
     while True:
-        number = rand_ndigit_number(number_length_in_digits,base)
+        number = rand_ndigit_number(number_length_in_digits, base)
         if number % 2 == 0:
             number += 1
         if test_prime_faster(number):
@@ -139,29 +156,29 @@ def private_key(e, phi):
 
 if __name__ == "__main__":
     p = rand_prime_number(LEN, BASE)
-    print(f"p: {p}")
+    print(f"p: {to_base(p)}")
     q = rand_prime_number(LEN, BASE)
-    print(f"q: {q}")
+    print(f"q: {to_base(q)}")
     n = p * q
-    print(f"n: {n}")
+    print(f"n: {to_base(n)}")
     phi = (p - 1) * (q - 1)
-    print(f"φ: {phi}")
+    print(f"φ: {to_base(phi)}")
     e = rand_public_key(phi)
-    print(f"e: {e}")
+    print(f"e: {to_base(e)}")
     d = private_key(e, phi)
-    print(f"d: {d}")
+    print(f"d: {to_base(d)}")
 
     print("\nENCRYPTION:")
     m = rand_ndigit_number(LEN // 2, BASE)
-    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
+    print(f"m: {COLOR_RED}{to_base(m)}{COLOR_NONE}")
     c = exp(m, e, n)
-    print(f"c: {COLOR_BLUE}{c}{COLOR_NONE}")
+    print(f"c: {COLOR_BLUE}{to_base(c)}{COLOR_NONE}")
     m = exp(c, d, n)
-    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
+    print(f"m: {COLOR_RED}{to_base(m)}{COLOR_NONE}")
 
     print("\nDECRYPTION:")
-    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
+    print(f"m: {COLOR_RED}{to_base(m)}{COLOR_NONE}")
     c = exp(m, d, n)
-    print(f"c: {COLOR_GREEN}{c}{COLOR_NONE}")
+    print(f"c: {COLOR_GREEN}{to_base(c)}{COLOR_NONE}")
     m = exp(c, e, n)
-    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
+    print(f"m: {COLOR_RED}{to_base(m)}{COLOR_NONE}")
