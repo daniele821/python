@@ -4,14 +4,13 @@ import math
 import sys
 import random
 
+import euclide
+import exponential
 
-def modInverse(A, M):
-    if math.gcd(A, M) > 1:
-        raise ValueError("numbers are not coprime!")
-    for X in range(1, M):
-        if ((A % M) * (X % M)) % M == 1:
-            return X
-    return -1
+
+def modInverse(a, b):
+    return euclide.euclide_extended_it(a, b)[1]
+    
 
 
 def random_coprime(n):
@@ -28,19 +27,15 @@ def rsa_key(p, q):
     phi = (p - 1) * (q - 1)
     e = random_coprime(phi)
     d = modInverse(e, phi)
-    print(f"n = p * q           : {n} = {p} * {q}")
-    print(f"phi = (p-1) * (q-1) : {phi} = ({p-1}) * ({q-1})")
-    print(f"e tc gcd(phi,e) = 1 : {e} tc gcd({phi},{e}) = 1")
-    print(f"d tc e*d mod n = 1  : {d} tc {e}*{d} mod {n} = 1")
-    print()
     return e, n, d
 
+
 def encrypt(m, e, n):
-    return  m**e % n
+    return exponential.exp(m, e, n)
 
 
 def decrypt(c, e, n):
-    return c**d % n
+    return exponential.exp(c, d, n)
 
 
 if __name__ == "__main__":

@@ -23,7 +23,6 @@ def mod(num, mod):
     return num
 
 
-@performance_timer
 def exp(a, b, c):
     res = a
     for i in reversed(range(b.bit_length() - 1)):

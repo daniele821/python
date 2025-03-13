@@ -17,7 +17,6 @@ def performance_timer(func):
     return wrapper
 
 
-@performance_timer
 def euclide_gcd_rec(a, b):
     # print(a, "|", b)
     if b == 0:
@@ -25,7 +24,6 @@ def euclide_gcd_rec(a, b):
     return euclide_gcd_rec(b, a % b)
 
 
-@performance_timer
 def euclide_gcd_it(a, b):
     while b != 0:
         tmp = b
@@ -34,7 +32,6 @@ def euclide_gcd_it(a, b):
     return a
 
 
-@performance_timer
 def euclide_extended_rec(a, b):
     if b == 0:
         return (a, 1, 0)
@@ -42,7 +39,6 @@ def euclide_extended_rec(a, b):
     return (d, y, x - a // b * y)
 
 
-@performance_timer
 def euclide_extended_it(a, b):
     x0, x1, y0, y1 = 1, 0, 0, 1
     while b != 0:
