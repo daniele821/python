@@ -8,7 +8,8 @@ import os
 sys.set_int_max_str_digits(10**9)
 
 COLOR_RED="\x1b[1;31m"
-COLOR_YELLOW="\x1b[1;33m"
+COLOR_BLUE="\x1b[1;34m"
+COLOR_GREEN="\x1b[1;32m"
 COLOR_NONE="\x1b[m"
 
 DEBUG_LEVEL = 1000
@@ -122,14 +123,14 @@ if __name__ == "__main__":
     m = rand_ndigit_number(LEN // 2)
     print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
     c = exp(m, e, n)
-    print(f"c: {c}")
+    print(f"c: {COLOR_BLUE}{c}{COLOR_NONE}")
     m = exp(c, d, n)
     print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
 
     print("\nDECRYPTION:")
-    print(f"m: {COLOR_YELLOW}{m}{COLOR_NONE}")
+    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
     c = exp(m, d, n)
-    print(f"c: {c}")
+    print(f"c: {COLOR_GREEN}{c}{COLOR_NONE}")
     m = exp(c, e, n)
-    print(f"m: {COLOR_YELLOW}{m}{COLOR_NONE}")
+    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
 
