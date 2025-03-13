@@ -41,11 +41,11 @@ def exp(base, exponent, mod):
 
 @performance_timer(1)
 def rand_ndigit_number(number_length_in_digits):
-    return random.randint(10 ** (number_length_in_digits - 1), 10**number_length_in_digits - 1)
+    return random.randint(2 ** (number_length_in_digits - 1), 2**number_length_in_digits - 1)
 
 
 @performance_timer(1)
-def test_prime(number, rounds=10):
+def test_prime(number, rounds=3):
     if number < 2:
         return False
     for i in range(rounds):
@@ -66,4 +66,4 @@ def rand_prime_number(number_length_in_digits):
 
 if __name__ == "__main__":
     print("CALCULATING...")
-    print(exp(rand_ndigit_number(10**4), rand_ndigit_number(10**4), rand_ndigit_number(10**4)))
+    print(rand_prime_number(4))
