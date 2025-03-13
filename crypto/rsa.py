@@ -64,6 +64,7 @@ def test_prime(number, rounds=3):
     return True
 
 
+@performance_timer(1)
 def test_prime_faster(n, k=3):
     """Probabilistic primality test using Miller-Rabin."""
     if n < 2:
