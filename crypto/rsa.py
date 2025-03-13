@@ -10,9 +10,9 @@ sys.set_int_max_str_digits(10**9)
 DEBUG_LEVEL = 1000
 if os.getenv("DBG"):
     DEBUG_LEVEL = int(os.getenv("DBG"))
-LEN=50
+LEN = 25
 if os.getenv("LEN"):
-    LEN=int(os.getenv("LEN"))
+    LEN = int(os.getenv("LEN"))
 
 
 def performance_timer(dbgLvl=1000):
@@ -113,3 +113,15 @@ if __name__ == "__main__":
     print(f"e: {e}")
     d = private_key(e, phi)
     print(f"d: {d}")
+
+    print()
+    m = rand_ndigit_number(LEN // 2)
+    print(f"m: {m}")
+    c = exp(m, e, n)
+    print(f"c: {c}")
+    m = exp(c, d, n)
+    print(f"m: {m}")
+    c = exp(m, d, n)
+    print(f"c: {c}")
+    m = exp(c, e, n)
+    print(f"m: {m}")
