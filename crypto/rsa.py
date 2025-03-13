@@ -18,6 +18,9 @@ if os.getenv("DBG"):
 LEN = 25
 if os.getenv("LEN"):
     LEN = int(os.getenv("LEN"))
+BASE = 10
+if os.getenv("BASE"):
+    BASE = int(os.getenv("BASE"))
 
 
 def performance_timer(dbgLvl=1000):
@@ -48,8 +51,8 @@ def exp(base, exponent, mod):
 
 
 @performance_timer(1)
-def rand_ndigit_number(number_length_in_digits):
-    return random.randint(10 ** (number_length_in_digits - 1), 10**number_length_in_digits - 1)
+def rand_ndigit_number(number_length_in_digits, base=10):
+    return random.randint(base ** (number_length_in_digits - 1), base**number_length_in_digits - 1)
 
 
 @performance_timer(1)
@@ -92,9 +95,9 @@ def test_prime_faster(n, k=3):
 
 
 @performance_timer(2)
-def rand_prime_number(number_length_in_digits):
+def rand_prime_number(number_length_in_digits,base=10):
     while True:
-        number = rand_ndigit_number(number_length_in_digits)
+        number = rand_ndigit_number(number_length_in_digits,base)
         if number % 2 == 0:
             number += 1
         if test_prime_faster(number):
@@ -135,9 +138,9 @@ def private_key(e, phi):
 
 
 if __name__ == "__main__":
-    p = rand_prime_number(LEN)
+    p = rand_prime_number(LEN, BASE)
     print(f"p: {p}")
-    q = rand_prime_number(LEN)
+    q = rand_prime_number(LEN, BASE)
     print(f"q: {q}")
     n = p * q
     print(f"n: {n}")
@@ -149,7 +152,7 @@ if __name__ == "__main__":
     print(f"d: {d}")
 
     print("\nENCRYPTION:")
-    m = rand_ndigit_number(LEN // 2)
+    m = rand_ndigit_number(LEN // 2, BASE)
     print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
     c = exp(m, e, n)
     print(f"c: {COLOR_BLUE}{c}{COLOR_NONE}")
