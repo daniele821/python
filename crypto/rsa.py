@@ -21,22 +21,25 @@ if os.getenv("LEN"):
 BASE = 10
 if os.getenv("BASE"):
     BASE = int(os.getenv("BASE"))
+FMT_BASE = "10"
+if os.getenv("FMT_BASE"):
+    FMT_BASE = int(os.getenv("FMT_BASE"))
 
 
 def to_base(n):
-    if BASE > 36:
+    if FMT_BASE > 36:
         raise ValueError("base too big!")
     if n == 0:
         return "0"
     digits = []
     while n > 0:
-        digit = n % BASE
+        digit = n % FMT_BASE
         if digit >= 10:
-            digit = digit + ord("a") - 10
+            digit = digit + ord("A") - 10
         else:
             digit += ord('0')
         digits.append(str(chr(digit)))
-        n //= BASE
+        n //= FMT_BASE
     return "".join(digits[::-1])
 
 
