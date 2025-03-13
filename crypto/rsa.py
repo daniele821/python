@@ -7,10 +7,10 @@ import os
 
 sys.set_int_max_str_digits(10**9)
 
-COLOR_RED="\x1b[1;31m"
-COLOR_BLUE="\x1b[1;34m"
-COLOR_GREEN="\x1b[1;32m"
-COLOR_NONE="\x1b[m"
+COLOR_RED = "\x1b[1;31m"
+COLOR_BLUE = "\x1b[1;34m"
+COLOR_GREEN = "\x1b[1;32m"
+COLOR_NONE = "\x1b[m"
 
 DEBUG_LEVEL = 1000
 if os.getenv("DBG"):
@@ -64,13 +64,39 @@ def test_prime(number, rounds=10):
     return True
 
 
+def test_prime_faster(n, k=5):
+    """Probabilistic primality test using Miller-Rabin."""
+    if n < 2:
+        return False
+    for p in [2, 3, 5, 7, 11, 13, 17, 19]:
+        if n % p == 0:
+            return n == p
+    d = n - 1
+    s = 0
+    while d % 2 == 0:
+        d //= 2
+        s += 1
+    for _ in range(k):
+        a = random.randint(2, min(n - 2, 1 << 30))
+        x = pow(a, d, n)
+        if x == 1 or x == n - 1:
+            continue
+        for __ in range(s - 1):
+            x = pow(x, 2, n)
+            if x == n - 1:
+                break
+        else:
+            return False
+    return True
+
+
 @performance_timer(2)
 def rand_prime_number(number_length_in_digits):
     while True:
         number = rand_ndigit_number(number_length_in_digits)
         if number % 2 == 0:
             number += 1
-        if test_prime(number):
+        if test_prime_faster(number):
             return number
 
 
@@ -135,4 +161,3 @@ if __name__ == "__main__":
     print(f"c: {COLOR_GREEN}{c}{COLOR_NONE}")
     m = exp(c, e, n)
     print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
-
