@@ -7,6 +7,10 @@ import os
 
 sys.set_int_max_str_digits(10**9)
 
+COLOR_RED="\x1b[1;31m"
+COLOR_YELLOW="\x1b[1;33m"
+COLOR_NONE="\x1b[m"
+
 DEBUG_LEVEL = 1000
 if os.getenv("DBG"):
     DEBUG_LEVEL = int(os.getenv("DBG"))
@@ -114,14 +118,18 @@ if __name__ == "__main__":
     d = private_key(e, phi)
     print(f"d: {d}")
 
-    print()
+    print("\nENCRYPTION:")
     m = rand_ndigit_number(LEN // 2)
-    print(f"m: {m}")
+    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
     c = exp(m, e, n)
     print(f"c: {c}")
     m = exp(c, d, n)
-    print(f"m: {m}")
+    print(f"m: {COLOR_RED}{m}{COLOR_NONE}")
+
+    print("\nDECRYPTION:")
+    print(f"m: {COLOR_YELLOW}{m}{COLOR_NONE}")
     c = exp(m, d, n)
     print(f"c: {c}")
     m = exp(c, e, n)
-    print(f"m: {m}")
+    print(f"m: {COLOR_YELLOW}{m}{COLOR_NONE}")
+
