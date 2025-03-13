@@ -18,7 +18,7 @@ def random_coprime(n):
     while math.gcd(n, m) != 1:
         m = random.randint(2, n - 1)
         if m == 1:
-            raise ValueError("ABORTING BIGGEST COPRIME")
+            raise ValueError("ABORTING RANDOM COPRIME")
     return m
 
 
@@ -48,7 +48,9 @@ if __name__ == "__main__":
     e, n, d = rsa_key(p, q)
     c = encrypt(text, e, n)
     m = decrypt(c, e, n)
-    print("ENCRYPT, THEN DECRYPT", text, c, m)
+    print(text)
+    print(c)
+    print(m)
+    assert( m != text)
     m = decrypt(text, e, n)
     c = encrypt(m, e, n)
-    print("ENCRYPT, THEN DECRYPT", text, m, c)
