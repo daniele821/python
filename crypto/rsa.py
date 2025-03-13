@@ -84,6 +84,13 @@ def euclide_extended_it(a, b):
     return (a, x0, y0)
 
 
+@performance_timer(2)
+def rand_public_key(phi):
+    while True:
+        e = random.randint(2, phi)
+        if euclide_gcd_it(phi, e) == 1:
+            return e
+
 if __name__ == "__main__":
     p = rand_prime_number(25)
     print(f"p: {p}")
@@ -92,4 +99,6 @@ if __name__ == "__main__":
     n = p * q
     print(f"n: {n}")
     phi = (p - 1) * (q - 1)
-    print(f"phi: {phi}")
+    print(f"φ: {phi}")
+    e = rand_public_key(phi)
+    print(f"e: {e}")
