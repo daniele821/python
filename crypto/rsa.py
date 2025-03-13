@@ -29,33 +29,37 @@ def performance_timer(dbgLvl=1000):
 
 
 @performance_timer(0)
-def exp(a, b, c):
-    res = a
-    for i in reversed(range(b.bit_length() - 1)):
+def exp(base, exponent, mod):
+    res = base
+    for i in reversed(range(exponent.bit_length() - 1)):
         cursor = 1 << i
-        res = (res * res) % c
-        if b & cursor != 0:
-            res = (a * res) % c
+        res = (res * res) % mod
+        if exponent & cursor != 0:
+            res = (base * res) % mod
     return res
 
 
 @performance_timer(1)
-def rand_ndigit_number(n):
-    return random.randint(10 ** (n - 1), 10**n - 1)
+def rand_ndigit_number(number_length_in_digits):
+    return random.randint(10 ** (number_length_in_digits - 1), 10**number_length_in_digits - 1)
 
 
 @performance_timer(1)
-def test_prime(n, rounds=10):
+def test_prime(number, rounds=10):
     for i in range(rounds):
-        a = random.randint(1, n-1)
-        x = exp(a, n - 1, n)
+        a = random.randint(1, number-1)
+        x = exp(a, number - 1, number)
         if x != 1:
             return False
     return True
 
+@performance_timer(2)
+def rand_prime_number(number_length_in_digits):
+    while True:
+        number = rand_ndigit_number(number_length_in_digits)
+        if test_prime(number):
+            return number
+
 
 if __name__ == "__main__":
-    print(exp(11, 2, 1000))
-    for i in range(2,100):
-        if test_prime(i):
-            print(i) 
+    print(rand_prime_number(1))
