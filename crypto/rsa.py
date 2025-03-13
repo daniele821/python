@@ -10,6 +10,9 @@ sys.set_int_max_str_digits(10**9)
 DEBUG_LEVEL = 1000
 if os.getenv("DBG"):
     DEBUG_LEVEL = int(os.getenv("DBG"))
+LEN=50
+if os.getenv("LEN"):
+    LEN=int(os.getenv("LEN"))
 
 
 def performance_timer(dbgLvl=1000):
@@ -98,9 +101,6 @@ def private_key(e, phi):
 
 
 if __name__ == "__main__":
-    LEN=50
-    if os.getenv("LEN"):
-        LEN=int(os.getenv("LEN"))
     p = rand_prime_number(LEN)
     print(f"p: {p}")
     q = rand_prime_number(LEN)
