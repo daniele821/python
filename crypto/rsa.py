@@ -37,7 +37,7 @@ def to_base(n):
         if digit >= 10:
             digit = digit + ord("A") - 10
         else:
-            digit += ord('0')
+            digit += ord("0")
         digits.append(str(chr(digit)))
         n //= FMT_BASE
     return "".join(digits[::-1])
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     print(f"d: {to_base(d)}")
 
     print("\nENCRYPTION:")
-    m = rand_ndigit_number(LEN // 2)
+    m = rand_ndigit_number(LEN)
     print(f"m: {COLOR_RED}{to_base(m)}{COLOR_NONE}")
     c = exp(m, e, n)
     print(f"c: {COLOR_BLUE}{to_base(c)}{COLOR_NONE}")
