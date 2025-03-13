@@ -8,8 +8,8 @@ import os
 sys.set_int_max_str_digits(10**9)
 
 DEBUG_LEVEL = 2
-if os.getenv("DBG") :
-    DEBUG_LEVEL =int(os.getenv("DBG"))
+if os.getenv("DBG"):
+    DEBUG_LEVEL = int(os.getenv("DBG"))
 
 
 def performance_timer(dbgLvl=1000):
@@ -46,12 +46,15 @@ def rand_ndigit_number(number_length_in_digits):
 
 @performance_timer(1)
 def test_prime(number, rounds=10):
+    if number < 2:
+        return False
     for i in range(rounds):
-        a = random.randint(1, number-1)
+        a = random.randint(1, number - 1)
         x = exp(a, number - 1, number)
         if x != 1:
             return False
     return True
+
 
 @performance_timer(2)
 def rand_prime_number(number_length_in_digits):
@@ -62,4 +65,5 @@ def rand_prime_number(number_length_in_digits):
 
 
 if __name__ == "__main__":
-    print(rand_prime_number(1))
+    print("CALCULATING...")
+    print(exp(rand_ndigit_number(10**4), rand_ndigit_number(10**4), rand_ndigit_number(10**4)))
