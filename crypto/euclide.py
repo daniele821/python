@@ -1,10 +1,23 @@
 #!/bin/python3
 
-import sys
+import sys, time
 
 sys.set_int_max_str_digits(10**9)
 
 
+def performance_timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.perf_counter()  # Start the timer
+        result = func(*args, **kwargs)  # Call the function
+        end_time = time.perf_counter()  # End the timer
+        elapsed_time = end_time - start_time  # Calculate elapsed time
+        print(f"Function '{func.__name__}' executed in {elapsed_time:.6f} seconds")
+        return result  # Return the original function result
+
+    return wrapper
+
+
+@performance_timer
 def euclide_gcd_rec(a, b):
     # print(a, "|", b)
     if b == 0:
@@ -12,6 +25,7 @@ def euclide_gcd_rec(a, b):
     return euclide_gcd_rec(b, a % b)
 
 
+@performance_timer
 def euclide_gcd_it(a, b):
     while b != 0:
         tmp = b
@@ -20,6 +34,7 @@ def euclide_gcd_it(a, b):
     return a
 
 
+@performance_timer
 def euclide_extended_rec(a, b):
     if b == 0:
         return (a, 1, 0)
@@ -27,6 +42,7 @@ def euclide_extended_rec(a, b):
     return (d, y, x - a // b * y)
 
 
+@performance_timer
 def euclide_extended_it(a, b):
     x0, x1, y0, y1 = 1, 0, 0, 1
     while b != 0:
@@ -50,4 +66,4 @@ if __name__ == "__main__":
     a = int(args[0])
     b = int(args[1])
     print(euclide_gcd_it(a, b))
-    print(euclide_extended_it(a, b))
+    print(euclide_extended_it(a, b)[0])
