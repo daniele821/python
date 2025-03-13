@@ -51,6 +51,5 @@ if __name__ == "__main__":
     print(text)
     print(c)
     print(m)
-    assert( m != text)
     m = decrypt(text, e, n)
     c = encrypt(m, e, n)
