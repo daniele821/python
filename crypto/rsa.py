@@ -21,7 +21,7 @@ if os.getenv("LEN"):
 BASE = 10
 if os.getenv("BASE"):
     BASE = int(os.getenv("BASE"))
-FMT_BASE = "10"
+FMT_BASE = 10
 if os.getenv("FMT_BASE"):
     FMT_BASE = int(os.getenv("FMT_BASE"))
 
