@@ -68,8 +68,8 @@ def exp(base, exponent, mod):
 
 
 @performance_timer(1)
-def rand_ndigit_number(number_length_in_digits, base=10):
-    return random.randint(base ** (number_length_in_digits - 1), base**number_length_in_digits - 1)
+def rand_ndigit_number(number_length_in_digits):
+    return random.randint(BASE ** (number_length_in_digits - 1), BASE**number_length_in_digits - 1)
 
 
 @performance_timer(1)
@@ -112,9 +112,9 @@ def test_prime_faster(n, k=3):
 
 
 @performance_timer(2)
-def rand_prime_number(number_length_in_digits, base=10):
+def rand_prime_number(number_length_in_digits):
     while True:
-        number = rand_ndigit_number(number_length_in_digits, base)
+        number = rand_ndigit_number(number_length_in_digits)
         if number % 2 == 0:
             number += 1
         if test_prime_faster(number):
@@ -155,9 +155,9 @@ def private_key(e, phi):
 
 
 if __name__ == "__main__":
-    p = rand_prime_number(LEN, BASE)
+    p = rand_prime_number(LEN)
     print(f"p: {to_base(p)}")
-    q = rand_prime_number(LEN, BASE)
+    q = rand_prime_number(LEN)
     print(f"q: {to_base(q)}")
     n = p * q
     print(f"n: {to_base(n)}")
@@ -169,7 +169,7 @@ if __name__ == "__main__":
     print(f"d: {to_base(d)}")
 
     print("\nENCRYPTION:")
-    m = rand_ndigit_number(LEN // 2, BASE)
+    m = rand_ndigit_number(LEN // 2)
     print(f"m: {COLOR_RED}{to_base(m)}{COLOR_NONE}")
     c = exp(m, e, n)
     print(f"c: {COLOR_BLUE}{to_base(c)}{COLOR_NONE}")
