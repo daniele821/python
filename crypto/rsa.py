@@ -3,10 +3,13 @@
 import sys
 import random
 import time
+import os
 
 sys.set_int_max_str_digits(10**9)
 
 DEBUG_LEVEL = 2
+if os.getenv("DBG") :
+    DEBUG_LEVEL =int(os.getenv("DBG"))
 
 
 def performance_timer(dbgLvl=1000):
