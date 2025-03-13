@@ -7,7 +7,7 @@ import os
 
 sys.set_int_max_str_digits(10**9)
 
-DEBUG_LEVEL = 2
+DEBUG_LEVEL = 1000
 if os.getenv("DBG"):
     DEBUG_LEVEL = int(os.getenv("DBG"))
 
@@ -45,7 +45,7 @@ def rand_ndigit_number(number_length_in_digits):
 
 
 @performance_timer(1)
-def test_prime(number, rounds=3):
+def test_prime(number, rounds=10):
     if number < 2:
         return False
     for i in range(rounds):
@@ -64,10 +64,32 @@ def rand_prime_number(number_length_in_digits):
             return number
 
 
+@performance_timer(1)
+def euclide_gcd_it(a, b):
+    while b != 0:
+        tmp = b
+        b = a % b
+        a = tmp
+    return a
+
+
+@performance_timer(1)
+def euclide_extended_it(a, b):
+    x0, x1, y0, y1 = 1, 0, 0, 1
+    while b != 0:
+        q = a // b
+        a, b = b, a % b
+        x0, x1 = x1, x0 - q * x1
+        y0, y1 = y1, y0 - q * y1
+    return (a, x0, y0)
+
+
 if __name__ == "__main__":
-    p = rand_prime_number(50)
-    print(f'p: {p}')
-    q = rand_prime_number(50)
-    print(f'q: {q}')
+    p = rand_prime_number(25)
+    print(f"p: {p}")
+    q = rand_prime_number(25)
+    print(f"q: {q}")
     n = p * q
-    phi = (p-1) * (q-1)
+    print(f"n: {n}")
+    phi = (p - 1) * (q - 1)
+    print(f"phi: {phi}")
